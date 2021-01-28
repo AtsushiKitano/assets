@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: dns-demo
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: k8s-demo
+  labels:
+    app: nginx
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            backend:
+              serviceName: dns-nginx
+              servicePort: 80
+          - path: /apache
+            backend:
+              serviceName: dns-apache
+              servicePort: 80

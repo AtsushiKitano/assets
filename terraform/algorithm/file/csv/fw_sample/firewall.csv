@@ -1,0 +1,6 @@
+name,direction,network,priority,source_ranges,target_tags,allow_protocol,allow_ports,deny_protocol,deny_ports
+test,ingress,test,1000,0.0.0.0/0,null,tcp,22,null,null
+test,ingress,test,1000,0.0.0.0/0,null,tcp,80,null,null
+test2,ingress,test,1000,0.0.0.0/0,null,tcp,22,null,null
+test2,ingress,test,1000,0.0.0.0/0,null,tcp,80,null,null
+test,ingress,test,1000,0.0.0.0/0,null,udp,80,null,null

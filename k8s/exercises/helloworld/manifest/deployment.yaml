@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-sample
+spec:
+  containers:
+    - name: sample
+      image: nginx
+      volumeMounts:
+        - name: conf
+          mountPath: /etc/nginx/conf.d/
+  volumes:
+    - name: conf
+      configMap:
+        name: nginx-conf
+        items:
+          - key: application
+            path: application.conf

@@ -1,0 +1,6 @@
+name: nested-vm
+title: InSpec Profile
+summary: An InSpec Compliance Profile
+version: 0.1.0
+supports:
+  platform: linux

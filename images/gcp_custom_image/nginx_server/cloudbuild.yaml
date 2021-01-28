@@ -1,0 +1,22 @@
+steps:
+  - name: 'ubuntu'
+    args: [
+       'sed', '-i', '-e',
+       's/img-name/$_IMAGE_NAME/g' , 'variables.pkr.hcl'
+    ]
+    id: 'sed -i -e s/pj-id/$_IMAGE_NAME/g variables.pkr.hcl'
+
+  - name: 'ubuntu'
+    args: [
+       'sed', '-i', '-e',
+       's/pj-id/$PROJECT_ID/g' , 'variables.pkr.hcl'
+    ]
+    id: 'sed -i -e s/pj-id/$PROJECT_ID/g variables.pkr.hcl'
+
+  - name: 'gcr.io/$PROJECT_ID/packer'
+    args: ['build', './']
+    id: 'packer build ./'
+
+substitutions:
+  _IMAGE_NAME: nginx-demo
+

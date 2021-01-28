@@ -1,0 +1,21 @@
+gke-demo-demo-a0bd61cd-tlw2 ~ # route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         10.146.0.1      0.0.0.0         UG    1024   0        0 eth0
+0.0.0.0         10.146.0.1      0.0.0.0         UG    1024   0        0 eth0
+10.146.0.1      0.0.0.0         255.255.255.255 UH    1024   0        0 eth0
+10.146.0.1      0.0.0.0         255.255.255.255 UH    1024   0        0 eth0
+169.254.123.0   0.0.0.0         255.255.255.0   U     0      0        0 docker0
+172.16.2.0      0.0.0.0         255.255.255.0   U     0      0        0 cbr0
+gke-demo-demo-a0bd61cd-tlw2 ~ #
+
+gke-demo-demo-a0bd61cd-28n5 ~ # route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         10.146.0.1      0.0.0.0         UG    1024   0        0 eth0
+0.0.0.0         10.146.0.1      0.0.0.0         UG    1024   0        0 eth0
+10.146.0.1      0.0.0.0         255.255.255.255 UH    1024   0        0 eth0
+10.146.0.1      0.0.0.0         255.255.255.255 UH    1024   0        0 eth0
+169.254.123.0   0.0.0.0         255.255.255.0   U     0      0        0 docker0
+172.16.1.0      0.0.0.0         255.255.255.0   U     0      0        0 cbr0
+gke-demo-demo-a0bd61cd-28n5 ~ #

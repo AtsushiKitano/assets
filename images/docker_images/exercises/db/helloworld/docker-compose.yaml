@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+  db:
+    image: mysql
+    container_name: hello_mysql
+    restart: always
+    environment:
+        MYSQL_ROOT_PASSWORD: "mysql"
+        TZ: "Asia/Tokyo"
+    volumes:
+      - ./data:/var/lib/mysql
+    privileged: true
+    ports:
+      - 3306:3306

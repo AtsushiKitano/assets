@@ -1,0 +1,13 @@
+steps:
+  - id: "testing"
+    name: 'gcr.io/$PROJECT_ID/terratest'
+    volumes:
+      - name: 'test'
+        path: '/tests'
+    args: ["go", "test",'-v', '$_FILE_PATH/terratest/network_test.go']
+    env:
+      - GCP_PROJECT: $PROJECT_ID
+
+timeout: 3600s
+substitutions:
+  _FILE_PATH: ./terraform/gcp/modules/network/vpc_network/tests

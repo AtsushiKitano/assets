@@ -1,0 +1,26 @@
+version: '3'
+services:
+
+  prxy:
+    image: nginx
+    container_name: 'proxy_app'
+    privileged: true
+    ports:
+      - "8080:80"
+    restart: always
+    volumes:
+      - ./configs/nginx:/etc/nginx/conf.d/
+    privileged: true 
+
+  app:
+    image: hello_go:latest
+    container_name: 'app_hello'
+    privileged: true
+    ports:
+      - "9990:9990"
+    restart: always
+
+networks:
+  default:
+    external:
+      name: shared

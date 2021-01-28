@@ -1,0 +1,18 @@
+gke-demo-demo-a0bd61cd-tlw2 ~ # brctl show
+bridge name     bridge id               STP enabled     interfaces
+cbr0            8000.2a1c7dea6a3e       no              veth2eecc5ab
+                                                        veth3d80b3a5
+                                                        veth55e7d806
+                                                        veth8ae593d3
+                                                        veth98241064
+                                                        vetha8bb2ce4
+                                                        vethb979abc5
+docker0         8000.0242ab0688b4       no
+
+gke-demo-demo-a0bd61cd-28n5 ~ # brctl show
+bridge name     bridge id               STP enabled     interfaces
+cbr0            8000.b28636aa5c62       no              veth6d6be7bf
+                                                        veth874a5198
+                                                        vetha6f81958
+                                                        vethc3889613
+docker0         8000.0242a658bcad       no

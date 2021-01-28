@@ -1,0 +1,2 @@
+- name: te
+  auto_create_subnetworks: false

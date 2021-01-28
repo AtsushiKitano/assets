@@ -1,0 +1,14 @@
+get pods,endpoints,service -o wide
+NAME                              READY   STATUS    RESTARTS   AGE   IP           NODE                          NOMINATED NODE   READINESS GATES
+pod/dns-apache-79cf8f877f-6tgfd   1/1     Running   0          56s   172.16.2.6   gke-demo-demo-a0bd61cd-tlw2   <none>           <none>
+pod/dns-nginx-56db997f77-5gql4    1/1     Running   0          57s   172.16.2.5   gke-demo-demo-a0bd61cd-tlw2   <none>           <none>
+
+NAME                   ENDPOINTS           AGE
+endpoints/dns-apache   172.16.2.6:80       51s
+endpoints/dns-nginx    172.16.2.5:80       51s
+endpoints/kubernetes   35.200.15.195:443   6m31s
+
+NAME                 TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE     SELECTOR
+service/dns-apache   NodePort    172.16.243.231   <none>        80:30138/TCP   51s     app=apache
+service/dns-nginx    NodePort    172.16.242.177   <none>        80:30379/TCP   51s     app=nginx
+service/kubernetes   ClusterIP   172.16.240.1     <none>        443/TCP        6m31s   <none>

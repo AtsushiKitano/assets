@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: limits-pod
+
+spec:
+  containers:
+    - image: polinux/stress
+      name: main
+      resources:
+        limits:
+          cpu: 240m
+          memory: 1Gi
+      command: ["stress"]
+      args: ["--vm", "1",  "--vm-bytes", "1500M", "--vm-hang","1"]
+

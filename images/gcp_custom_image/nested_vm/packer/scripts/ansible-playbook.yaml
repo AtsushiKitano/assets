@@ -1,0 +1,16 @@
+- hosts: all
+  become: true
+  tasks:
+    - name: apt update
+      apt:
+        update_cache: yes
+
+    - name: install
+      apt:
+        name:
+          - qemu-kvm
+          - uml-utilities
+          - bridge-utils
+          - virtinst
+          - libvirt-daemon-system
+          - libvirt-clients

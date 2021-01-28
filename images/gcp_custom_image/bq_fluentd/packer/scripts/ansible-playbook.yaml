@@ -1,0 +1,71 @@
+- hosts: all
+  become: true
+
+  vars:
+    script_path: /tmp/td-agent.sh
+
+  tasks:
+    - name: package repository update
+      apt:
+        update_cache: yes
+
+    - name: install nginx
+      apt:
+        name: nginx
+        state: latest
+        
+    - name: getting codename
+      shell: lsb_release -c -s
+      register: os_code
+
+    - name: getting install fluentd script
+      get_url:
+        url: https://toolbelt.treasuredata.com/sh/install-ubuntu-{{ os_code.stdout }}-td-agent4.sh
+        dest: "{{ script_path }}"
+
+    - name: install fluentd agent
+      shell: sh "{{ script_path }}"
+
+    - name: delete ad-agent.sh
+      file:
+        path: "{{ script_path }}"
+        state: absent
+
+    - name: add block
+      blockinfile:
+        path: /etc/td-agent/td-agent.conf
+        block: |
+          <match nginx.access>
+           @type bigquery_insert
+           auth_method compute_engine
+           project MY_PROJECT_NAME
+           dataset fluentd
+           table nginx_access
+           fetch_schema true
+           <inject>
+             time_key time
+             time_type string
+             time_format %Y-%m-%dT%H:%M:%S.%NZ
+           </inject>
+          </match>
+          <source>
+            @type tail
+            @id input_tail
+            <parse>
+              @type nginx
+            </parse>
+            path /var/log/nginx/access.log
+            pos_file /var/log/td-agent/httpd-access.log.pos
+            tag nginx.access
+          </source>
+
+    - name: add config td-agent.conf file
+      copy:
+        src: "{{ item.src }}"
+        dest: /usr/local/bin/{{ item.dest }}
+        mode: 0777
+        owner: root
+        group: root
+      loop:
+        - {src: ./td_config.sh, dest: td_config}
+        - {src: ./install_bq_plugin.sh, dest: install_bq_plugin}

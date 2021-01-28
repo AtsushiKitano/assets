@@ -1,0 +1,3 @@
+name,network,direction,tags,ranges,priority,rules1_type,rules1_protocol,rules1_ports
+ssh-enable-sample,sample,INGRESS,test any,0.0.0.0/0,1000,allow,tcp,22 80
+ssh-enable-sample2,sample2,INGRESS,,0.0.0.0/0,1000,allow,tcp,22

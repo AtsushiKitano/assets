@@ -1,0 +1,37 @@
+- hosts: all
+  become: true
+  tasks:
+    - name: package repository update
+      apt:
+        update_cache: yes
+
+    - name: install nginx
+      apt:
+        name:
+          - nginx
+
+    - name: enable nginx service
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: get stackdriver logging agent install script
+      get_url:
+        url: "{{ item.url }}"
+        dest: "{{ item.dest }}"
+      with_items:
+        - { url: "https://dl.google.com/cloudagents/install-logging-agent.sh", dest: "/usr/local/src/install-logging-agent.sh" }
+        - { url: "https://dl.google.com/cloudagents/add-monitoring-agent-repo.sh", dest: "/usr/local/src/add-monitoring-agent-repo.sh" }
+
+    - name: install stackdriver logging agent
+      shell: "{{ item }}"
+      with_items:
+        - "bash /usr/local/src/install-logging-agent.sh"
+        - "bash /usr/local/src/add-monitoring-agent-repo.sh"
+
+    - name: install monitoring agent
+      apt:
+        name:
+          - stackdriver-agent
+        update_cache: yes

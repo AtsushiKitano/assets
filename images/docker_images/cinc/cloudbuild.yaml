@@ -1,0 +1,20 @@
+steps:
+- name: 'gcr.io/cloud-builders/wget'
+  args: ["http://downloads.cinc.sh/files/stable/cinc-auditor/${_CINC_VERSION}/ubuntu/${_UBUNTU_VERSION}/cinc-auditor_${_CINC_VERSION}-${_CINC_MINOR_VERSION}_amd64.deb"]
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/cinc:${_CINC_VERSION}',
+    '-t', 'gcr.io/$PROJECT_ID/cinc',
+    '--build-arg', 'CINC_VERSION=${_CINC_VERSION}',
+    '--build-arg', 'CINC_MINOR_VERSION=${_CINC_MINOR_VERSION}',
+    '--build-arg', 'CINC_VERSION_SHA256SUM=${_CINC_VERSION_SHA256SUM}',
+    '.']
+
+images:
+- 'gcr.io/$PROJECT_ID/cinc:latest'
+- 'gcr.io/$PROJECT_ID/cinc:$_CINC_VERSION'
+
+substitutions:
+  _CINC_VERSION_SHA256SUM: adebca7c3ff3578415b532eb6c937c0074df6b4980efdbf7b737c7df0112e159
+  _CINC_VERSION: "4.24.8"
+  _CINC_MINOR_VERSION: "1"
+  _UBUNTU_VERSION: "20.04"

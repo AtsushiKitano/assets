@@ -1,0 +1,2 @@
+config:
+  gcp:project: "ca-kitano-study-sandbox"

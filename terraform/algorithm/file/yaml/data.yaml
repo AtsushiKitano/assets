@@ -1,0 +1,19 @@
+- gce_enable: true
+  preemptible_enable: true
+  name: "test"
+  machine_type: "f1-micro"
+  zone: "asia-northeast1-b"
+  region: "asia-northeast1"
+  tags:
+    - "test"
+  access_config :
+    nat_ip: null
+  boot_disk:
+    sizo: 10
+    image: "ubuntu-2004-lts"
+    type: "pd-ssd"
+    auto_delete: true
+  service_account:
+    email: "module-sample"
+    scopes:
+      - "cloud-platform"

@@ -1,0 +1,16 @@
+password: ENC[AES256_GCM,data:PjLH1fiH,iv:p4MGz1F1CyK5BeWfBXoRqYJCeJv9uldOJUh7i6+8Gck=,tag:J1F8fbKlhtF+8uouNAdl3A==,type:str]
+password2: ENC[AES256_GCM,data:PV5dyacfib8=,iv:NcIEjtZMEUQ/WlB7k9KOZ+z9x0M0lILdaPnrJVA1ETs=,tag:AQhPmyRCID3AxIkLjLFfnA==,type:str]
+demo: ENC[AES256_GCM,data:FSq/mgE=,iv:bVKKG1ZVRJH8w2WwGDOI+IuteE7c2ns4kvfL3+4vkco=,tag:28v1mHaNgB7q3lXCq+FcCw==,type:str]
+protocol: ENC[AES256_GCM,data:at9kxA==,iv:NAKtiO8RqgGmGksc1dAXCm5pAIvi7A/HVfuSfQZ6stY=,tag:7NkrxwiDAg7pjoGlNyzW3A==,type:str]
+sops:
+    kms: []
+    gcp_kms:
+    -   resource_id: projects/ca-kitano-study-sandbox/locations/global/keyRings/demo_kitano/cryptoKeys/ssh-key
+        created_at: '2020-06-21T00:54:35Z'
+        enc: CiQAezSaxV+bqo1TVnJkrJ0JY5Jdxf9cpSYSE3yTIVCUo4TnZ9kSSQBrP3VvKul+evO6yGseZt696LUU7ffmmpKbYPOtWxZj9OeR4PYSsBpIPQTxxhNxWWrufm7+mwkjB86W7ioJK75RL2DNuDb6m2g=
+    azure_kv: []
+    lastmodified: '2020-06-21T00:54:35Z'
+    mac: ENC[AES256_GCM,data:fNp2Vn/miTmN9OckuX7UD5Gkw/itl73gGCE8UGbdUqaVSB8VpzRcmsL8ukVAuzGUmibBk+Ydszw2lPYPUq21GUT/MThoexyJudOq7Xbx89PYAY5lK7zOkdnJ0eXzGnbD83U3P0TUAO8hfuRfw/R879t3khnTM5q+h+jhyoZ2sHw=,iv:SLRHRGvDmHTM9zercxFt7j5LFXJxCrZp3t4YtY2LM5U=,tag:I5hVQbbsBNRk7iFx6GVArA==,type:str]
+    pgp: []
+    unencrypted_suffix: _unencrypted
+    version: 3.5.0

@@ -1,0 +1,3 @@
+labels:
+  app: nginx
+  env: dev

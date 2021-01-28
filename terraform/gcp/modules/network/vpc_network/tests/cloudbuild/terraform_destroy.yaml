@@ -1,0 +1,48 @@
+steps:
+  - id: 'copy terraform modules'
+    name: 'ubuntu'
+    volumes:
+      - name: 'test'
+        path: '/tests'
+    args: ["cp", "-r", '$_TERRAFORM_MODULE_PATH' , "."]
+
+  - id: 'copy main.tf'
+    name: 'ubuntu'
+    volumes:
+      - name: 'test'
+        path: '/tests'
+    args: ["cp", "-r", '$_FILE_PATH/main/main.tf', "."]
+
+  - id: 'copy terraform makeup shell'
+    name: 'ubuntu'
+    volumes:
+      - name: 'test'
+        path: '/tests'
+    args: ["cp", "-r", '$_FILE_PATH/main/make.sh', "./main_terraform_make.sh"]
+
+  - id: 'make terraform.tf'
+    name: 'ubuntu'
+    volumes:
+      - name: 'test'
+        path: '/tests'
+    args: ["sh", "main_terraform_make.sh", $PROJECT_ID, $_MODULE_PREFIX, $_TERRAFORM_VERSION]
+
+  - id: 'terraform init'
+    name: 'hashicorp/terraform:$_TERRAFORM_VERSION'
+    args: ["init"]
+
+  - id: 'terraform worspace select'
+    name: 'hashicorp/terraform:$_TERRAFORM_VERSION'
+    args: ["workspace", "select", "$PROJECT_ID"]
+
+  - id: 'terraform destroy'
+    name: 'hashicorp/terraform:$_TERRAFORM_VERSION'
+    args: ["destroy", "--force"]
+
+timeout: 3600s
+substitutions:
+  _TERRAFORM_VERSION: 0.14.0
+  _MODULE_PREFIX: network
+  _TERRAFORM_MODULE_PATH: ./terraform/gcp/modules
+  _FILE_PATH: ./terraform/gcp/modules/network/vpc_network/tests
+  

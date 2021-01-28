@@ -1,0 +1,17 @@
+steps:
+- name: 'gcr.io/cloud-builders/wget'
+  args: ["https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/shunit2/shunit2-${_SHUNIT_VERSION}.tgz"]
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/shunit2-cloudsdk:${_SHUNIT_VERSION}',
+        '-t', 'gcr.io/$PROJECT_ID/shunit2-cloudsdk',
+        '--build-arg', 'SHUNIT_VERSION=${_SHUNIT_VERSION}',
+        '.']
+
+images:
+- 'gcr.io/$PROJECT_ID/shunit2-cloudsdk:latest'
+- 'gcr.io/$PROJECT_ID/shunit2-cloudsdk:$_SHUNIT_VERSION'
+
+timeout: 3600s
+substitutions:
+  _SHUNIT_VERSION: 2.1.6
+

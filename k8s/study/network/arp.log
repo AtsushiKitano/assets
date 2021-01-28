@@ -1,0 +1,19 @@
+gke-demo-demo-a0bd61cd-28n5 ~ # arp -n
+Address                  HWtype  HWaddress           Flags Mask            Iface
+172.16.1.8               ether   ba:f8:fe:11:5a:70   C                     cbr0
+172.16.1.6               ether   a6:1d:db:3b:40:b8   C                     cbr0
+172.16.1.7               ether   ee:4b:a2:48:5d:49   C                     cbr0
+172.16.1.4               ether   fe:36:b2:b6:1b:0e   C                     cbr0
+172.16.1.5               ether   c2:93:59:89:52:7f   C                     cbr0
+172.16.1.2               ether   e6:08:e7:a9:2e:4f   C                     cbr0
+10.146.0.1               ether   42:01:0a:92:00:01   C                     eth0
+172.16.1.3               ether   6a:b5:3c:e8:5c:2e   C                     cbr0
+
+gke-demo-demo-a0bd61cd-tlw2 ~ # arp -n
+Address                  HWtype  HWaddress           Flags Mask            Iface
+172.16.2.7               ether   ba:59:de:1a:e9:d5   C                     cbr0
+172.16.2.4               ether   22:38:d9:37:f3:5d   C                     cbr0
+172.16.2.8               ether   16:25:df:4c:d6:ad   C                     cbr0
+172.16.2.2               ether   2a:54:d7:9d:45:b0   C                     cbr0
+10.146.0.1               ether   42:01:0a:92:00:01   C                     eth0
+172.16.2.3               ether   0a:32:29:72:21:39   C                     cbr0

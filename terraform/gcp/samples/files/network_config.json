@@ -1,0 +1,40 @@
+{
+  "network": [
+    {
+      "name": "sample",
+      "project": "xxxx",
+      "subnetworks": [
+        {
+          "name": "sample",
+          "region": "asia-northeast1",
+          "cidr": "192.168.10.0/24"
+        },
+        {
+          "name": "sample2",
+          "region": "asia-northeast1",
+          "cidr": "192.168.20.0/24"
+        }
+      ],
+      "firewalls": [
+        {
+          "name": "ssh-enable-global",
+          "direction": "INGRESS",
+          "tags": [],
+          "ranges": [
+            "0.0.0.0/0"
+          ],
+          "priority": "1000",
+          "rules": [
+            {
+              "type": "allow",
+              "protocol": "tcp",
+              "ports": [
+                "22"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

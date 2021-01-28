@@ -1,0 +1,4 @@
+releases:
+  - name: demo
+    namespace: default
+    chart: ./

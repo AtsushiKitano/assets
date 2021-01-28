@@ -1,0 +1,8 @@
+- name: test-tokyo
+  cidr: 192.168.0.0/29
+  log: false
+  region: asia-northeast1
+- name: test-osaka
+  cidr: 192.168.0.8/29
+  log: false
+  region: asia-northeast2

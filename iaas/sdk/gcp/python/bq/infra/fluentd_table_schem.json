@@ -1,0 +1,13 @@
+[
+  { "type": "TIMESTAMP", "name": "time" },
+  { "type": "STRING",    "name": "remote" },
+  { "type": "STRING",    "name": "host" },
+  { "type": "STRING",    "name": "user" },
+  { "type": "STRING",    "name": "method" },
+  { "type": "STRING",    "name": "path" },
+  { "type": "STRING",    "name": "code" },
+  { "type": "INTEGER",   "name": "size" },
+  { "type": "STRING",    "name": "referer" },
+  { "type": "STRING",    "name": "agent" },
+  { "type": "STRING",    "name": "http_x_forwarded_for" }
+]

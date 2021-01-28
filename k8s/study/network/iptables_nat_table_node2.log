@@ -1,0 +1,161 @@
+gke-demo-demo-a0bd61cd-28n5 ~ # iptables -t nat -nvL
+Chain PREROUTING (policy ACCEPT 2 packets, 80 bytes)
+ pkts bytes target     prot opt in     out     source               destination
+  217 17124 KUBE-SERVICES  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes service portals */
+
+Chain INPUT (policy ACCEPT 2 packets, 80 bytes)
+ pkts bytes target     prot opt in     out     source               destination
+
+Chain OUTPUT (policy ACCEPT 32 packets, 1920 bytes)
+ pkts bytes target     prot opt in     out     source               destination
+  594 35646 KUBE-SERVICES  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes service portals */
+
+Chain POSTROUTING (policy ACCEPT 32 packets, 1920 bytes)
+ pkts bytes target     prot opt in     out     source               destination
+  955 60927 KUBE-POSTROUTING  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes postrouting rules */
+  902 57726 IP-MASQ    all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* ip-masq: ensure nat POSTROUTING directs all non-LOCAL destination traffic to our custom IP-MASQ chain */ ADDRTYPE match dst-type !LOCAL
+  588 39245 IP-MASQ    all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* ip-masq-agent: ensure nat POSTROUTING directs all non-LOCAL destination traffic to our custom IP-MASQ chain */ ADDRTYPE match dst-type !LOCAL
+
+Chain DOCKER (0 references)
+ pkts bytes target     prot opt in     out     source               destination
+
+Chain IP-MASQ (2 references)
+ pkts bytes target     prot opt in     out     source               destination
+    2   120 RETURN     all  --  *      *       0.0.0.0/0            169.254.0.0/16       /* ip-masq-agent: local traffic is not subject to MASQUERADE */
+    0     0 RETURN     all  --  *      *       0.0.0.0/0            10.0.0.0/8           /* ip-masq-agent: local traffic is not subject to MASQUERADE */
+   48  2880 RETURN     all  --  *      *       0.0.0.0/0            172.16.0.0/12        /* ip-masq-agent: local traffic is not subject to MASQUERADE */
+    0     0 RETURN     all  --  *      *       0.0.0.0/0            192.168.0.0/16       /* ip-masq-agent: local traffic is not subject to MASQUERADE */
+    0     0 RETURN     all  --  *      *       0.0.0.0/0            100.64.0.0/10        /* ip-masq-agent: local traffic is not subject to MASQUERADE */
+    0     0 RETURN     all  --  *      *       0.0.0.0/0            192.0.0.0/24         /* ip-masq-agent: local traffic is not subject to MASQUERADE */
+    0     0 RETURN     all  --  *      *       0.0.0.0/0            192.0.2.0/24         /* ip-masq-agent: local traffic is not subject to MASQUERADE */
+    0     0 RETURN     all  --  *      *       0.0.0.0/0            192.88.99.0/24       /* ip-masq-agent: local traffic is not subject to MASQUERADE */
+    0     0 RETURN     all  --  *      *       0.0.0.0/0            198.18.0.0/15        /* ip-masq-agent: local traffic is not subject to MASQUERADE */
+    0     0 RETURN     all  --  *      *       0.0.0.0/0            198.51.100.0/24      /* ip-masq-agent: local traffic is not subject to MASQUERADE */
+    0     0 RETURN     all  --  *      *       0.0.0.0/0            203.0.113.0/24       /* ip-masq-agent: local traffic is not subject to MASQUERADE */
+    0     0 RETURN     all  --  *      *       0.0.0.0/0            240.0.0.0/4          /* ip-masq-agent: local traffic is not subject to MASQUERADE */
+    0     0 MASQUERADE  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* ip-masq-agent: outbound traffic is subject to MASQUERADE (must be last in chain) */
+
+Chain KUBE-MARK-DROP (0 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 MARK       all  --  *      *       0.0.0.0/0            0.0.0.0/0            MARK or 0x8000
+
+Chain KUBE-MARK-MASQ (21 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 MARK       all  --  *      *       0.0.0.0/0            0.0.0.0/0            MARK or 0x4000
+
+Chain KUBE-NODEPORTS (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 KUBE-MARK-MASQ  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            /* default/dns-nginx: */ tcp dpt:30379
+    0     0 KUBE-SVC-NBDXTAO4FKSDYXRF  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            /* default/dns-nginx: */ tcp dpt:30379
+    0     0 KUBE-MARK-MASQ  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            /* default/dns-apache: */ tcp dpt:30138
+    0     0 KUBE-SVC-QJREXKJIJIF7B4WB  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            /* default/dns-apache: */ tcp dpt:30138
+    0     0 KUBE-MARK-MASQ  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kube-system/default-http-backend:http */ tcp dpt:31020
+    0     0 KUBE-SVC-XP4WJ6VSLGWALMW5  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kube-system/default-http-backend:http */ tcp dpt:31020
+
+Chain KUBE-POSTROUTING (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 MASQUERADE  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes service traffic requiring SNAT */ mark match 0x4000/0x4000
+
+Chain KUBE-SEP-6LBUJZBYO763OQRK (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 KUBE-MARK-MASQ  all  --  *      *       35.200.15.195        0.0.0.0/0
+    0     0 DNAT       tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp to:35.200.15.195:443
+
+Chain KUBE-SEP-74XWFAJLLFN4ZOWU (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 KUBE-MARK-MASQ  all  --  *      *       172.16.1.6           0.0.0.0/0
+    0     0 DNAT       tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp to:172.16.1.6:53
+
+Chain KUBE-SEP-ACFG6MDUCE2FSWH7 (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 KUBE-MARK-MASQ  all  --  *      *       172.16.2.8           0.0.0.0/0
+    0     0 DNAT       tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp to:172.16.2.8:8082
+
+Chain KUBE-SEP-DR2PSLQD37AK4IVM (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 KUBE-MARK-MASQ  all  --  *      *       172.16.2.3           0.0.0.0/0
+    0     0 DNAT       tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp to:172.16.2.3:443
+
+Chain KUBE-SEP-ETGORKTNIYYZ73JB (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 KUBE-MARK-MASQ  all  --  *      *       172.16.1.6           0.0.0.0/0
+    0     0 DNAT       udp  --  *      *       0.0.0.0/0            0.0.0.0/0            udp to:172.16.1.6:53
+
+Chain KUBE-SEP-JC2S4IC5ZOFL3GWI (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 KUBE-MARK-MASQ  all  --  *      *       172.16.2.4           0.0.0.0/0
+    0     0 DNAT       tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp to:172.16.2.4:53
+
+Chain KUBE-SEP-QAXBXTFNBKZJ45O6 (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 KUBE-MARK-MASQ  all  --  *      *       172.16.2.4           0.0.0.0/0
+    0     0 DNAT       udp  --  *      *       0.0.0.0/0            0.0.0.0/0            udp to:172.16.2.4:53
+
+Chain KUBE-SEP-S5Q6KR6FDLGL7SQK (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 KUBE-MARK-MASQ  all  --  *      *       172.16.2.6           0.0.0.0/0
+    0     0 DNAT       tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp to:172.16.2.6:80
+
+Chain KUBE-SEP-WSKUZVESP2TGJNRS (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 KUBE-MARK-MASQ  all  --  *      *       172.16.1.8           0.0.0.0/0
+    0     0 DNAT       tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp to:172.16.1.8:8080
+
+Chain KUBE-SEP-XEHR5XVXCOAMH2SS (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 KUBE-MARK-MASQ  all  --  *      *       172.16.2.5           0.0.0.0/0
+    0     0 DNAT       tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp to:172.16.2.5:80
+
+Chain KUBE-SERVICES (2 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 KUBE-MARK-MASQ  tcp  --  *      *      !172.16.0.0/16        172.16.244.107       /* kube-system/heapster: cluster IP */ tcp dpt:80
+    0     0 KUBE-SVC-BJM46V3U5RZHCFRZ  tcp  --  *      *       0.0.0.0/0            172.16.244.107       /* kube-system/heapster: cluster IP */ tcp dpt:80
+    0     0 KUBE-MARK-MASQ  tcp  --  *      *      !172.16.0.0/16        172.16.254.107       /* kube-system/metrics-server: cluster IP */ tcp dpt:443
+    0     0 KUBE-SVC-LC5QY66VUV2HJ6WZ  tcp  --  *      *       0.0.0.0/0            172.16.254.107       /* kube-system/metrics-server: cluster IP */ tcp dpt:443
+    0     0 KUBE-MARK-MASQ  tcp  --  *      *      !172.16.0.0/16        172.16.242.177       /* default/dns-nginx: cluster IP */ tcp dpt:80
+    0     0 KUBE-SVC-NBDXTAO4FKSDYXRF  tcp  --  *      *       0.0.0.0/0            172.16.242.177       /* default/dns-nginx: cluster IP */ tcp dpt:80
+    0     0 KUBE-MARK-MASQ  tcp  --  *      *      !172.16.0.0/16        172.16.243.231       /* default/dns-apache: cluster IP */ tcp dpt:80
+    0     0 KUBE-SVC-QJREXKJIJIF7B4WB  tcp  --  *      *       0.0.0.0/0            172.16.243.231       /* default/dns-apache: cluster IP */ tcp dpt:80
+    0     0 KUBE-MARK-MASQ  tcp  --  *      *      !172.16.0.0/16        172.16.240.1         /* default/kubernetes:https cluster IP */ tcp dpt:443
+    0     0 KUBE-SVC-NPX46M4PTMTKRN6Y  tcp  --  *      *       0.0.0.0/0            172.16.240.1         /* default/kubernetes:https cluster IP */ tcp dpt:443
+    0     0 KUBE-MARK-MASQ  udp  --  *      *      !172.16.0.0/16        172.16.240.10        /* kube-system/kube-dns:dns cluster IP */ udp dpt:53
+    0     0 KUBE-SVC-TCOU7JCQXEZGVUNU  udp  --  *      *       0.0.0.0/0            172.16.240.10        /* kube-system/kube-dns:dns cluster IP */ udp dpt:53
+    0     0 KUBE-MARK-MASQ  tcp  --  *      *      !172.16.0.0/16        172.16.240.10        /* kube-system/kube-dns:dns-tcp cluster IP */ tcp dpt:53
+    0     0 KUBE-SVC-ERIFXISQEP7F7OF4  tcp  --  *      *       0.0.0.0/0            172.16.240.10        /* kube-system/kube-dns:dns-tcp cluster IP */ tcp dpt:53
+    0     0 KUBE-MARK-MASQ  tcp  --  *      *      !172.16.0.0/16        172.16.248.217       /* kube-system/default-http-backend:http cluster IP */ tcp dpt:80
+    0     0 KUBE-SVC-XP4WJ6VSLGWALMW5  tcp  --  *      *       0.0.0.0/0            172.16.248.217       /* kube-system/default-http-backend:http cluster IP */ tcp dpt:80
+    9   500 KUBE-NODEPORTS  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes service nodeports; NOTE: this must be the last rule in this chain */ ADDRTYPE match dst-type LOCAL
+
+Chain KUBE-SVC-BJM46V3U5RZHCFRZ (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 KUBE-SEP-ACFG6MDUCE2FSWH7  all  --  *      *       0.0.0.0/0            0.0.0.0/0
+
+Chain KUBE-SVC-ERIFXISQEP7F7OF4 (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 KUBE-SEP-74XWFAJLLFN4ZOWU  all  --  *      *       0.0.0.0/0            0.0.0.0/0            statistic mode random probability 0.50000000000
+    0     0 KUBE-SEP-JC2S4IC5ZOFL3GWI  all  --  *      *       0.0.0.0/0            0.0.0.0/0
+
+Chain KUBE-SVC-LC5QY66VUV2HJ6WZ (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 KUBE-SEP-DR2PSLQD37AK4IVM  all  --  *      *       0.0.0.0/0            0.0.0.0/0
+
+Chain KUBE-SVC-NBDXTAO4FKSDYXRF (2 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 KUBE-SEP-XEHR5XVXCOAMH2SS  all  --  *      *       0.0.0.0/0            0.0.0.0/0
+
+Chain KUBE-SVC-NPX46M4PTMTKRN6Y (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 KUBE-SEP-6LBUJZBYO763OQRK  all  --  *      *       0.0.0.0/0            0.0.0.0/0
+
+Chain KUBE-SVC-QJREXKJIJIF7B4WB (2 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 KUBE-SEP-S5Q6KR6FDLGL7SQK  all  --  *      *       0.0.0.0/0            0.0.0.0/0
+
+Chain KUBE-SVC-TCOU7JCQXEZGVUNU (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 KUBE-SEP-ETGORKTNIYYZ73JB  all  --  *      *       0.0.0.0/0            0.0.0.0/0            statistic mode random probability 0.50000000000
+    0     0 KUBE-SEP-QAXBXTFNBKZJ45O6  all  --  *      *       0.0.0.0/0            0.0.0.0/0
+
+Chain KUBE-SVC-XP4WJ6VSLGWALMW5 (2 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 KUBE-SEP-WSKUZVESP2TGJNRS  all  --  *      *       0.0.0.0/0            0.0.0.0/0

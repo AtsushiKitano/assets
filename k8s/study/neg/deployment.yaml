@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: neg-demo
+  name: neg-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: neg-demo
+  template:
+    metadata:
+      labels:
+        app: neg-demo
+    spec:
+      containers:
+        - image: nginx
+          name: nginx

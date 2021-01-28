@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap-smp1
+data:
+  myvalue: "Hello World"
+  drink: "coffee"
+  food: "PIZZA"
+  mug: true

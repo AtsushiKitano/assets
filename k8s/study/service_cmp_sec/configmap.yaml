@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-data
+
+data:
+  project.id: "ca-kitano-study-sandbox"

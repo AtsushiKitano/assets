@@ -1,0 +1,14 @@
+- name: test-tokyo
+  machine_type: f1-micro
+  zone: asia-northeast1-b
+  subnetwork: test-tokyo
+  size: 20
+  tag: test
+  image: https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v2020121
+- name: test-osaka
+  machine_type: f1-micro
+  zone: asia-northeast2-b
+  subnetwork: test-osaka
+  size: 20
+  tag: test
+  image: https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v2020121

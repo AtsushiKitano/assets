@@ -1,0 +1,16 @@
+*~
+\#*\#
+.DS_Store
+.terraform
+terraform.tfstate.d
+terraform.tfstate
+inspec_rsa*
+terraform.tfstate.backup
+inspec.lock
+attributes.yaml
+terraform.tf
+venv
+__pycache__
+node_modules
+build
+yarn.lock

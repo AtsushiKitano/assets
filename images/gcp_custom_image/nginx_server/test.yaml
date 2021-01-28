@@ -1,0 +1,61 @@
+steps:
+  - id: "gcloud compute instances create"
+    name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - compute
+      - instances
+      - create
+      - --zone
+      - asia-northeast1-b
+      - --image
+      - ${_IMG_NAME}
+      - --machine-type
+      - f1-micro
+      - --metadata=ssh-keys=test:${_SSH_KEY}
+      - --address=${_STATIC_ADDRESS}
+      - ${_GCE_NAME}
+
+  - id: "gcloud kms decrypt"
+    name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - kms
+      - decrypt
+      - --location=global
+      - --keyring=${_KEY_RING}
+      - --key=${_KEY}
+      - --ciphertext-file=${_SSH_EN_PV_KEY}
+      - --plaintext-file=${_SSH_PV_KEY}
+
+  - id: "inspec exec"
+    name: 'gcr.io/$PROJECT_ID/inspec'
+    args:
+      - exec
+      - test
+      - -t
+      - ssh://test@${_ADDRESS}:22
+      - -i
+      - ${_SSH_PV_KEY}
+      - --sudo
+      - --chef-license=accept
+
+  - id: "gcloud compute instances delete"
+    name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - compute
+      - instances
+      - delete
+      - ${_GCE_NAME}
+      - --quiet
+      - --zone
+      - asia-northeast1-b
+
+substitutions:
+  _ADDRESS: 35.243.65.113
+  _STATIC_ADDRESS: demo
+  _IMG_NAME: nginx-demo
+  _GCE_NAME: test-gce
+  _KEY: projects/ca-kitano-study-sandbox/locations/global/keyRings/demo_kitano/cryptoKeys/ssh-key
+  _KEY_RING: projects/ca-kitano-study-sandbox/locations/global/keyRings/demo_kitano
+  _SSH_EN_PV_KEY: ./files/inspec_rsa.enc
+  _SSH_PV_KEY: ./files/private.dec
+  _SSH_KEY: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDP3AcIIxmIoh/gAI5uLYlLoSBc+bjW5jsMbnYx4ClLzS5rawguVEwn9T7iKWdQW+dV9EcW0ReQ7dmAzWLaTz3y99PlWLtYYrovuX6zXVcOvZXT/0q8snOMD6QJCBEqN2TTNxfxCIguaec1LkcnxGMCUkPMn6WmHyvWOjEg2HHfNAmdQZMTldRCLgC47RWSXTrZi8QDl38rg+b4zoS7XIE6v4aPedyaT9zDK4fvY0MTVcP+aYZW7EAs1xvsZ8ljj4h0FHGvJI/1sMBHxLdAvs2nVzqaleJUDo3CCpPzUmCsDHc++6AFE4tUdtUqdvvxg6ftNTjHsVYiaP2aY5oBjak2cvIxftjYTqZNRfev+QL3MN83LLIFR2xRoA6tyemPNoSsGUEc7QZdsZywDDdcdpjKQuj7pT759HEGN2whr5FoLcuTT/rli62fviMeEiAX/GsgSBIlXQQjHDx1SLc+rziVHmowTHCfXAmM9jdOTVlPVrsNn5vAz17f7GElBXdIbHE=

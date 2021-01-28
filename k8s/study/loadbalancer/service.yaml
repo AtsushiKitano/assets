@@ -1,0 +1,16 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: sample-lb
+spec:
+  type: LoadBalancer
+  loadBalancerIP: xx.xx.xx.xx
+  ports:
+    - name: "http-port"
+      protocol: "TCP"
+      port: 80
+      targetPort: 80
+  selector:
+    app: sample
+  loadBalancerSourceRanges:
+    - 10.0.0.0/8

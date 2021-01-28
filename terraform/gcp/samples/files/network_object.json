@@ -1,0 +1,1 @@
+[{"name": "sample2", "project": "ca-kitano-study-sandbox", "subnetworks": [{"name": "sample2", "cidr": "192.168.0.0/24", "region": "asia-northeast1"}], "firewalls": [{"name": "ssh-enable-sample2", "priority": 1000, "direction": "INGRESS", "ranges": ["0.0.0.0/0"], "tags": ["nan"], "rules": [{"type": "allow", "protocol": "tcp", "ports": ["22"]}]}]}]

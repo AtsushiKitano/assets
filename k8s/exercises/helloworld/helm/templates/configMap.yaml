@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-conf
+data:
+  nginx: |-
+    {{- (.Files.Get "files/nginx.conf" | nindent 4) -}}

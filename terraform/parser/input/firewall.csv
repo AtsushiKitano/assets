@@ -1,0 +1,3 @@
+name,network,project,direction,tags,ranges,priority,rules_type,rules_protocol,rules_ports
+ssh-enable-sample,sample,ca-kitano-study-sandbox,INGRESS,test any,0.0.0.0/0,1000,allow,tcp,22 80
+ssh-enable-sample2,sample2,ca-kitano-study-sandbox,INGRESS,,0.0.0.0/0,1000,allow,tcp,22

@@ -1,0 +1,34 @@
+  8     12:a4:7f:3e:cc:f2       no                 0.31
+  7     32:15:6d:d1:23:fe       no               183.81
+  6     42:10:55:b4:85:d3       yes                0.00
+  2     42:df:32:5d:2f:24       yes                0.00
+  3     5a:a3:2b:c7:29:34       no                 0.27
+  4     7e:03:f6:71:51:0f       yes                0.00
+ 10     82:55:59:7d:77:6c       no                 3.61
+  9     82:ce:f7:e6:c4:ef       yes                0.00
+  4     86:23:7d:e7:c9:53       no                 0.22
+  5     86:fa:f4:67:fa:53       yes                0.00
+  3     92:09:b8:57:b5:5b       yes                0.00
+  6     9a:26:02:b4:dc:22       no                 0.83
+  8     9e:f8:f6:89:20:c5       yes                0.00
+  1     a2:a8:f2:0d:02:1a       yes                0.00
+  7     a6:2d:7d:ee:6f:e2       yes                0.00
+  2     c2:4d:fd:6c:2d:7e       no                27.26
+  5     d6:1b:a1:d9:8c:49       no               183.90
+  1     de:3c:59:ad:97:a9       no                 8.83
+ 10     ea:b0:5c:c1:e7:7b       yes                0.00
+  9     ea:ca:bd:38:1e:f4       no                 2.49
+
+
+172.16.0.4 dev cbr0 lladdr 5a:a3:2b:c7:29:34 REACHABLE
+172.16.0.9 dev cbr0 lladdr 02:6f:cd:3a:88:24 STALE
+192.168.10.1 dev eth0 lladdr 42:01:c0:a8:0a:01 REACHABLE
+172.16.0.3 dev cbr0 lladdr de:3c:59:ad:97:a9 REACHABLE
+172.16.0.10 dev cbr0 lladdr ea:ca:bd:38:1e:f4 REACHABLE
+172.16.0.5 dev cbr0 lladdr ae:c4:3d:11:05:42 STALE
+172.16.0.12 dev cbr0 lladdr 82:55:59:7d:77:6c REACHABLE
+172.16.0.6 dev cbr0 lladdr 92:f2:88:a9:f0:f1 STALE
+172.16.0.11 dev cbr0 lladdr 86:23:7d:e7:c9:53 REACHABLE
+172.16.0.8 dev cbr0 lladdr 12:a4:7f:3e:cc:f2 REACHABLE
+172.16.0.2 dev cbr0 lladdr c2:4d:fd:6c:2d:7e STALE
+172.16.0.7 dev cbr0 lladdr 9a:26:02:b4:dc:22 REACHABLE
