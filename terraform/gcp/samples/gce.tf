@@ -12,7 +12,7 @@ module "gce_sample" {
     name         = "sample"
     machine_type = "f1-micro"
     zone         = "asia-northeast1-b"
-    subnetwork   = module.gce_nw_sample["enable"].subnetwork_self_link["sample"]
+    subnetwork   = module.gce_nw_sample["enable"].subnetwork_self_link["sample-gce-nw"]
     tags         = []
   }
 
@@ -33,11 +33,11 @@ module "gce_nw_sample" {
   project = terraform.workspace
 
   vpc_network = {
-    name = "sample"
+    name = "sample-gce-nw"
   }
   subnetworks = [
     {
-      name   = "sample"
+      name   = "sample-gce-nw"
       cidr   = "192.168.10.0/24"
       region = "asia-northeast1"
     },
@@ -46,7 +46,7 @@ module "gce_nw_sample" {
   firewall = [
     {
       direction = "INGRESS"
-      name      = "ingress-sample"
+      name      = "ingress-sample-gce"
       tags      = []
       ranges    = ["0.0.0.0/0"]
       priority  = 1000

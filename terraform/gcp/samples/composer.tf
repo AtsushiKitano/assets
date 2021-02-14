@@ -1,9 +1,9 @@
 locals {
-  composer_sample_enabled = true
+  composer_sample_enabled = false
 
   _composer_configs = local.composer_sample_enabled ? [
     {
-      name         = "sample"
+      name         = "sample-composer"
       node_count   = 3
       machine_type = "n1-standard-1"
       network      = "sample"
@@ -28,6 +28,7 @@ module "composer_sample" {
 
   region = each.value.region
   zone   = each.value.zone
+
 }
 
 module "composer_sample_network" {
@@ -51,7 +52,7 @@ module "composer_sample_network" {
   firewall = [
     {
       direction = "INGRESS"
-      name      = "ingress-sample"
+      name      = "ingress-sample-composer"
       tags      = []
       ranges    = ["0.0.0.0/0"]
       priority  = 1000
