@@ -1,0 +1,86 @@
+checks:
+  - code: CUS001
+    description: "Custom check to ensure the tags sample"
+    requiredTypes:
+      - resource
+    requiredLabels:
+      - google_compute_instance
+    severity: ERROR
+    matchSpec:
+      name: tags
+      action: contains
+      value: sample
+    errorMessage: "Not found sample tag"
+
+  - code: CUS002
+    description: "Custom check to ensure the zone"
+    requiredTypes:
+      - resource
+    requiredLabels:
+      - google_compute_instance
+    severity: ERROR
+    matchSpec:
+      name: zone
+      action: contains
+      value: asia-northeast1
+    errorMessage: "Not found equal asia-northeast"
+
+  - code: CUS003
+    description: "Custom check to compute_instance resource has env label"
+    requiredTypes:
+      - resource
+    requiredLabels:
+      - google_compute_instance
+    severity: ERROR
+    matchSpec:
+      name: labels
+      action: contains
+      value: env
+    errorMessage: "Not found env label"
+
+  - code: CUS004
+    description: "Custom check to module"
+    requiredTypes:
+      - resource
+    requiredLabels:
+      - google_compute_instance
+      - google_compute_subnetwork
+    severity: ERROR
+    matchSpec:
+      action: inModule
+    errorMessage: "Not found in module"
+
+  - code: CUS005
+    description: "gce subnetwork is default"
+    requiredTypes:
+      - resource
+    requiredLabels:
+      - google_compute_instance
+    severity: ERROR
+    matchSpec:
+      name: network_interface
+      action: isPresent
+      subMatch:
+        name: subnetwork
+        action: contains
+        value: default
+    errorMessage: "gce subnet is not default"
+
+  - code: CUS006
+    description: "gce image is debian"
+    requiredTypes:
+      - resource
+    requiredLabels:
+      - google_compute_instance
+    severity: ERROR
+    matchSpec:
+      name: boot_disk
+      action: isPresent
+      subMatch:
+        name: initialize_params
+        action: isPresent
+        subMatch:
+          name: image
+          action: contains
+          value: debian-cloud
+    errorMessage: "gce image is not debian"
