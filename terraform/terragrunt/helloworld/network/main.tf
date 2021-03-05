@@ -1,7 +1,3 @@
-terraform {
-  backend "gcs" {}
-}
-
 module "network" {
   source = "github.com/AtsushiKitano/assets/terraform/gcp/modules/network/vpc_network"
 

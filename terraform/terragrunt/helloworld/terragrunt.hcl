@@ -16,3 +16,13 @@ provider "google" {
 }
 EOF
 }
+
+generate "backend" {
+  path = "terraform.tf"
+  if_exists = "overwrite_terragrunt"
+  contents = <<EOF
+terraform {
+  backend "gcs" {}
+}
+EOF
+}
