@@ -1,3 +1,7 @@
+terraform {
+  backend "gcs" {}
+}
+
 variable "subnet_self_link" {
   type = string
 }
