@@ -6,7 +6,7 @@ module "gce_sample" {
   source = "github.com/AtsushiKitano/assets/terraform/gcp/modules/compute/gce"
 
   gce_instance = {
-    name         = "sample"
+    name         = terraform.workspace
     machine_type = "f1-micro"
     zone         = "asia-northeast1-b"
     subnetwork   = var.subnet_self_link
@@ -14,7 +14,7 @@ module "gce_sample" {
   }
 
   boot_disk = {
-    name      = "sample"
+    name      = terraform.workspace
     size      = 20
     interface = null
     image     = "ubuntu-os-cloud/ubuntu-2004-lts"

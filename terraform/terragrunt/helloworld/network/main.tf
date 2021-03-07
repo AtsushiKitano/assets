@@ -4,11 +4,11 @@ module "network" {
   project = "ca-kitano-study-sandbox"
 
   vpc_network = {
-    name = "sample"
+    name = terraform.workspace
   }
   subnetworks = [
     {
-      name   = "sample"
+      name   = terraform.workspace
       cidr   = "192.168.10.0/24"
       region = "asia-northeast1"
     }
@@ -19,5 +19,5 @@ module "network" {
 }
 
 output "sub" {
-  value = module.network.subnetwork_self_link["sample"]
+  value = module.network.subnetwork_self_link[terraform.workspace]
 }

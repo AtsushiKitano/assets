@@ -3,7 +3,7 @@ remote_state {
 
   config = {
     bucket = "ca-kitano-study-sandbox-state"
-    prefix = "terragrunt/${path_relative_to_include()}/${get_env("ENV")}"
+    prefix = "terragrunt/${path_relative_to_include()}"
   }
 }
 
@@ -26,3 +26,4 @@ terraform {
 }
 EOF
 }
+

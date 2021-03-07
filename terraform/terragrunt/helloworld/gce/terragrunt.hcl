@@ -4,11 +4,12 @@ include {
 
 dependency "network" {
   config_path = "../network"
+  skip_outputs = get_env("SKIP_OUTPUT")
 
   mock_outputs = {
-    subnetwork_self_link = "module.network.subnetwork_self_link"
+    sub = "module.network.subnetwork_self_link"
   }
-  mock_outputs_allowed_terraform_commands = ["validate", "plan"]
+  mock_outputs_allowed_terraform_commands = ["validate", "plan", "workspace"]
 }
 
 inputs = {
