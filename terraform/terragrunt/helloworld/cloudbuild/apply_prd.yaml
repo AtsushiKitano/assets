@@ -1,0 +1,18 @@
+steps:
+  - id: 'terraform workspace select'
+    name: 'alpine/terragrunt'
+    args: ['run-all', 'workspace', 'select', 'prd']
+    env:
+      - 'SKIP_OUTPUT=true'
+
+  - id: 'terragrunt plan'
+    name: 'alpine/terragrunt'
+    args: ['run-all', 'plan']
+    env:
+      - 'SKIP_OUTPUT=true'
+
+  - id: 'terragrunt apply'
+    name: 'alpine/terragrunt'
+    args: ['run-all', 'apply', '--terragrunt-non-interactive']
+    env:
+      - 'SKIP_OUTPUT=false'
