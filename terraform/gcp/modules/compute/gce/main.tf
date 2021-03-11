@@ -27,7 +27,7 @@ resource "google_compute_instance" "main" {
       iterator = _conf
 
       content {
-        nat_ip                 = var.static_ip != null ? google_compute_global_address.main["enable"].address : var.nat_ip
+        nat_ip                 = var.nat_ip
         public_ptr_domain_name = var.public_ptr_domain_name
         network_tier           = var.network_tier
       }
@@ -102,14 +102,4 @@ resource "google_compute_disk" "attached_disk" {
   interface = each.value.interface
   zone      = var.gce_instance.zone
   project   = var.project
-}
-
-resource "google_compute_global_address" "main" {
-  for_each = { for v in local._static_ip : "enable" => v }
-
-  name         = each.value.name
-  address_type = each.value.type
-  address      = each.value.address
-
-  project = var.project
 }

@@ -59,3 +59,7 @@ output "name" {
 output "firewall" {
   value = google_compute_firewall.main
 }
+
+output "static_global_ip" {
+  value = google_compute_global_address.main.address
+}

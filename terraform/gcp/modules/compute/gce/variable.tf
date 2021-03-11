@@ -113,13 +113,3 @@ variable "startup_script" {
   type    = string
   default = null
 }
-
-variable "static_ip" {
-  type = object({
-    type    = string
-    name    = string
-    address = string
-  })
-
-  default = null
-}
