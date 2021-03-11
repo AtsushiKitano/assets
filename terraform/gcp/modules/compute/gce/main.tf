@@ -107,8 +107,9 @@ resource "google_compute_disk" "attached_disk" {
 resource "google_compute_global_address" "main" {
   for_each = { for v in local._static_ip : v.name => v }
 
-  name = each.value.name
-  type = each.value.type
+  name         = each.value.name
+  address_type = each.value.type
+  address      = each.value.address
 
   project = var.project
 }
