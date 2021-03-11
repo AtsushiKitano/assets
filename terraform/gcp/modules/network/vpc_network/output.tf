@@ -61,5 +61,5 @@ output "firewall" {
 }
 
 output "static_global_ip" {
-  value = google_compute_global_address.main.address
+  value = google_compute_global_address.main["enable"].address
 }
