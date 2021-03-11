@@ -20,14 +20,14 @@ resource "google_compute_instance" "main" {
 
   network_interface {
     subnetwork = var.gce_instance.subnetwork
-    network_ip = var.static_ip != null ? google_compute_global_address.main["enable"].address : null
+    network_ip = var.private_ip
 
     dynamic "access_config" {
       for_each = var.access_config ? ["enable"] : []
       iterator = _conf
 
       content {
-        nat_ip                 = var.nat_ip
+        nat_ip                 = vstatic_ip != null ? google_compute_global_address.main["enable"].address : var.nat_ip
         public_ptr_domain_name = var.public_ptr_domain_name
         network_tier           = var.network_tier
       }
