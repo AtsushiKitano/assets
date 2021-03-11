@@ -5,6 +5,8 @@ locals {
       scopes          = var.scopes
     }
   ] : []
+
+  _static_ip = var.static_ip != null ? [var.static_ip] : []
 }
 
 resource "google_compute_instance" "main" {
@@ -18,7 +20,7 @@ resource "google_compute_instance" "main" {
 
   network_interface {
     subnetwork = var.gce_instance.subnetwork
-    network_ip = var.private_ip
+    network_ip = var.static_ip != null ? google_compute_global_address.main.address : null
 
     dynamic "access_config" {
       for_each = var.access_config ? ["enable"] : []
@@ -100,4 +102,13 @@ resource "google_compute_disk" "attached_disk" {
   interface = each.value.interface
   zone      = var.gce_instance.zone
   project   = var.project
+}
+
+resource "google_compute_global_address" "main" {
+  for_each = { for v in local._static_ip : v.name => v }
+
+  name = each.value.name
+  type = each.value.type
+
+  project = var.project
 }
