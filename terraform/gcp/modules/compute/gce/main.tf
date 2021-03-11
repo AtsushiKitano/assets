@@ -14,6 +14,8 @@ resource "google_compute_instance" "main" {
   project      = var.project
   tags         = var.gce_instance.tags
 
+  metadata_startup_script = var.startup_script
+
   network_interface {
     subnetwork = var.gce_instance.subnetwork
     network_ip = var.private_ip

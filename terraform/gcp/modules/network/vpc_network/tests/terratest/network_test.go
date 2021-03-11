@@ -39,7 +39,7 @@ func TestNetwork(t *testing.T) {
 	}
 
 	defer terraform.Destroy(t, terraformOptions)
-    
+
     terraform.WorkspaceSelectOrNew(t, terraformOptions, os.Getenv("GCP_PROJECT"))
 	terraform.InitAndApply(t, terraformOptions)
 

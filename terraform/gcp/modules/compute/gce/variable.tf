@@ -108,3 +108,8 @@ variable "accelerator" {
   })
   default = null
 }
+
+variable "startup_script" {
+  type    = string
+  default = null
+}
