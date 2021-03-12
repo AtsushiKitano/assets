@@ -38,3 +38,8 @@ output "boot_disk_id" {
   value = google_compute_disk.boot_disk.id
 }
 
+output "static_ip" {
+  value = {
+    for v in local._external_ip : v => google_compute_address.main[v].address
+  }
+}
