@@ -126,7 +126,7 @@ variable "external_ip_type" {
 
 variable "external_ip_purpose" {
   type    = string
-  default = "GCE_ENDPOINT"
+  default = null
 }
 
 variable "external_ip_network_tier" {
