@@ -113,5 +113,5 @@ resource "google_compute_address" "main" {
   purpose      = var.external_ip_purpose
   network_tier = var.external_ip_network_tier
   subnetwork   = var.external_ip_type == "INTERNAL" ? var.external_ip_subnetwork : null
-  region       = regex(var.gce_instance.zone, "$-[a-z]")
+  region       = regex("$-[a-z]", var.gce_instance.zone)
 }
