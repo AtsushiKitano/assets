@@ -60,6 +60,6 @@ output "attached_disk" {
 
 output "address" {
   value = {
-    for v in local._external_ip : v => google_compute_disk.main[v]
+    for v in local._external_ip : v => google_compute_address.main[v]
   }
 }
