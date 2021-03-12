@@ -8,7 +8,7 @@ resource "google_compute_global_address" "main" {
   name         = each.value.name
   address_type = each.value.type
   address      = each.value.address
-  network      = google_compute_network.main.id
+  #network      = google_compute_network.main.id
 
   project = var.project
 }
