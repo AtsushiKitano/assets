@@ -43,3 +43,23 @@ output "static_ip" {
     for v in local._external_ip : v => google_compute_address.main[v].address
   }
 }
+
+output "gce" {
+  value = google_compute_instance.main
+}
+
+output "boot_disk" {
+  value = google_compute_disk.boot_disk
+}
+
+output "attached_disk" {
+  value = {
+    for v in var.attached_disk : v.name => google_compute_disk.attached_disk
+  }
+}
+
+output "address" {
+  value = {
+    for v in local._external_ip : v => google_compute_disk.main[v]
+  }
+}
