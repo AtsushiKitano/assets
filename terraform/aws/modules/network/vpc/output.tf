@@ -31,3 +31,7 @@ output "subnet_cidr" {
 output "igw" {
   value = var.public == true ? aws_internet_gateway.main["enabled"].id : null
 }
+
+output "default_network_acl_id" {
+  value = aws_vpc.main.default_network_acl_id
+}
