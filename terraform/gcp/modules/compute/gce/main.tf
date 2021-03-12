@@ -5,6 +5,8 @@ locals {
       scopes          = var.scopes
     }
   ] : []
+
+  _external_ip = var.external_ip != null ? [var.external_ip] : []
 }
 
 resource "google_compute_instance" "main" {
@@ -25,7 +27,7 @@ resource "google_compute_instance" "main" {
       iterator = _conf
 
       content {
-        nat_ip                 = var.nat_ip
+        nat_ip                 = google_compute_address.main.address
         public_ptr_domain_name = var.public_ptr_domain_name
         network_tier           = var.network_tier
       }
@@ -100,4 +102,15 @@ resource "google_compute_disk" "attached_disk" {
   interface = each.value.interface
   zone      = var.gce_instance.zone
   project   = var.project
+}
+
+resource "google_compute_address" "main" {
+  for_each = toset(local._external_ip)
+
+  name         = each.value
+  address      = var.external_ip_address
+  address_type = var.external_ip_type
+  purpose      = var.external_ip_purpose
+  network_tier = var.external_ip_network_tier
+  subnetwork   = var.external_ip_type == "INTERNAL" ? var.external_ip_subnetwork : null
 }

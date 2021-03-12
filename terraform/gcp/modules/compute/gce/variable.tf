@@ -113,3 +113,33 @@ variable "startup_script" {
   type    = string
   default = null
 }
+
+variable "external_ip" {
+  type    = string
+  default = null
+}
+
+variable "external_ip_type" {
+  type    = string
+  default = "EXTERNAL"
+}
+
+variable "external_ip_purpose" {
+  type    = string
+  default = "GCE_ENDPOINT"
+}
+
+variable "external_ip_network_tier" {
+  type    = string
+  default = "PREMIUM"
+}
+
+variable "external_ip_address" {
+  type    = string
+  default = null
+}
+
+variable "external_ip_subnetwork" {
+  type    = string
+  default = null
+}

@@ -144,13 +144,3 @@ variable "auto_create_subnetworks" {
   type    = bool
   default = false
 }
-
-variable "static_ip" {
-  type = object({
-    type    = string
-    name    = string
-    address = string
-  })
-
-  default = null
-}
