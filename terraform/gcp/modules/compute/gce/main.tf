@@ -27,7 +27,7 @@ resource "google_compute_instance" "main" {
       iterator = _conf
 
       content {
-        nat_ip                 = google_compute_address.main.address
+        nat_ip                 = var.external_ip != null ? google_compute_address.main[var.external_ip].address : null
         public_ptr_domain_name = var.public_ptr_domain_name
         network_tier           = var.network_tier
       }
