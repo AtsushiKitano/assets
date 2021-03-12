@@ -143,3 +143,8 @@ variable "external_ip_subnetwork" {
   type    = string
   default = null
 }
+
+variable "external_ip_region" {
+  type    = string
+  default = null
+}
