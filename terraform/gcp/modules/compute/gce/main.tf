@@ -5,8 +5,6 @@ locals {
       scopes          = var.scopes
     }
   ] : []
-
-  _static_ip = var.static_ip != null ? [var.static_ip] : []
 }
 
 resource "google_compute_instance" "main" {
