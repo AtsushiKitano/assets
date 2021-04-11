@@ -14,9 +14,7 @@ module "dns_sample" {
   }
 
   private_visibility = {
-    networks = [
-      module.dns_sample_network["enable"].id
-    ]
+    networks = [for v in local._dns_sample_enable : module.dns_sample_network[v].id]
   }
 
   records = [
