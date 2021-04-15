@@ -44,9 +44,9 @@ output "static_ip" {
   }
 }
 
-output "gce" {
-  value = google_compute_instance.main
-}
+# output "gce" {
+#   value = google_compute_instance.main
+# }
 
 output "boot_disk" {
   value = google_compute_disk.boot_disk
