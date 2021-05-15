@@ -1,5 +1,5 @@
 locals {
-  vpc_network_sample_enable = false
+  vpc_network_sample_enable = true
 
   _vpc_nw_enable = local.vpc_network_sample_enable ? ["enable"] : []
 
