@@ -11,8 +11,8 @@ resource "google_project" "main" {
 resource "google_project_service" "main" {
   for_each = toset(var.service_apis)
 
-  project                    = each.value.project
-  service                    = each.value.service
+  project                    = google_project.main.project_id
+  service                    = each.value
   disable_dependent_services = var.disable_dependent_services
   disable_on_destroy         = var.disable_on_destroy
 }
