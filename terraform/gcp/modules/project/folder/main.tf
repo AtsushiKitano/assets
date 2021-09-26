@@ -1,5 +1,5 @@
 resource "google_folder" "root_folder" {
-  for_each = toset(var.root_folder)
+  for_each = toset(var.root_folder_names)
 
   display_name = each.value
   parent       = "organizations/${var.org_id}"

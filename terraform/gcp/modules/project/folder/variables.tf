@@ -1,7 +1,7 @@
 #################################################
 ############ Required Config#####################
 #################################################
-variable "root_folders_name" {
+variable "root_folder_names" {
   type = list(string)
 }
 
