@@ -1,20 +1,17 @@
 ######################################
 ######## Required Config #############
 ######################################
-variable "project_id" {
-  type = string
+variable "project" {
+  type = object({
+    id              = string
+    name            = string
+    billing_account = string
+    folder_id       = string
+  })
 }
 
-variable "service_apis" {
+variable "enable_service_apis" {
   type = list(string)
-}
-
-variable "billing_account" {
-  type = string
-}
-
-variable "folder_id" {
-  type = string
 }
 ######################################
 ######## Option Config ###############
@@ -27,11 +24,6 @@ variable "skip_delete" {
 variable "auto_create_network" {
   type    = bool
   default = false
-}
-
-variable "project_name" {
-  type    = string
-  default = null
 }
 
 variable "disable_dependent_services" {
