@@ -14,8 +14,7 @@ variable "billing_account" {
 }
 
 variable "folder_id" {
-  type    = string
-  default = 
+  type = string
 }
 ######################################
 ######## Option Config ###############
