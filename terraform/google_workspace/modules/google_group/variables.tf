@@ -26,3 +26,8 @@ variable "timeouts" {
   })
   default = null
 }
+
+variable "aliases" {
+  type    = list(string)
+  default = []
+}
