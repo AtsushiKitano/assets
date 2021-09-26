@@ -26,7 +26,7 @@ resource "google_cloudbuild_trigger" "apply" {
   github {
     owner = var.github_owner
     name  = var.repository
-    pull_request {
+    push {
       branch = "^${var.default_branch}$"
     }
   }
