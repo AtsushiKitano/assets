@@ -1,7 +1,7 @@
 resource "google_cloudbuild_trigger" "plan" {
   provider = google-beta
 
-  name = "${var.repository}-pr-to-${var.default_branch}"
+  name = "${var.repository}-${var.name}-pr-to-${var.default_branch}"
 
   github {
     owner = var.github_owner
@@ -20,7 +20,7 @@ resource "google_cloudbuild_trigger" "plan" {
 resource "google_cloudbuild_trigger" "apply" {
   provider = google-beta
 
-  name = "${var.repository}-push-to-${var.default_branch}"
+  name = "${var.repository}-${var.name}-push-to-${var.default_branch}"
 
   github {
     owner = var.github_owner

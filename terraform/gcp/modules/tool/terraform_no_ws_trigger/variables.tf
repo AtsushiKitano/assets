@@ -1,6 +1,10 @@
 ################################
 #######Required Configs#########
 ################################
+variable "name" {
+  type = string
+}
+
 variable "repository" {
   type = string
 }
@@ -17,11 +21,6 @@ variable "github_owner" {
   type = string
 }
 
-variable "ignored_files" {
-  type    = list(string)
-  default = []
-}
-
 ################################
 #######Option Configs###########
 ################################
@@ -33,4 +32,9 @@ variable "default_branch" {
 variable "substitutions" {
   type    = map(string)
   default = null
+}
+
+variable "ignored_files" {
+  type    = list(string)
+  default = []
 }
