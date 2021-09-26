@@ -1,7 +1,7 @@
 ######################################
 ######## Required Config #############
 ######################################
-variable "project" {
+variable "project_id" {
   type = string
 }
 
@@ -27,4 +27,9 @@ variable "skip_delete" {
 variable "auto_create_network" {
   type    = bool
   default = false
+}
+
+variable "project_name" {
+  type    = string
+  default = null
 }
