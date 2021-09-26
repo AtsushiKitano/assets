@@ -1,4 +1,4 @@
-variable "emaile" {
+variable "email" {
   type = string
 }
 
