@@ -21,3 +21,8 @@ variable "folder_iam_roles" {
   }))
   default = []
 }
+
+variable "org_id" {
+  type    = string
+  default = null
+}
