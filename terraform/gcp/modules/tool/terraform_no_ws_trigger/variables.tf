@@ -38,3 +38,8 @@ variable "ignored_files" {
   type    = list(string)
   default = []
 }
+
+variable "project" {
+  type    = string
+  default = null
+}
