@@ -36,7 +36,7 @@ variable "substitutions" {
 
 variable "ignored_files" {
   type    = list(string)
-  default = []
+  default = ["README.md", ".gitignore"]
 }
 
 variable "project" {
