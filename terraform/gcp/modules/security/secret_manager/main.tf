@@ -3,19 +3,13 @@ resource "google_secret_manager_secret" "main" {
   project   = var.project
 
   replication {
-    automatic = var.automatic
+    user_managed {
+      dynamic "replicas" {
+        for_each = toset(var.locations)
+        iterator = _conf
 
-    dynamic "user_managed" {
-      for_each = var.user_managed != null ? ["enable"] : []
-
-      content {
-        dynamic "replicas" {
-          for_each = var.user_managed.replicas
-          iterator = _conf
-
-          content {
-            location = _conf.value.location
-          }
+        content {
+          location = _conf.value
         }
       }
     }
