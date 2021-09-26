@@ -1,5 +1,5 @@
-output "root_folder_ids" {
-  value = { for v in var.root_folder_names : v => google_folder.root_folder[v].id }
+output "root_folder_id" {
+  value = google_folder.root_folder.id
 }
 
 output "child_folder_ids" {

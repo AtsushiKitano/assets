@@ -1,8 +1,8 @@
 #################################################
 ############ Required Config#####################
 #################################################
-variable "root_folder_names" {
-  type = list(string)
+variable "root_folder" {
+  type = string
 }
 
 variable "org_id" {
