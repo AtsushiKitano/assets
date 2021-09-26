@@ -33,3 +33,13 @@ variable "project_name" {
   type    = string
   default = null
 }
+
+variable "disable_dependent_services" {
+  type    = bool
+  default = true
+}
+
+variable "disable_on_destroy" {
+  type    = bool
+  default = true
+}
