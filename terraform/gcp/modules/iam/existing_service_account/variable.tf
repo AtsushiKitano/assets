@@ -8,3 +8,16 @@ variable "project_iam_roles" {
     roles   = list(string)
   }))
 }
+
+variable "organization_iam_roles" {
+  type    = list(string)
+  default = []
+}
+
+variable "folder_iam_roles" {
+  type = list(object({
+    folder_id = string
+    roles     = list(string)
+  }))
+  default = []
+}
