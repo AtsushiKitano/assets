@@ -13,7 +13,7 @@ resource "google_folder" "child_folder" {
 }
 
 resource "google_folder" "gland_child_folder" {
-  for_each = if length(var.child_folders) > 0 ? { for v in var.gland_child_folders : "${v.parent_folder_name}/${v.name}" => v } : {}
+  for_each = if(length(var.child_folders) > 0) ? { for v in var.gland_child_folders : "${v.parent_folder_name}/${v.name}" => v } : {}
 
   display_name = each.value.name
   parent       = join("/", ["organizations", google_folder.child_folder[each.value.parent_folder_name].id])
