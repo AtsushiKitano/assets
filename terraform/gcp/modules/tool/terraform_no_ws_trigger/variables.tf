@@ -39,6 +39,11 @@ variable "ignored_files" {
   default = ["README.md", ".gitignore"]
 }
 
+variable "included_files" {
+  type    = list(string)
+  default = []
+}
+
 variable "project" {
   type    = string
   default = null
