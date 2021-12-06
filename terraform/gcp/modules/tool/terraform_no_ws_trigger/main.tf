@@ -1,6 +1,4 @@
 resource "google_cloudbuild_trigger" "plan" {
-  provider = google-beta
-
   name = "${var.repository}-${var.name}-pr-to-${var.default_branch}"
 
   github {
@@ -20,8 +18,6 @@ resource "google_cloudbuild_trigger" "plan" {
 }
 
 resource "google_cloudbuild_trigger" "apply" {
-  provider = google-beta
-
   name = "${var.repository}-${var.name}-push-to-${var.default_branch}"
 
   github {
