@@ -11,11 +11,12 @@ resource "google_cloudbuild_trigger" "plan" {
     }
   }
 
-  ignored_files  = var.ignored_files
-  included_files = var.included_files
-  filename       = var.plan_filename
-  project        = var.project
-  substitutions  = var.substitutions
+  ignored_files   = var.ignored_files
+  included_files  = var.included_files
+  filename        = var.plan_filename
+  project         = var.project
+  substitutions   = var.substitutions
+  service_account = var.service_account
 }
 
 resource "google_cloudbuild_trigger" "apply" {
@@ -31,9 +32,10 @@ resource "google_cloudbuild_trigger" "apply" {
     }
   }
 
-  ignored_files  = var.ignored_files
-  included_files = var.included_files
-  filename       = var.apply_filename
-  project        = var.project
-  substitutions  = var.substitutions
+  ignored_files   = var.ignored_files
+  included_files  = var.included_files
+  filename        = var.apply_filename
+  project         = var.project
+  substitutions   = var.substitutions
+  service_account = var.service_account
 }

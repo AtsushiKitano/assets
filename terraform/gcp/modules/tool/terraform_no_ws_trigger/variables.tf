@@ -48,3 +48,8 @@ variable "project" {
   type    = string
   default = null
 }
+
+variable "service_account" {
+  type    = string
+  default = null
+}
