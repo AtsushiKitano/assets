@@ -10,7 +10,7 @@ locals {
 }
 
 resource "google_compute_instance" "main" {
-  for_each = var.enable ? [var.gce_instance.name] : []
+  for_each = var.enabled ? [var.gce_instance.name] : []
 
   name         = var.gce_instance.name
   machine_type = var.gce_instance.machine_type
@@ -39,7 +39,7 @@ resource "google_compute_instance" "main" {
   boot_disk {
     auto_delete = var.boot_disk_auto_delete
     device_name = var.boot_disk_device_name
-    source      = google_compute_disk.boot_disk.self_link
+    source      = google_compute_disk.boot_disk[var.boot_disk.name].self_link
   }
 
   dynamic "attached_disk" {
@@ -85,7 +85,7 @@ resource "google_compute_instance" "main" {
 }
 
 resource "google_compute_disk" "boot_disk" {
-  for_each = var.enable ? [var.boot_disk.name] : []
+  for_each = var.enabled ? [var.boot_disk.name] : []
   provider = google-beta
 
   name      = var.boot_disk.name
