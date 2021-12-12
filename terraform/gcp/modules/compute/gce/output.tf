@@ -49,7 +49,7 @@ output "static_ip" {
 # }
 
 output "boot_disk" {
-  value = google_compute_disk.boot_disk[var.boot_disk.name]
+  value = var.enabled ? google_compute_disk.boot_disk[var.boot_disk.name] : null
 }
 
 output "attached_disk" {
