@@ -10,7 +10,7 @@ locals {
 }
 
 resource "google_compute_instance" "main" {
-  for_each = var.enabled ? [var.gce_instance.name] : []
+  for_each = var.enabled ? toset([var.gce_instance.name]) : []
 
   name         = var.gce_instance.name
   machine_type = var.gce_instance.machine_type
@@ -85,7 +85,7 @@ resource "google_compute_instance" "main" {
 }
 
 resource "google_compute_disk" "boot_disk" {
-  for_each = var.enabled ? [var.boot_disk.name] : []
+  for_each = var.enabled ? toset([var.boot_disk.name]) : []
   provider = google-beta
 
   name      = var.boot_disk.name
