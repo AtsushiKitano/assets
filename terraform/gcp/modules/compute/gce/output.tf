@@ -23,7 +23,7 @@ output "nat_ip" {
 }
 
 output "boot_disk_self_link" {
-  value = google_compute_disk[var.boot_disk.name].boot_disk.self_link
+  value = google_compute_disk.boot_disk[var.boot_disk.name].self_link
 }
 
 output "boot_disk_source_image_id" {
