@@ -1,41 +1,41 @@
 output "instance_id" {
-  value = google_compute_instance.main.instance_id
+  value = google_compute_instance.main[var.gce_instance.name].instance_id
 }
 
 output "id" {
-  value = google_compute_instance.main.id
+  value = google_compute_instance.main[var.gce_instance.name].id
 }
 
 output "self_link" {
-  value = google_compute_instance.main.self_link
+  value = google_compute_instance.main[var.gce_instance.name].self_link
 }
 
 output "cpu_platform" {
-  value = google_compute_instance.main.cpu_platform
+  value = google_compute_instance.main[var.gce_instance.name].cpu_platform
 }
 
 output "network_ip" {
-  value = google_compute_instance.main.network_interface.0.network_ip
+  value = google_compute_instance.main[var.gce_instance.name].network_interface.0.network_ip
 }
 
 output "nat_ip" {
-  value = google_compute_instance.main.network_interface.0.access_config.0.nat_ip
+  value = google_compute_instance.main[var.gce_instance.name].network_interface.0.access_config.0.nat_ip
 }
 
 output "boot_disk_self_link" {
-  value = google_compute_disk.boot_disk.self_link
+  value = google_compute_disk[var.boot_disk.name].boot_disk.self_link
 }
 
 output "boot_disk_source_image_id" {
-  value = google_compute_disk.boot_disk.source_image_id
+  value = google_compute_disk.boot_disk[var.boot_disk.name].source_image_id
 }
 
 output "boot_disk_users" {
-  value = google_compute_disk.boot_disk.users
+  value = google_compute_disk.boot_disk[var.boot_disk.name].users
 }
 
 output "boot_disk_id" {
-  value = google_compute_disk.boot_disk.id
+  value = google_compute_disk.boot_disk[var.boot_disk.name].id
 }
 
 output "static_ip" {
@@ -49,7 +49,7 @@ output "static_ip" {
 # }
 
 output "boot_disk" {
-  value = google_compute_disk.boot_disk
+  value = google_compute_disk.boot_disk[var.boot_disk.name]
 }
 
 output "attached_disk" {
