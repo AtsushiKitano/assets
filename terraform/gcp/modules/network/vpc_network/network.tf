@@ -30,7 +30,7 @@ resource "google_compute_subnetwork" "main" {
 
     content {
       range_name    = _conf.value.range_name
-      ip_cidr_range = _conf.value.ip_cidr_rang
+      ip_cidr_range = _conf.value.ip_cidr_range
     }
   }
 
