@@ -114,3 +114,13 @@ variable "preemptible_nodes" {
   type    = list(string)
   default = []
 }
+
+variable "enable_autopilot" {
+  type    = bool
+  default = false
+}
+
+variable "enable_binary_authorizajtion" {
+  type    = bool
+  default = false
+}
