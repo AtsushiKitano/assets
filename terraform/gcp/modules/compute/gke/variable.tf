@@ -129,3 +129,8 @@ variable "services_secondary_range_name" {
   type    = string
   default = null
 }
+
+variable "initial_node_count" {
+  type    = number
+  default = 1
+}

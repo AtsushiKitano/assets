@@ -13,6 +13,7 @@ resource "google_container_cluster" "main" {
   logging_service             = var.logging_service
   network                     = var.network
   subnetwork                  = var.subnetwork
+  initial_node_count          = var.initial_node_count
 
   dynamic "cluster_autoscaling" {
     for_each = var.cluster_autoscaling != null ? toset(["dummy"]) : []
