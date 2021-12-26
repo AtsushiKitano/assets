@@ -86,7 +86,7 @@ resource "google_container_node_pool" "main" {
     for_each = each.value.upgrade_settings
     iterator = _config
 
-    count {
+    content {
       max_surge       = _config.value.max_surge
       max_unavailable = _config.value.max_unavailable
     }
