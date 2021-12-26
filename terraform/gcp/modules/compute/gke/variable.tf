@@ -42,16 +42,6 @@ variable "node_pools" {
   }))
 }
 
-variable "oauth_scopes" {
-  type    = map(list(string))
-  default = null
-}
-
-variable "preemptible_nodes" {
-  type    = list(string)
-  default = []
-}
-
 
 /*
   Option Configs
