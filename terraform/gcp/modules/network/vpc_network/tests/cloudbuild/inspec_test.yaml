@@ -54,7 +54,7 @@ steps:
     args: ["apply", "--auto-approve"]
 
   - id: "inspec exec"
-    name: 'cincproject/auditor'
+    name: 'us-central1-docker.pkg.dev/$PROJECT_ID/testing/cinc-gcp'
     args: ["exec", '$_FILE_PATH/inspec' , "-t", "gcp://", "--input-file", 'attributes.yaml']
 
   - id: 'terraform destroy'

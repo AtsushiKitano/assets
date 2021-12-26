@@ -33,6 +33,32 @@ variable "ncl" {
   })
 }
 
+variable "default_acl" {
+  type = object({
+    name               = string
+    vpc_default_acl_id = string
+    subnets            = list(string)
+    ingress = list(object({
+      action    = string
+      from_port = number
+      rule_no   = number
+      protocol  = number
+      cid_block = string
+      to_port   = number
+    }))
+    egress = list(object({
+      action    = string
+      from_port = number
+      rule_no   = number
+      protocol  = number
+      cid_block = string
+      to_port   = number
+    }))
+    tags = map(string)
+  })
+  default = null
+}
+
 /*
 Config Options
 */

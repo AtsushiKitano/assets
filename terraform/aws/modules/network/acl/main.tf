@@ -35,3 +35,37 @@ resource "aws_network_acl_rule" "main" {
   icmp_type      = var.ncl.rules[count.index].icmp_type
   icmp_code      = var.ncl.rules[count.index].icmp_code
 }
+
+resource "aws_default_network_acl" "main" {
+  default_network_acl_id = var.default_acl.vpc_default_acl_id
+  subnet_ids             = var.default_acl.subnets
+  tags                   = merge({ "Name" = var.default_acl.name }, var.default_acl.tags)
+
+  dynamic "ingress" {
+    for_each = var.default_acl.ingress
+    iterator = _conf
+
+    content {
+      action     = _conf.value.action
+      from_port  = _conf.value.from_port
+      rule_no    = _conf.value.rule_no
+      protocol   = _conf.value.protocol
+      cidr_block = _conf.value.cidr_block
+      to_port    = _conf.value.to_port
+    }
+  }
+
+  dynamic "egress" {
+    for_each = var.default_acl.egress
+    iterator = _conf
+
+    content {
+      action     = _conf.value.action
+      from_port  = _conf.value.from_port
+      rule_no    = _conf.value.rule_no
+      protocol   = _conf.value.protocol
+      cidr_block = _conf.value.cidr_block
+      to_port    = _conf.value.to_port
+    }
+  }
+}

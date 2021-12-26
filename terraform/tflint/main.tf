@@ -1,7 +1,7 @@
 resource "google_compute_instance" "main" {
   name         = "main"
   machine_type = "f1-micro"
-  zone         = "asia-northeast1-c"
+  zone         = "asia-northeast2-c"
 
   tags = ["sample"]
 
