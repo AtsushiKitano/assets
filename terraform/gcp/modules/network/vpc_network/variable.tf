@@ -1,7 +1,5 @@
-variable "vpc_network" {
-  type = object({
-    name = string
-  })
+variable "name" {
+  type = string
 }
 
 variable "subnetworks" {
