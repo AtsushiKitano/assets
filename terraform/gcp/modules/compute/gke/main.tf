@@ -39,6 +39,15 @@ resource "google_container_cluster" "main" {
   workload_identity_config {
     workload_pool = format("%s.svc.id.goog", var.project)
   }
+
+  dynamic "ip_allocation_policy" {
+    for_each = var.networking_mode == "VPC_NATIVE" ? toset(["dummy"]) : []
+
+    content {
+      cluster_secondary_range_name  = var.cluster_secondary_range_name
+      services_secondary_range_name = var.services_secondary_range_name
+    }
+  }
 }
 
 resource "google_container_node_pool" "main" {

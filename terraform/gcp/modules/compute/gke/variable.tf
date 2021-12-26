@@ -119,3 +119,13 @@ variable "enable_binary_authorizajtion" {
   type    = bool
   default = false
 }
+
+variable "cluster_secondary_range_name" {
+  type    = string
+  default = null
+}
+
+variable "services_secondary_range_name" {
+  type    = string
+  default = null
+}
