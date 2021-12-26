@@ -14,8 +14,6 @@ resource "google_container_cluster" "main" {
   network                     = var.network
   subnetwork                  = var.subnetwork
 
-  enable_autopilot = var.enable_autopilot
-
   dynamic "cluster_autoscaling" {
     for_each = var.cluster_autoscaling != null ? toset(["dummy"]) : []
 
