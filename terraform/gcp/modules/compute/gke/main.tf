@@ -8,7 +8,6 @@ resource "google_container_cluster" "main" {
   default_max_pods_per_node   = var.default_max_pods_per_node
   enable_binary_authorization = var.enable_binary_authorizajtion
   enable_tpu                  = var.enable_tpu
-  enable_autopilot            = var.enable_autopilot
   networking_mode             = var.networking_mode
   remove_default_node_pool    = var.remove_default_node_pool
   logging_service             = var.logging_service
@@ -37,8 +36,12 @@ resource "google_container_cluster" "main" {
     }
   }
 
-  workload_identity_config {
-    workload_pool = format("%s.svc.id.goog", var.project)
+  dynamic workload_identity_config {
+    for_each = var.
+
+    content {
+      workload_pool = format("%s.svc.id.goog", var.project)
+    }
   }
 }
 

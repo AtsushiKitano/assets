@@ -85,11 +85,6 @@ variable "enable_tpu" {
   default = false
 }
 
-variable "autopilot" {
-  type    = bool
-  default = false
-}
-
 variable "networking_mode" {
   type    = string
   default = "VPC_NATIVE"
