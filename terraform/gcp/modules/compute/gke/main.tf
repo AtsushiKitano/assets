@@ -36,13 +36,7 @@ resource "google_container_cluster" "main" {
     }
   }
 
-  dynamic workload_identity_config {
-    for_each = var.
-
-    content {
-      workload_pool = format("%s.svc.id.goog", var.project)
-    }
-  }
+  workload_pool = format("%s.svc.id.goog", var.project)
 }
 
 resource "google_container_node_pool" "main" {
