@@ -16,16 +16,15 @@ resource "google_container_cluster" "main" {
   subnetwork                  = var.subnetwork
 
   dynamic "cluster_autoscaling" {
-    for_each = var.cluster_autoscaling
-    iterator = _config
+    for_each = var.cluster_autoscaling != null ? toset(["dummy"]) : []
 
     content {
-      enabled = _config.value.enabled
+      enabled = true
 
       resource_limits {
-        resource_type = _config.value.resource_type
-        minimum       = _config.value.minimum
-        maximum       = _config.value.maximum
+        resource_type = var.cluster_autoscaling.resource_type
+        minimum       = var.cluster_autoscaling.minimum
+        maximum       = var.cluster_autoscaling.maximum
       }
     }
   }
@@ -63,32 +62,29 @@ resource "google_container_node_pool" "main" {
   }
 
   dynamic "autoscaling" {
-    for_each = each.value.autoscaling
-    iterator = _config
+    for_each = each.value.autoscaling != null ? toset(["dummy"]) : []
 
     content {
-      min_node_count = _config.value.min_node_count
-      max_node_count = _config.value.max_node_count
+      min_node_count = each.value.autoscaling.min_node_count
+      max_node_count = each.value.autoscaling.max_node_count
     }
   }
 
   dynamic "management" {
-    for_each = each.value.management
-    iterator = _config
+    for_each = each.value.management != null ? toset(["dummy"]) : []
 
     content {
-      auto_repair  = _config.value.auto_repair
-      auto_upgrade = _config.value.auto_upgrade
+      auto_repair  = each.value.management.auto_repair
+      auto_upgrade = each.value.management.auto_upgrade
     }
   }
 
   dynamic "upgrade_settings" {
-    for_each = each.value.upgrade_settings
-    iterator = _config
+    for_each = each.value.upgrade_settings != null ? toset(["dummy"]) : []
 
     content {
-      max_surge       = _config.value.max_surge
-      max_unavailable = _config.value.max_unavailable
+      max_surge       = each.value.upgrade_settings.max_surge
+      max_unavailable = each.value.upgrade_settings.max_unavailable
     }
   }
 }
