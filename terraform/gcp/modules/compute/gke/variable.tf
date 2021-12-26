@@ -134,3 +134,14 @@ variable "initial_node_count" {
   type    = number
   default = 1
 }
+
+variable "timeouts" {
+  type = object({
+    create = string
+    update = string
+  })
+  default = {
+    create = "30m"
+    update = "40m"
+  }
+}

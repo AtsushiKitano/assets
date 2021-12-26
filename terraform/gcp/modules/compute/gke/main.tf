@@ -49,6 +49,11 @@ resource "google_container_cluster" "main" {
       services_secondary_range_name = var.services_secondary_range_name
     }
   }
+
+  timeouts {
+    create = var.timeouts.create
+    update = var.timeouts.update
+  }
 }
 
 resource "google_container_node_pool" "main" {
