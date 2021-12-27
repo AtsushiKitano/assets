@@ -15,7 +15,8 @@ variable "subnetwork" {
 }
 
 variable "cluster_ipv4_cidr" {
-  type = string
+  type    = string
+  default = null
 }
 
 variable "node_pools" {
