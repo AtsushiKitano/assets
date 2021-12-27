@@ -68,7 +68,7 @@ resource "google_container_cluster" "main" {
 
     content {
       cidr_blocks {
-        cidr_block = var.master_authorized_networks_config.cidr_blocks.cidr_block
+        cidr_block = var.master_authorized_networks_config.cidr_block
       }
 
       # dynamic "cidr_blocks" {
