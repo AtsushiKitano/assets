@@ -119,7 +119,7 @@ variable "subnet_secondary_ip_range" {
 
 variable "subnet_private_google_access" {
   type    = bool
-  default = false
+  default = true
 }
 
 variable "subnet_log_config" {
