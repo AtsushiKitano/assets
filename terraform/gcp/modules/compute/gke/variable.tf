@@ -156,3 +156,10 @@ variable "timeouts" {
     update = "40m"
   }
 }
+
+variable "master_authorized_networks_config" {
+  type = object({
+    cidr_blocks = string
+  })
+  default = null
+}

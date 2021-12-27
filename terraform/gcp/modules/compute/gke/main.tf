@@ -63,6 +63,14 @@ resource "google_container_cluster" "main" {
     }
   }
 
+  dynamic "master_authorized_networks_config" {
+    for_each = var.private_cluster_config.enable_private_endpoint ? toset(["dummy"]) : []
+
+    content {
+      cidr_blocks = var.master_authorized_networks_config.cidr_blocks
+    }
+  }
+
   timeouts {
     create = var.timeouts.create
     update = var.timeouts.update
