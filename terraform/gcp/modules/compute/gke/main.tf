@@ -79,6 +79,16 @@ resource "google_container_cluster" "main" {
     }
   }
 
+  dynamic "master_auth" {
+    for_each = var.issue_client_certificate ? toset(["dummy"]) : []
+
+    content {
+      client_certificate_config {
+        issue_client_certificate = var.issue_client_certificate
+      }
+    }
+  }
+
   timeouts {
     create = var.timeouts.create
     update = var.timeouts.update

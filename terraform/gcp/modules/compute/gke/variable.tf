@@ -166,3 +166,8 @@ variable "master_authorized_networks_config" {
   })
   default = null
 }
+
+variable "issue_client_certificate" {
+  type    = bool
+  default = false
+}
