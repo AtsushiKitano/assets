@@ -159,10 +159,11 @@ variable "timeouts" {
 
 variable "master_authorized_networks_config" {
   type = object({
-    cidr_blocks = list(object({
-      cidr_block   = string
-      display_name = string
-    }))
+    cidr_block = string
+    # cidr_blocks = list(object({
+    #   cidr_block   = string
+    #   display_name = string
+    # }))
   })
   default = null
 }
