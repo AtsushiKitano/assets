@@ -1,5 +1,5 @@
 resource "google_compute_network" "main" {
-  name                    = var.vpc_network.name
+  name                    = var.name
   auto_create_subnetworks = var.auto_create_subnetworks
   routing_mode            = var.vpc_network_routing
 
@@ -25,12 +25,12 @@ resource "google_compute_subnetwork" "main" {
 
 
   dynamic "secondary_ip_range" {
-    for_each = var.subnet_secondary_ip_range != null ? lookup(var.subnet_secondary_ip_range, each.value.name, []) : []
+    for_each = each.value.secondary_ip_ranges
     iterator = _conf
 
     content {
       range_name    = _conf.value.range_name
-      ip_cidr_range = _conf.value.ip_cidr_rang
+      ip_cidr_range = _conf.value.ip_cidr_range
     }
   }
 

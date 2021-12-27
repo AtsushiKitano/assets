@@ -12,11 +12,11 @@ module "network_sample" {
   project = terraform.workspace
 
   vpc_network = {
-    name = "sample"
+    name = "sample-vpc"
   }
   subnetworks = [
     {
-      name   = "sample"
+      name   = "sample-vpc"
       cidr   = "192.168.10.0/24"
       region = "asia-northeast1"
     },
@@ -70,7 +70,17 @@ module "network_sample" {
       ]
       log_config_metadata = null
     }
+  ]
 
+  serverless_vpc = [
+    {
+      name          = "sample"
+      ip_cidr_range = "10.255.255.0/28"
+
+      region         = "asia-northeast1"
+      min_throughput = null
+      max_throughput = null
+    }
   ]
 }
 

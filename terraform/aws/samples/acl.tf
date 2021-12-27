@@ -78,6 +78,15 @@ module "acl_sample" {
       }
     ]
   }
+
+  default_acl = {
+    name               = each.value.name
+    vpc_default_acl_id = module.acl_sample_vpc[each.value.name].default_network_acl_id
+    subnets            = []
+    ingress            = []
+    egress             = []
+    tags               = {}
+  }
 }
 
 module "acl_sample_vpc" {

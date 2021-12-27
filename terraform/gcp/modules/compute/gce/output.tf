@@ -1,41 +1,41 @@
 output "instance_id" {
-  value = google_compute_instance.main.instance_id
+  value = var.enabled ? google_compute_instance.main[var.gce_instance.name].instance_id : null
 }
 
 output "id" {
-  value = google_compute_instance.main.id
+  value = var.enabled ? google_compute_instance.main[var.gce_instance.name].id : null
 }
 
 output "self_link" {
-  value = google_compute_instance.main.self_link
+  value = var.enabled ? google_compute_instance.main[var.gce_instance.name].self_link : null
 }
 
 output "cpu_platform" {
-  value = google_compute_instance.main.cpu_platform
+  value = var.enabled ? google_compute_instance.main[var.gce_instance.name].cpu_platform : null
 }
 
 output "network_ip" {
-  value = google_compute_instance.main.network_interface.0.network_ip
+  value = var.enabled ? google_compute_instance.main[var.gce_instance.name].network_interface.0.network_ip : null
 }
 
 output "nat_ip" {
-  value = google_compute_instance.main.network_interface.0.access_config.0.nat_ip
+  value = var.enabled ? google_compute_instance.main[var.gce_instance.name].network_interface.0.access_config.0.nat_ip : null
 }
 
 output "boot_disk_self_link" {
-  value = google_compute_disk.boot_disk.self_link
+  value = var.enabled ? google_compute_disk.boot_disk[var.boot_disk.name].self_link : null
 }
 
 output "boot_disk_source_image_id" {
-  value = google_compute_disk.boot_disk.source_image_id
+  value = var.enabled ? google_compute_disk.boot_disk[var.boot_disk.name].source_image_id : null
 }
 
 output "boot_disk_users" {
-  value = google_compute_disk.boot_disk.users
+  value = var.enabled ? google_compute_disk.boot_disk[var.boot_disk.name].users : null
 }
 
 output "boot_disk_id" {
-  value = google_compute_disk.boot_disk.id
+  value = var.enabled ? google_compute_disk.boot_disk[var.boot_disk.name].id : null
 }
 
 output "static_ip" {
@@ -44,12 +44,12 @@ output "static_ip" {
   }
 }
 
-output "gce" {
-  value = google_compute_instance.main
-}
+# output "gce" {
+#   value = google_compute_instance.main
+# }
 
 output "boot_disk" {
-  value = google_compute_disk.boot_disk
+  value = var.enabled ? google_compute_disk.boot_disk[var.boot_disk.name] : null
 }
 
 output "attached_disk" {

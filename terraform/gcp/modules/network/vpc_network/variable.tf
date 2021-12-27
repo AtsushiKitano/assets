@@ -1,7 +1,5 @@
-variable "vpc_network" {
-  type = object({
-    name = string
-  })
+variable "name" {
+  type = string
 }
 
 variable "subnetworks" {
@@ -9,6 +7,10 @@ variable "subnetworks" {
     name   = string
     cidr   = string
     region = string
+    secondary_ip_ranges = list(object({
+      range_name    = string
+      ip_cidr_range = string
+    }))
   }))
 }
 
@@ -111,17 +113,9 @@ variable "subnet_purpose" {
   default = null
 }
 
-variable "subnet_secondary_ip_range" {
-  type = map(list(object({
-    range_name    = string
-    ip_cidr_range = string
-  })))
-  default = null
-}
-
 variable "subnet_private_google_access" {
   type    = bool
-  default = false
+  default = true
 }
 
 variable "subnet_log_config" {

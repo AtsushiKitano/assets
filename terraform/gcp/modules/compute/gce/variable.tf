@@ -148,3 +148,8 @@ variable "external_ip_region" {
   type    = string
   default = null
 }
+
+variable "enabled" {
+  type    = bool
+  default = true
+}

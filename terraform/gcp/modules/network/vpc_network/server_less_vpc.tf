@@ -4,7 +4,7 @@ resource "google_vpc_access_connector" "main" {
   name          = each.value.name
   region        = each.value.region
   ip_cidr_range = each.value.ip_cidr_range
-  network       = google_compute_network.main.self_link
+  network       = google_compute_network.main.name
 
   min_throughput = each.value.min_throughput
   max_throughput = each.value.max_throughput
