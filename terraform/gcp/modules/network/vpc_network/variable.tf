@@ -7,7 +7,7 @@ variable "subnetworks" {
     name   = string
     cidr   = string
     region = string
-    secondary_ip_range = list(object({
+    secondary_ip_ranges = list(object({
       range_name    = string
       ip_cidr_range = string
     }))
