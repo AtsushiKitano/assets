@@ -67,7 +67,9 @@ resource "google_container_cluster" "main" {
     for_each = var.private_cluster_config.enable_private_endpoint ? toset(["dummy"]) : []
 
     content {
-      cidr_blocks {}
+      cidr_blocks {
+        cidr_block = var.master_authorized_networks_config.cidr_blocks.cidr_block
+      }
 
       # dynamic "cidr_blocks" {
       #   for_each = var.master_authorized_networks_config.cidr_blocks
