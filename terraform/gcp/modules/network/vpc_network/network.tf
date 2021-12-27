@@ -25,7 +25,7 @@ resource "google_compute_subnetwork" "main" {
 
 
   dynamic "secondary_ip_range" {
-    for_each = var.subnet_secondary_ip_range != null ? lookup(var.subnet_secondary_ip_range, each.value.name, []) : []
+    for_each = each.value.secondary_ip_ranges ? toset(["dummy"]) : []
     iterator = _conf
 
     content {

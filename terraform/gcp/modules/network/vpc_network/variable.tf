@@ -7,6 +7,10 @@ variable "subnetworks" {
     name   = string
     cidr   = string
     region = string
+    secondary_ip_range = list(object({
+      range_name    = string
+      ip_cidr_range = string
+    }))
   }))
 }
 
@@ -106,14 +110,6 @@ variable "vpc_network_delete_default_routes_on_create" {
 
 variable "subnet_purpose" {
   type    = map(string)
-  default = null
-}
-
-variable "subnet_secondary_ip_range" {
-  type = map(list(object({
-    range_name    = string
-    ip_cidr_range = string
-  })))
   default = null
 }
 
