@@ -38,13 +38,14 @@ resource "google_container_cluster" "main" {
   }
 
   dynamic "private_cluster_config" {
+    for_each = var.private_cluster_config != null ? toset(["dummy"]) : []
 
     content {
-      enable_private_nodes    = var.enable_private_nodes
-      enable_private_endpoint = var.enable_private_endpoint
-      master_ipv4_cidr_block  = var.master_ipv4_cidr_block
+      enable_private_nodes    = var.private_cluster_config.enable_private_nodes
+      enable_private_endpoint = var.private_cluster_config.enable_private_endpoint
+      master_ipv4_cidr_block  = var.private_cluster_config.master_ipv4_cidr_block
       master_global_access_config {
-        enabled = var.master_global_access_config_enabled
+        enabled = var.private_cluster_config.master_global_access_config_enabled
       }
     }
   }
