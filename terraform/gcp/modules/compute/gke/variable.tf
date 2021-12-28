@@ -24,7 +24,7 @@ variable "node_pools" {
     name            = string
     machine_type    = string
     service_account = string
-    preemptbile     = bool
+    preemptible     = bool
     autoscaling = object({
       min_node_count = number
       max_node_count = number
