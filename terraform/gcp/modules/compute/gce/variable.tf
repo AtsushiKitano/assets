@@ -10,10 +10,9 @@ variable "gce_instance" {
 
 variable "boot_disk" {
   type = object({
-    name      = string
-    size      = number
-    interface = string
-    image     = string
+    name  = string
+    size  = number
+    image = string
   })
 }
 
@@ -58,10 +57,9 @@ variable "automatic_restart" {
 
 variable "attached_disk" {
   type = list(object({
-    name      = string
-    mode      = string
-    size      = number
-    interface = string
+    name = string
+    mode = string
+    size = number
   }))
   default = []
 }

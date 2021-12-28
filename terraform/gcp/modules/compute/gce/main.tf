@@ -89,23 +89,21 @@ resource "google_compute_disk" "boot_disk" {
   for_each = var.enabled ? toset([var.boot_disk.name]) : []
   provider = google-beta
 
-  name      = var.boot_disk.name
-  size      = var.boot_disk.size
-  interface = var.boot_disk.interface
-  image     = var.boot_disk.image
-  zone      = var.gce_instance.zone
-  project   = var.project
+  name    = var.boot_disk.name
+  size    = var.boot_disk.size
+  image   = var.boot_disk.image
+  zone    = var.gce_instance.zone
+  project = var.project
 }
 
 resource "google_compute_disk" "attached_disk" {
   for_each = { for v in var.attached_disk : v.name => v }
   provider = google-beta
 
-  name      = each.value.name
-  size      = each.value.size
-  interface = each.value.interface
-  zone      = var.gce_instance.zone
-  project   = var.project
+  name    = each.value.name
+  size    = each.value.size
+  zone    = var.gce_instance.zone
+  project = var.project
 }
 
 resource "google_compute_address" "main" {
