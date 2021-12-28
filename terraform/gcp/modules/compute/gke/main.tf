@@ -48,8 +48,11 @@ resource "google_container_cluster" "main" {
   }
 
   addons_config {
-    horizontal_pod_autoscaling {
-      disabled = true
+    dynamic "horizontal_pod_autoscaling" {
+      for_each = var.horizontal_pod_autoscaling ? toset(["dummy"]) : []
+      content {
+        disabled = var.horizontal_pod_autoscaling
+      }
     }
   }
 
@@ -70,6 +73,10 @@ resource "google_container_cluster" "main" {
         }
       }
     }
+  }
+
+  workload_identity_config {
+    workload_pool = format("%s.svc.id.goo", var.project)
   }
 }
 

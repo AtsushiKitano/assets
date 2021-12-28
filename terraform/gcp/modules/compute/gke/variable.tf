@@ -163,3 +163,8 @@ variable "cluster_autoscalings" {
   }))
   default = []
 }
+
+variable "horizontal_pod_autoscaling" {
+  type    = bool
+  default = false
+}
