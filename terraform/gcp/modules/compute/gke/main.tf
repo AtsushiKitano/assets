@@ -73,7 +73,7 @@ resource "google_container_cluster" "main" {
   }
 
   workload_identity_config {
-    workload_pool = format("%s.svc.id.goo", var.project)
+    workload_pool = format("%s.svc.id.goog", var.project)
   }
 }
 
