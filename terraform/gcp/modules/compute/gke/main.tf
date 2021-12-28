@@ -5,22 +5,22 @@ resource "google_container_cluster" "main" {
   name     = var.cluster_name
   location = var.region
 
-  remove_default_node_pool = var.remove_default_node_pool
-  initial_node_count       = var.initial_node_count
+  remove_default_node_pool = true
+  initial_node_count       = 1
 
   network         = var.network
   subnetwork      = var.subnetwork
-  networking_mode = var.networking_mode
+  networking_mode = "VPC_NATIVE"
 
   private_cluster_config {
-    enable_private_nodes    = var.private_cluster_config.enable_private_nodes
-    enable_private_endpoint = var.private_cluster_config.enable_private_endpoint
-    master_ipv4_cidr_block  = var.private_cluster_config.master_ipv4_cidr_block
+    enable_private_nodes    = true
+    enable_private_endpoint = true
+    master_ipv4_cidr_block  = "172.16.0.32/28"
   }
 
   ip_allocation_policy {
-    cluster_secondary_range_name  = var.cluster_secondary_range_name
-    services_secondary_range_name = var.services_secondary_range_name
+    cluster_secondary_range_name  = format("%s-%s", var.name, "pods")
+    services_secondary_range_name = format("%s-%s", var.name, "services")
   }
 
   master_authorized_networks_config {}
@@ -121,7 +121,7 @@ resource "google_container_node_pool" "main" {
     preemptible  = true
     machine_type = "e2-medium"
 
-    service_account = each.value.service_account
+    #service_account = each.value.service_account
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]
