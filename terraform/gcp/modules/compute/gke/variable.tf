@@ -24,6 +24,8 @@ variable "node_pools" {
     name            = string
     machine_type    = string
     service_account = string
+    disk_size_gb    = number
+    disk_type       = string
     preemptible     = bool
     autoscaling = object({
       min_node_count = number
@@ -131,6 +133,11 @@ variable "services_secondary_range_name" {
 }
 
 variable "initial_node_count" {
+  type    = number
+  default = 1
+}
+
+variable "node_count" {
   type    = number
   default = 1
 }
