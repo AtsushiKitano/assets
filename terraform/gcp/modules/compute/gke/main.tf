@@ -59,21 +59,25 @@ resource "google_container_cluster" "main" {
     }
   }
 
-  dynamic "master_authorized_networks_config" {
-    for_each = var.private_cluster_config.enable_private_endpoint ? toset(["dummy"]) : []
+  master_authorized_networks_config {
 
-    content {
-      # dynamic "cidr_blocks" {
-      #   for_each = var.master_authorized_networks_config.cidr_blocks
-      #   iterator = _config
-
-      #   content {
-      #     cidr_block   = _config.value.cidr_block
-      #     display_name = _config.value.display_name
-      #   }
-      # }
-    }
   }
+
+  # dynamic "master_authorized_networks_config" {
+  #   for_each = var.private_cluster_config.enable_private_endpoint ? toset(["dummy"]) : []
+
+  #   content {
+  #     # dynamic "cidr_blocks" {
+  #     #   for_each = var.master_authorized_networks_config.cidr_blocks
+  #     #   iterator = _config
+
+  #     #   content {
+  #     #     cidr_block   = _config.value.cidr_block
+  #     #     display_name = _config.value.display_name
+  #     #   }
+  #     # }
+  #   }
+  # }
 
   dynamic "master_auth" {
     for_each = var.issue_client_certificate ? toset(["dummy"]) : []
