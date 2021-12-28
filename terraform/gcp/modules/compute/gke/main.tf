@@ -2,7 +2,6 @@ resource "google_container_cluster" "main" {
   provider = google-beta
   project  = var.project
 
-
   name     = var.cluster_name
   location = var.region
 
@@ -13,44 +12,69 @@ resource "google_container_cluster" "main" {
   subnetwork      = var.subnetwork
   networking_mode = var.networking_mode
 
-  dynamic "private_cluster_config" {
-    for_each = var.private_cluster_config != null ? toset(["dummy"]) : []
+  private_cluster_config {
+    enable_private_nodes    = var.private_cluster_config.enable_private_nodes
+    enable_private_endpoint = var.private_cluster_config.enable_private_endpoint
+    master_ipv4_cidr_block  = var.private_cluster_config.master_ipv4_cidr_block
+  }
 
-    content {
-      enable_private_nodes    = var.private_cluster_config.enable_private_nodes
-      enable_private_endpoint = var.private_cluster_config.enable_private_endpoint
-      master_ipv4_cidr_block  = var.private_cluster_config.master_ipv4_cidr_block
+  ip_allocation_policy {
+    cluster_secondary_range_name  = var.cluster_secondary_range_name
+    services_secondary_range_name = var.services_secondary_range_name
+  }
 
-      master_global_access_config {
-        enabled = var.private_cluster_config.master_global_access_config_enabled
-      }
+  master_authorized_networks_config {}
+
+  cluster_autoscaling {
+    enabled             = true
+    autoscaling_profile = "BALANCED"
+
+    resource_limits {
+      resource_type = "memory"
+      minimum       = 1
+      maximum       = 64
+    }
+    resource_limits {
+      resource_type = "cpu"
+      minimum       = 1
+      maximum       = 10
     }
   }
 
-  dynamic "ip_allocation_policy" {
-    for_each = var.networking_mode == "VPC_NATIVE" ? toset(["dummy"]) : []
+  # dynamic "private_cluster_config" {
+  #   for_each = var.private_cluster_config != null ? toset(["dummy"]) : []
 
-    content {
-      cluster_secondary_range_name  = var.cluster_secondary_range_name
-      services_secondary_range_name = var.services_secondary_range_name
-    }
-  }
+  #   content {
+  #     enable_private_nodes    = var.private_cluster_config.enable_private_nodes
+  #     enable_private_endpoint = var.private_cluster_config.enable_private_endpoint
+  #     master_ipv4_cidr_block  = var.private_cluster_config.master_ipv4_cidr_block
+  #   }
+  # }
 
-  dynamic "master_authorized_networks_config" {
-    for_each = var.private_cluster_config != null ? toset(["dummy"]) : []
+  # dynamic "ip_allocation_policy" {
+  #   for_each = var.networking_mode == "VPC_NATIVE" ? toset(["dummy"]) : []
 
-    content {
-      dynamic "cidr_blocks" {
-        for_each = var.master_authorized_networks_config_cidrs
-        iterator = _config
+  #   content {
+  #     cluster_secondary_range_name  = var.cluster_secondary_range_name
+  #     services_secondary_range_name = var.services_secondary_range_name
+  #   }
+  # }
 
-        content {
-          cidr_block   = _config.value.cidr_block
-          display_name = _config.value.display_name
-        }
-      }
-    }
-  }
+  # dynamic "master_authorized_networks_config" {
+  #   for_each = var.private_cluster_config != null ? toset(["dummy"]) : []
+
+  #   content {
+  #     dynamic "cidr_blocks" {
+  #       for_each = var.master_authorized_networks_config_cidrs
+  #       iterator = _config
+
+  #       content {
+  #         cidr_block   = _config.value.cidr_block
+  #         display_name = _config.value.display_name
+  #       }
+  #     }
+  #   }
+  # }
 
   addons_config {
     horizontal_pod_autoscaling {
@@ -58,24 +82,24 @@ resource "google_container_cluster" "main" {
     }
   }
 
-  dynamic "cluster_autoscaling" {
-    for_each = length(var.cluster_autoscalings) > 0 ? toset(["dummy"]) : []
+  # dynamic "cluster_autoscaling" {
+  #   for_each = length(var.cluster_autoscalings) > 0 ? toset(["dummy"]) : []
 
-    content {
-      enabled = true
+  #   content {
+  #     enabled = true
 
-      dynamic "resource_limits" {
-        for_each = var.cluster_autoscalings
-        iterator = _config
+  #     dynamic "resource_limits" {
+  #       for_each = var.cluster_autoscalings
+  #       iterator = _config
 
-        content {
-          resource_type = _config.value.resource_type
-          minimum       = _config.value.minimum
-          maximum       = _config.value.maximum
-        }
-      }
-    }
-  }
+  #       content {
+  #         resource_type = _config.value.resource_type
+  #         minimum       = _config.value.minimum
+  #         maximum       = _config.value.maximum
+  #       }
+  #     }
+  #   }
+  # }
 }
 
 resource "google_container_node_pool" "main" {
@@ -87,21 +111,37 @@ resource "google_container_node_pool" "main" {
   cluster  = google_container_cluster.main.name
   project  = var.project
 
-  dynamic "autoscaling" {
-    for_each = each.value.autoscaling != null ? toset(["dummy"]) : []
 
-    content {
-      min_node_count = each.value.autoscaling.min_node_count
-      max_node_count = each.value.autoscaling.max_node_count
-    }
+  autoscaling {
+    min_node_count = 0
+    max_node_count = 2
   }
 
   node_config {
-    preemptible     = each.value.preemptible
-    machine_type    = each.value.machine_type
-    service_account = each.value.service_account
+    preemptible  = true
+    machine_type = "e2-medium"
+
+    service_account = module.service_account[local.name].email
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]
   }
+
+  # dynamic "autoscaling" {
+  #   for_each = each.value.autoscaling != null ? toset(["dummy"]) : []
+
+  #   content {
+  #     min_node_count = each.value.autoscaling.min_node_count
+  #     max_node_count = each.value.autoscaling.max_node_count
+  #   }
+  # }
+
+  # node_config {
+  #   preemptible     = each.value.preemptible
+  #   machine_type    = each.value.machine_type
+  #   service_account = each.value.service_account
+  #   oauth_scopes = [
+  #     "https://www.googleapis.com/auth/cloud-platform"
+  #   ]
+  # }
 }
