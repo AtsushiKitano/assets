@@ -18,7 +18,8 @@ resource "google_compute_instance" "main" {
   project      = var.project
   tags         = var.gce_instance.tags
 
-  metadata_startup_script = var.startup_script
+  metadata_startup_script   = var.startup_script
+  allow_stopping_for_update = var.allow_stopping_for_update
 
   network_interface {
     subnetwork = var.gce_instance.subnetwork

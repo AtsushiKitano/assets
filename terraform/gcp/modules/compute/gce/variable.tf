@@ -153,3 +153,8 @@ variable "enabled" {
   type    = bool
   default = true
 }
+
+variable "allow_stopping_for_update" {
+  type    = bool
+  default = true
+}
