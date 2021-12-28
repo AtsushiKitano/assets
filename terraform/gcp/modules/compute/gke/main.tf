@@ -64,7 +64,7 @@ resource "google_container_cluster" "main" {
 
     content {
       dynamic "cidr_blocks" {
-        for_each = var.master_authorized_networks_config.cidr_blocks
+        for_each = var.master_authorized_networks_config_cidrs
         iterator = _config
 
         content {

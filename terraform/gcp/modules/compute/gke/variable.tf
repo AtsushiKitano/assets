@@ -146,13 +146,11 @@ variable "initial_node_count" {
   default = 1
 }
 
-variable "master_authorized_networks_config" {
-  type = object({
-    cidr_blocks = list(object({
-      cidr_block   = string
-      display_name = string
-    }))
-  })
+variable "master_authorized_networks_config_cidrs" {
+  type = list(object({
+    cidr_block   = string
+    display_name = string
+  }))
   default = []
 }
 
