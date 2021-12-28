@@ -160,3 +160,12 @@ variable "issue_client_certificate" {
   type    = bool
   default = false
 }
+
+variable "cluster_autoscalings" {
+  type = list(object({
+    resource_type = string
+    minimum       = number
+    maximum       = number
+  }))
+  default = []
+}
