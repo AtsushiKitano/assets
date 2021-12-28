@@ -79,24 +79,13 @@ resource "google_container_cluster" "main" {
 }
 
 resource "google_container_node_pool" "main" {
+  provider = google-beta
   for_each = { for v in var.node_pools : v.name => v }
 
   name     = each.value.name
   location = var.region
   cluster  = google_container_cluster.main.name
   project  = var.project
-
-
-  node_config {
-    disk_size_gb    = each.value.disk_size_gb
-    disk_type       = each.value.disk_type
-    image_type      = each.value.image_type
-    machine_type    = each.value.machine_type
-    oauth_scopes    = contains(keys(var.oauth_scopes), each.value.name) ? var.oauth_scopes[each.value.name] : ["https://www.googleapis.com/auth/cloud-platform"]
-    preemptible     = contains(var.preemptible_nodes, each.value.name)
-    service_account = each.value.service_account
-    tags            = each.value.tags
-  }
 
   dynamic "autoscaling" {
     for_each = each.value.autoscaling != null ? toset(["dummy"]) : []
@@ -107,21 +96,12 @@ resource "google_container_node_pool" "main" {
     }
   }
 
-  dynamic "management" {
-    for_each = each.value.management != null ? toset(["dummy"]) : []
-
-    content {
-      auto_repair  = each.value.management.auto_repair
-      auto_upgrade = each.value.management.auto_upgrade
-    }
-  }
-
-  dynamic "upgrade_settings" {
-    for_each = each.value.upgrade_settings != null ? toset(["dummy"]) : []
-
-    content {
-      max_surge       = each.value.upgrade_settings.max_surge
-      max_unavailable = each.value.upgrade_settings.max_unavailable
-    }
+  node_config {
+    preemptible     = each.value.preemptible
+    machine_type    = each.value.machine_type
+    service_account = each.value.service_account
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/cloud-platform"
+    ]
   }
 }

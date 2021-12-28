@@ -22,23 +22,12 @@ variable "cluster_ipv4_cidr" {
 variable "node_pools" {
   type = list(object({
     name            = string
-    disk_size_gb    = number
-    disk_type       = string
-    image_type      = string
     machine_type    = string
     service_account = string
-    tags            = list(string)
+    preemptbile     = bool
     autoscaling = object({
       min_node_count = number
       max_node_count = number
-    })
-    management = object({
-      auto_repair  = bool
-      auto_upgrade = bool
-    })
-    upgrade_settings = object({
-      max_surge       = number
-      max_unavailable = number
     })
   }))
 }
