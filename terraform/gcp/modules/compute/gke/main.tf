@@ -19,8 +19,8 @@ resource "google_container_cluster" "main" {
   }
 
   ip_allocation_policy {
-    cluster_secondary_range_name  = format("%s-%s", var.name, "pods")
-    services_secondary_range_name = format("%s-%s", var.name, "services")
+    cluster_secondary_range_name  = format("%s-%s", var.cluster_name, "pods")
+    services_secondary_range_name = format("%s-%s", var.cluster_name, "services")
   }
 
   master_authorized_networks_config {}
