@@ -48,11 +48,8 @@ resource "google_container_cluster" "main" {
   }
 
   addons_config {
-    dynamic "horizontal_pod_autoscaling" {
-      for_each = var.horizontal_pod_autoscaling ? toset(["dummy"]) : []
-      content {
-        disabled = var.horizontal_pod_autoscaling
-      }
+    horizontal_pod_autoscaling {
+      disabled = var.horizontal_pod_autoscaling
     }
   }
 
