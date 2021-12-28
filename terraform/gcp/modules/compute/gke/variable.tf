@@ -58,12 +58,12 @@ variable "private_cluster_config" {
   Option Configs
 */
 variable "cluster_autoscaling" {
-  type = object({
+  type = list(object({
     resource_type = string
     minimum       = string
     maximum       = string
-  })
-  default = null
+  }))
+  default = []
 }
 
 variable "logging_service" {
@@ -146,24 +146,12 @@ variable "initial_node_count" {
   default = 1
 }
 
-variable "timeouts" {
-  type = object({
-    create = string
-    update = string
-  })
-  default = {
-    create = "30m"
-    update = "40m"
-  }
-}
-
 variable "master_authorized_networks_config" {
   type = object({
-    cidr_block = string
-    # cidr_blocks = list(object({
-    #   cidr_block   = string
-    #   display_name = string
-    # }))
+    cidr_blocks = list(object({
+      cidr_block   = string
+      display_name = string
+    }))
   })
   default = null
 }

@@ -1,39 +1,34 @@
 resource "google_container_cluster" "main" {
-  name           = var.cluster_name
-  project        = var.project
-  location       = var.region
-  node_locations = var.node_locations
+  provider = google-beta
+  name     = var.cluster_name
+  project  = var.project
+  location = var.region
 
-  cluster_ipv4_cidr           = var.cluster_ipv4_cidr
-  default_max_pods_per_node   = var.default_max_pods_per_node
-  enable_binary_authorization = var.enable_binary_authorizajtion
-  enable_tpu                  = var.enable_tpu
-  networking_mode             = var.networking_mode
-  remove_default_node_pool    = var.remove_default_node_pool
-  logging_service             = var.logging_service
-  network                     = var.network
-  subnetwork                  = var.subnetwork
-  initial_node_count          = var.initial_node_count
+  remove_default_node_pool = var.remove_default_node_pool
+  initial_node_count       = var.initial_node_count
+
+  network         = var.network
+  subnetwork      = var.subnetwork
+  networking_mode = var.networking_mode
+
+  default_max_pods_per_node = var.default_max_pods_per_node
 
   dynamic "cluster_autoscaling" {
-    for_each = var.cluster_autoscaling != null ? toset(["dummy"]) : []
+    for_each = length(var.cluster_autoscalings) > 0 ? toset(["dummy"]) : []
 
     content {
       enabled = true
 
-      resource_limits {
-        resource_type = var.cluster_autoscaling.resource_type
-        minimum       = var.cluster_autoscaling.minimum
-        maximum       = var.cluster_autoscaling.maximum
+      dynamic "resource_limits" {
+        for_each = var.cluster_autoscalings
+        iterator = _config
+
+        content {
+          resource_type = _config.value.resource_type
+          minimum       = _config.value.minimum
+          maximum       = _config.value.maximum
+        }
       }
-    }
-  }
-
-  dynamic "logging_config" {
-    for_each = var.enable_components != null ? toset(["dummy"]) : []
-
-    content {
-      enable_components = var.enable_components
     }
   }
 
@@ -44,6 +39,7 @@ resource "google_container_cluster" "main" {
       enable_private_nodes    = var.private_cluster_config.enable_private_nodes
       enable_private_endpoint = var.private_cluster_config.enable_private_endpoint
       master_ipv4_cidr_block  = var.private_cluster_config.master_ipv4_cidr_block
+
       master_global_access_config {
         enabled = var.private_cluster_config.master_global_access_config_enabled
       }
@@ -64,22 +60,18 @@ resource "google_container_cluster" "main" {
   }
 
   dynamic "master_authorized_networks_config" {
-    for_each = var.master_authorized_networks_config != null ? toset(["dummy"]) : []
+    for_each = var.private_cluster_config != null ? toset(["dummy"]) : []
 
     content {
-      cidr_blocks {
-        cidr_block = var.master_authorized_networks_config.cidr_block
+      dynamic "cidr_blocks" {
+        for_each = var.master_authorized_networks_config.cidr_blocks
+        iterator = _config
+
+        content {
+          cidr_block   = _config.value.cidr_block
+          display_name = _config.value.display_name
+        }
       }
-
-      # dynamic "cidr_blocks" {
-      #   for_each = var.master_authorized_networks_config.cidr_blocks
-      #   iterator = _config
-
-      #   content {
-      #     cidr_block   = _config.value.cidr_block
-      #     display_name = _config.value.display_name
-      #   }
-      # }
     }
   }
 
@@ -91,11 +83,6 @@ resource "google_container_cluster" "main" {
         issue_client_certificate = var.issue_client_certificate
       }
     }
-  }
-
-  timeouts {
-    create = var.timeouts.create
-    update = var.timeouts.update
   }
 }
 
