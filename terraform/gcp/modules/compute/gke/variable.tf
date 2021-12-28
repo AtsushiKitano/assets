@@ -153,7 +153,7 @@ variable "master_authorized_networks_config" {
       display_name = string
     }))
   })
-  default = null
+  default = []
 }
 
 variable "issue_client_certificate" {
