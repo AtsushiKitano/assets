@@ -1,7 +1,9 @@
 resource "google_container_cluster" "main" {
   provider = google-beta
-  name     = var.cluster_name
   project  = var.project
+
+
+  name     = var.cluster_name
   location = var.region
 
   remove_default_node_pool = var.remove_default_node_pool
@@ -10,27 +12,6 @@ resource "google_container_cluster" "main" {
   network         = var.network
   subnetwork      = var.subnetwork
   networking_mode = var.networking_mode
-
-  default_max_pods_per_node = var.default_max_pods_per_node
-
-  dynamic "cluster_autoscaling" {
-    for_each = length(var.cluster_autoscalings) > 0 ? toset(["dummy"]) : []
-
-    content {
-      enabled = true
-
-      dynamic "resource_limits" {
-        for_each = var.cluster_autoscalings
-        iterator = _config
-
-        content {
-          resource_type = _config.value.resource_type
-          minimum       = _config.value.minimum
-          maximum       = _config.value.maximum
-        }
-      }
-    }
-  }
 
   dynamic "private_cluster_config" {
     for_each = var.private_cluster_config != null ? toset(["dummy"]) : []
@@ -45,10 +26,6 @@ resource "google_container_cluster" "main" {
       }
     }
   }
-
-  # workload_identity_config {
-  #   workload_pool = format("%s.svc.id.goog", var.project)
-  # }
 
   dynamic "ip_allocation_policy" {
     for_each = var.networking_mode == "VPC_NATIVE" ? toset(["dummy"]) : []
@@ -75,12 +52,27 @@ resource "google_container_cluster" "main" {
     }
   }
 
-  dynamic "master_auth" {
-    for_each = var.issue_client_certificate ? toset(["dummy"]) : []
+  addons_config {
+    horizontal_pod_autoscaling {
+      disabled = true
+    }
+  }
+
+  dynamic "cluster_autoscaling" {
+    for_each = length(var.cluster_autoscalings) > 0 ? toset(["dummy"]) : []
 
     content {
-      client_certificate_config {
-        issue_client_certificate = var.issue_client_certificate
+      enabled = true
+
+      dynamic "resource_limits" {
+        for_each = var.cluster_autoscalings
+        iterator = _config
+
+        content {
+          resource_type = _config.value.resource_type
+          minimum       = _config.value.minimum
+          maximum       = _config.value.maximum
+        }
       }
     }
   }
@@ -89,9 +81,9 @@ resource "google_container_cluster" "main" {
 resource "google_container_node_pool" "main" {
   for_each = { for v in var.node_pools : v.name => v }
 
-  cluster  = google_container_cluster.main.id
-  location = var.region
   name     = each.value.name
+  location = var.region
+  cluster  = google_container_cluster.main.name
   project  = var.project
 
 
