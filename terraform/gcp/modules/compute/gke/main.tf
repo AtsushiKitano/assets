@@ -121,7 +121,7 @@ resource "google_container_node_pool" "main" {
     preemptible  = true
     machine_type = "e2-medium"
 
-    service_account = module.service_account[local.name].email
+    service_account = each.value.service_account
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]
