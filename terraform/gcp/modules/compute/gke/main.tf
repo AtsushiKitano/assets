@@ -95,28 +95,34 @@ resource "google_container_cluster" "main" {
   dynamic "maintenance_policy" {
     for_each = var.enable_maintenance_policy ? toset(["dummy"]) : []
 
-    daily_maintenance_window {
-      start_time = var.daily_maintenance_window.start_time
-    }
+    content {
+      dynamic "daily_maintenance_window" {
+        for_each = var.daily_maintenance_window != null ? toset(["dummy"]) : []
 
-    dynamic "recurring_window" {
-      for_each = var.recurring_window != null ? toset(["dummy"]) : []
-
-      content {
-        start_time = var.recurring_window.start_time
-        end_time   = var.recurring_window.end_time
-        recurrence = var.recurring_window.recurrence
+        content {
+          start_time = var.daily_maintenance_window.start_time
+        }
       }
-    }
 
-    dynamic "maintenance_exclusion" {
-      for_each = var.maintenance_exclusion
-      iterator = _config
+      dynamic "recurring_window" {
+        for_each = var.recurring_window != null ? toset(["dummy"]) : []
 
-      content {
-        exclusion_name = _config.value.exclusion_name
-        start_time     = _config.value.start_time
-        end_time       = _config.value.end_time
+        content {
+          start_time = var.recurring_window.start_time
+          end_time   = var.recurring_window.end_time
+          recurrence = var.recurring_window.recurrence
+        }
+      }
+
+      dynamic "maintenance_exclusion" {
+        for_each = var.maintenance_exclusion
+        iterator = _config
+
+        content {
+          exclusion_name = _config.value.exclusion_name
+          start_time     = _config.value.start_time
+          end_time       = _config.value.end_time
+        }
       }
     }
   }
