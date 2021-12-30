@@ -137,7 +137,7 @@ resource "google_container_cluster" "main" {
 
 resource "google_container_node_pool" "main" {
   provider = google-beta
-  for_each = !var.enable_autopilot ? { for v in var.node_pools : v.name => v } : {}
+  for_each = var.enable_autopilot == null ? { for v in var.node_pools : v.name => v } : {}
 
   name     = each.value.name
   location = var.region
