@@ -71,7 +71,7 @@ resource "google_container_cluster" "main" {
       enabled = true
 
       dynamic "resource_limits" {
-        for_each = !var.enable_autopilot ? var.cluster_autoscalings : []
+        for_each = var.enable_autopilot == null ? var.cluster_autoscalings : []
         iterator = _config
 
         content {
