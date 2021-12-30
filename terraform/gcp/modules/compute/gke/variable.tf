@@ -84,7 +84,7 @@ variable "oauth_scopes" {
 
 variable "enable_autopilot" {
   type    = bool
-  default = false
+  default = null
 }
 
 variable "enable_binary_authorizajtion" {
