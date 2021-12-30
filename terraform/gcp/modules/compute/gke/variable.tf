@@ -57,11 +57,6 @@ variable "cluster_autoscaling" {
   default = []
 }
 
-variable "logging_service" {
-  type    = string
-  default = null
-}
-
 variable "network" {
   type    = string
   default = null
