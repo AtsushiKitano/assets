@@ -51,8 +51,8 @@ variable "private_cluster_config" {
 variable "cluster_autoscalings" {
   type = list(object({
     resource_type = string
-    minimum       = string
-    maximum       = string
+    minimum       = number
+    maximum       = number
   }))
   default = []
 }
