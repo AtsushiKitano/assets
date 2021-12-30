@@ -67,26 +67,6 @@ variable "network" {
   default = null
 }
 
-variable "enable_components" {
-  type    = string
-  default = null
-}
-
-variable "default_max_pods_per_node" {
-  type    = number
-  default = null
-}
-
-variable "enable_binary_authorization" {
-  type    = bool
-  default = false
-}
-
-variable "enable_tpu" {
-  type    = bool
-  default = false
-}
-
 variable "networking_mode" {
   type    = string
   default = "VPC_NATIVE"
@@ -105,11 +85,6 @@ variable "node_locations" {
 variable "oauth_scopes" {
   type    = map(string)
   default = {}
-}
-
-variable "preemptible_nodes" {
-  type    = list(string)
-  default = []
 }
 
 variable "enable_autopilot" {
@@ -167,4 +142,74 @@ variable "cluster_autoscalings" {
 variable "horizontal_pod_autoscaling" {
   type    = bool
   default = false
+}
+
+variable "enable_shielded_nodes" {
+  type    = bool
+  default = true
+}
+
+variable "enable_kubernetes_alpha" {
+  type    = bool
+  default = false
+}
+
+variable "enable_tpu" {
+  type    = bool
+  default = false
+}
+
+variable "enable_binary_authorization" {
+  type    = bool
+  default = false
+}
+
+variable "default_max_pods_per_node" {
+  type    = number
+  default = null
+}
+
+variable "description" {
+  type    = string
+  default = null
+}
+
+variable "enable_components" {
+  type    = string
+  default = null
+}
+
+variable "logging_service" {
+  type    = string
+  default = "logging.googleapis.com/kubernetes"
+}
+
+variable "enable_maintenance_policy" {
+  type    = bool
+  default = true
+}
+
+variable "daily_maintenance_window" {
+  type = object({
+    start_time = string
+  })
+  default = { start_time = "00:00" }
+}
+
+variable "recurring_window" {
+  type = object({
+    start_time = string
+    end_time   = string
+    recurrence = string
+  })
+  default = null
+}
+
+variable "maintenance_exclusion" {
+  type = list(object({
+    exclusion_name = string
+    start_time     = string
+    end_time       = string
+  }))
+  default = []
 }

@@ -2,15 +2,26 @@ resource "google_container_cluster" "main" {
   provider = google-beta
   project  = var.project
 
-  name     = var.cluster_name
-  location = var.region
+  name        = var.cluster_name
+  location    = var.region
+  description = var.description
 
-  remove_default_node_pool = var.remove_default_node_pool
-  initial_node_count       = var.initial_node_count
+  # node pool configs
+  remove_default_node_pool  = var.remove_default_node_pool
+  initial_node_count        = var.initial_node_count
+  default_max_pods_per_node = var.networking_mode != "ROUTES" ? var.default_max_pods_per_node : null
 
+  # network configs
   network         = var.network
   subnetwork      = var.subnetwork
   networking_mode = var.networking_mode
+
+  # enablet configs
+  enable_autopilot            = var.enable_autopilot
+  enable_shielded_nodes       = var.enable_shielded_nodes
+  enable_tpu                  = var.enable_tpu
+  enable_kubernetes_alpha     = var.enable_kubernetes_alpha
+  enable_binary_authorization = var.enable_binary_authorization
 
   dynamic "private_cluster_config" {
     for_each = var.private_cluster_config != null ? toset(["dummy"]) : []
@@ -68,6 +79,44 @@ resource "google_container_cluster" "main" {
           minimum       = _config.value.minimum
           maximum       = _config.value.maximum
         }
+      }
+    }
+  }
+
+  logging_service = var.logging_service
+  dynamic "logging_config" {
+    for_each = var.enable_components != null ? toset(["dummy"]) : []
+
+    content {
+      enable_components = var.enable_components
+    }
+  }
+
+  dynamic "maintenance_policy" {
+    for_each = var.enable_maintenance_policy ? toset(["dummy"]) : []
+
+    daily_maintenance_window {
+      start_time = var.daily_maintenance_window.start_time
+    }
+
+    dynamic "recurring_window" {
+      for_each = var.recurring_window != null ? toset(["dummy"]) : []
+
+      content {
+        start_time = var.recurring_window.start_time
+        end_time   = var.recurring_window.end_time
+        recurrence = var.recurring_window.recurrence
+      }
+    }
+
+    dynamic "maintenance_exclusion" {
+      for_each = var.maintenance_exclusion
+      iterator = _config
+
+      content {
+        exclusion_name = _config.value.exclusion_name
+        start_time     = _config.value.start_time
+        end_time       = _config.value.end_time
       }
     }
   }
