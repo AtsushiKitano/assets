@@ -127,8 +127,11 @@ resource "google_container_cluster" "main" {
     }
   }
 
-  workload_identity_config {
-    workload_pool = format("%s.svc.id.goog", var.project)
+  dynamic "workload_identity_config" {
+    for_each = !var.enable_autopilot ? toset(["dummy"]) : []
+    content {
+      workload_pool = format("%s.svc.id.goog", var.project)
+    }
   }
 }
 
