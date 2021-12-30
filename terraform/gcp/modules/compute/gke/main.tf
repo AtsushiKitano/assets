@@ -7,7 +7,7 @@ resource "google_container_cluster" "main" {
   description = var.description
 
   # node pool configs
-  remove_default_node_pool  = !var.enable_autopilot ? var.remove_default_node_pool : null
+  remove_default_node_pool  = var.enable_autopilot == null ? var.remove_default_node_pool : null
   initial_node_count        = var.initial_node_count
   default_max_pods_per_node = var.networking_mode != "ROUTES" ? var.default_max_pods_per_node : null
 
@@ -18,10 +18,10 @@ resource "google_container_cluster" "main" {
 
   # enablet configs
   enable_autopilot            = var.enable_autopilot
-  enable_shielded_nodes       = !var.enable_autopilot ? var.enable_shielded_nodes : null
+  enable_shielded_nodes       = var.enable_autopilot == null ? var.enable_shielded_nodes : null
   enable_tpu                  = var.enable_tpu
   enable_kubernetes_alpha     = var.enable_kubernetes_alpha
-  enable_binary_authorization = !var.enable_autopilot ? var.enable_binary_authorization : null
+  enable_binary_authorization = var.enable_autopilot == null ? var.enable_binary_authorization : null
 
   dynamic "private_cluster_config" {
     for_each = var.private_cluster_config != null ? toset(["dummy"]) : []
@@ -128,7 +128,7 @@ resource "google_container_cluster" "main" {
   }
 
   dynamic "workload_identity_config" {
-    for_each = var.enable_autopilot ? [] : toset(["dummy"])
+    for_each = var.enable_autopilot == null ? toset(["dummy"]) : []
     content {
       workload_pool = format("%s.svc.id.goog", var.project)
     }
