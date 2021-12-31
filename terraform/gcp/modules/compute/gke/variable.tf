@@ -109,7 +109,7 @@ variable "initial_node_count" {
 
 variable "node_count" {
   type    = number
-  default = 1
+  default = null
 }
 
 variable "master_authorized_networks_config_cidrs" {
