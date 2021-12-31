@@ -139,10 +139,11 @@ resource "google_container_node_pool" "main" {
   provider = google-beta
   for_each = var.enable_autopilot == null ? { for v in var.node_pools : v.name => v } : {}
 
-  name     = each.value.name
-  location = var.region
-  cluster  = google_container_cluster.main.name
-  project  = var.project
+  name               = each.value.name
+  location           = var.region
+  cluster            = google_container_cluster.main.name
+  project            = var.project
+  initial_node_count = var.initial_node_count
 
   node_count = each.value.autoscaling == null ? var.node_count : null
   dynamic "autoscaling" {
@@ -162,6 +163,12 @@ resource "google_container_node_pool" "main" {
     service_account = each.value.service_account
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
+    ]
+  }
+
+  lifecycle {
+    ignore_changes = [
+      initial_node_count
     ]
   }
 }
