@@ -167,9 +167,9 @@ resource "google_container_node_pool" "main" {
 }
 
 resource "google_service_account_iam_member" "main" {
-  for_each = { for v in var.workload_identity_config : format("%s/%s/%s", v.service_account, v.namespace, v.k8s_service_account) => v }
+  count = length(var.workload_identity_config)
 
-  service_account_id = each.value.service_account
+  service_account_id = var.workload_identity_config[count.index].service_account
   role               = "roles/iam.workloadIdentityUser"
-  member             = format("serviceAccount:%s.svc.id.goog[%s/%s]", var.project, each.value.namespace, each.value.k8s_service_account)
+  member             = format("serviceAccount:%s.svc.id.goog[%s/%s]", var.project, var.workload_identity_config[count.index].namespace, var.workload_identity_config[count.index].k8s_service_account)
 }
