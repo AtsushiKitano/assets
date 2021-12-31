@@ -199,3 +199,12 @@ variable "maintenance_exclusion" {
   }))
   default = []
 }
+
+variable "workload_identity_config" {
+  type = list(object({
+    service_account     = string
+    namespace           = string
+    k8s_service_account = string
+  }))
+  default = []
+}

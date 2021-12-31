@@ -1,3 +1,9 @@
+locals {
+  _service_accounts = distinct([
+    for v in var.workload_identity_config : v.service_account
+  ])
+}
+
 resource "google_container_cluster" "main" {
   provider = google-beta
   project  = var.project
@@ -164,4 +170,19 @@ resource "google_container_node_pool" "main" {
       "https://www.googleapis.com/auth/cloud-platform"
     ]
   }
+}
+
+data "google_service_account" "main" {
+  for_each = toset(local._service_accounts)
+
+  account_id = each.value
+  project    = var.project
+}
+
+resource "google_service_account_iam_member" "main" {
+  for_each = { for v in var.workload_identity_config : format("%s/%s/%s", v.service_account, v.namespace, v.k8s_service_account) => v }
+
+  service_account_id = data.google_service_account.main[each.value.service_account].name
+  role               = "roles/iam.workloadIdentityUser"
+  member             = format("serviceAccount:%s.svc.id.goog[%s/%s]", var.project, each.value.namespace, each.value.k8s_service_account)
 }
