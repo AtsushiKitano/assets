@@ -144,7 +144,7 @@ resource "google_container_node_pool" "main" {
   cluster  = google_container_cluster.main.name
   project  = var.project
 
-  node_count = var.node_count
+  node_count = each.value.autoscaling == null ? var.node_count : null
   dynamic "autoscaling" {
     for_each = each.value.autoscaling != null ? toset(["dummy"]) : []
 
