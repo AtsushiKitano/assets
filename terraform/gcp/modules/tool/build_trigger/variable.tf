@@ -14,6 +14,7 @@ variable "trigger_template" {
     commit_sha   = string
     invert_regex = string
   })
+  default = null
 }
 
 variable "github" {
