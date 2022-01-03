@@ -4,6 +4,7 @@ resource "google_cloudbuild_trigger" "main" {
   name          = var.trigger.name
   filename      = var.trigger.filename
   substitutions = var.trigger.substitutions
+  project       = var.project
 
   dynamic "trigger_template" {
     for_each = var.trigger_template != null && var.github == null ? [var.trigger_template] : []
