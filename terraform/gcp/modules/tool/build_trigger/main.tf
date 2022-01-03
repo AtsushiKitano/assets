@@ -54,10 +54,10 @@ resource "google_cloudbuild_trigger" "main" {
 }
 
 resource "google_cloudbuild_worker_pool" "main" {
-  for_each = var.worker_pool != null ? { for v in var.worker_pool : v.name => v } : {}
+  for_each = var.worker_pool != null ? toset(["dymmy"]) : []
 
-  name     = each.value.name
-  location = each.value.location
+  name     = var.worker_pool.name
+  location = var.worker_pool.location
   project  = var.project
 
   dynamic "network_config" {
