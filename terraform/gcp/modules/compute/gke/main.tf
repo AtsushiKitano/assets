@@ -133,6 +133,12 @@ resource "google_container_cluster" "main" {
       workload_pool = format("%s.svc.id.goog", var.project)
     }
   }
+
+  lifecycle {
+    ignore_changes = [
+      initial_node_count
+    ]
+  }
 }
 
 resource "google_container_node_pool" "main" {
