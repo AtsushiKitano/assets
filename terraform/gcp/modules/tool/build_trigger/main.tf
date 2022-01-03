@@ -53,7 +53,7 @@ resource "google_cloudbuild_trigger" "main" {
   }
 }
 
-resource "google_cloud_build_worker_pool" "main" {
+resource "google_cloudbuild_worker_pool" "main" {
   for_each = var.worker_pool != null ? { for v in var.worker_pool : v.name => v } : {}
 
   name     = each.value.name
