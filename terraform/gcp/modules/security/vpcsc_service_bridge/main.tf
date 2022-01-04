@@ -11,7 +11,7 @@ resource "google_access_context_manager_service_perimeter" "main" {
   perimeter_type = "PERIMETER_TYPE_BRID"
 
   status {
-    resource = [
+    resources = [
       for v in var.projects : format("projects/%d", v)
     ]
   }
