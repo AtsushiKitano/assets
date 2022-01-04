@@ -20,7 +20,7 @@ resource "google_access_context_manager_service_perimeter" "main" {
     for_each = var.status != null ? toset(["dummy"]) : []
 
     content {
-      resources           = [for v in var.status.project : format("projects/%d", data.google_project.main[v].number)]
+      resources           = [for v in var.status.projects : format("projects/%d", data.google_project.main[v].number)]
       restricted_services = var.status.restricted_services
       access_levels       = var.status.access_levels
     }
