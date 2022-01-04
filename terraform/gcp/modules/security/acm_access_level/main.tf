@@ -20,19 +20,17 @@ resource "google_access_context_manager_access_level" "main" {
 
     dynamic "conditions" {
       for_each = local._ip_addresses
-      iterator = _config
 
       content {
-        ip_subnetworks = _config.value
+        ip_subnetworks = local._ip_addresses
       }
     }
 
     dynamic "conditions" {
       for_each = local._members
-      iterator = _config
 
       content {
-        members = _config.value
+        members = local._members
       }
     }
   }
