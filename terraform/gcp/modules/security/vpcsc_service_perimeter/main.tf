@@ -1,14 +1,9 @@
 locals {
   _parent = format("accessPolicies/%d", var.access_policy)
-  _projects = length(var.status) > 0 ? distinct(flatten([
-    for v in var.status : [
-      for w in w.projects : w
-    ]
-  ])) : []
 }
 
 data "google_project" "main" {
-  for_each = toset(local._projects)
+  for_each = toset(var.status.projects)
 
   project_id = each.value
 }
