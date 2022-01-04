@@ -8,7 +8,7 @@ resource "google_access_context_manager_service_perimeter" "main" {
   name   = var.name != null ? format("%s/servicePerimeters/%s", local._parent, var.name) : format("%s/servicePerimeters/%s", local._parent, var.title)
 
   description    = var.description
-  perimeter_type = "PERIMETER_TYPE_BRID"
+  perimeter_type = "PERIMETER_TYPE_BRIDGE"
 
   status {
     resources = [
