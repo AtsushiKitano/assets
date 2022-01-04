@@ -1,5 +1,5 @@
 variable "access_policy" {
-  type = string
+  type = number
 }
 
 variable "title" {
