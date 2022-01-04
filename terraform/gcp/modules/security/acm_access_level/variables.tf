@@ -17,3 +17,8 @@ variable "conditions" {
     conditions = list(string)
   }))
 }
+
+variable "combining_function" {
+  type    = string
+  default = "AND"
+}

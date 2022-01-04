@@ -19,7 +19,7 @@ resource "google_access_context_manager_access_level" "main" {
     combining_function = var.combining_function
 
     dynamic "conditions" {
-      for_each = var.local._ip_addresses
+      for_each = local._ip_addresses
       iterator = _config
 
       content {
@@ -28,7 +28,7 @@ resource "google_access_context_manager_access_level" "main" {
     }
 
     dynamic "conditions" {
-      for_each = var.local._members
+      for_each = local._members
       iterator = _config
 
       content {
