@@ -3,6 +3,7 @@ variable "aws_vpn" {
     bgp_asn        = number
     route_table_id = string
     name           = string
+    vpc_id         = string
   })
 }
 

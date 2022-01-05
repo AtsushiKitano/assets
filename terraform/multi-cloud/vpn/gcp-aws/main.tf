@@ -8,6 +8,10 @@ locals {
 AWS VPN Resource
 */
 
+resource "aws_vpn_gateway" "main" {
+  vpc_id = var.aws_vpn.vpc_id
+}
+
 resource "aws_customer_gateway" "main" {
   bgp_asn    = var.aws_vpn.bgp_asn
   ip_address = google_compute_ha_vpn_gateway.main.vpn_interfaces[0].ip_address
