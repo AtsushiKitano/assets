@@ -16,6 +16,21 @@ variable "subnets" {
   default = []
 }
 
+variable "security_groups" {
+  type = object({
+    name = string
+    tags = map(string)
+    rules = list(object({
+      type        = string
+      cidr_blocks = string
+      from_port   = string
+      to_port     = string
+      protocol    = string
+    }))
+  })
+  default = {}
+}
+
 /*
   Option Values
 */

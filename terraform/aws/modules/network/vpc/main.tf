@@ -27,3 +27,23 @@ resource "aws_internet_gateway" "main" {
     Name = var.name
   }
 }
+
+resource "aws_security_group" "main" {
+  for_each = { for v in var.security_groups : v.name => v }
+
+  name   = each.value.name
+  vpc_id = aws_vpc.main.id
+  tags   = merge({ "Name" = each.value.name }, each.value.tags)
+}
+
+resource "aws_security_group_rule" "main" {
+  count = length(var.security_groups.rules)
+
+  type              = var.security_groups.rules[count.index].type
+  cidr_blocks       = var.security_groups.rules[count.index].cidr_blocks
+  from_port         = var.security_groups.rules[count.index].from_port
+  to_port           = var.security_groups.rules[count.index].to_port
+  protocol          = var.security_groups.rules[count.index].protocol
+  security_group_id = aws_security_group.main.id
+}
+
