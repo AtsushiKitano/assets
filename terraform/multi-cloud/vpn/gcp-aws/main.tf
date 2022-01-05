@@ -137,7 +137,7 @@ resource "google_compute_router_interface" "sub" {
   project    = var.project
   region     = var.region
   router     = google_compute_router.main.name
-  ip_range   = format("%s/30", aws_vpn_connection.main.tunnel1_cgw_inside_address)
+  ip_range   = format("%s/30", aws_vpn_connection.main.tunnel2_cgw_inside_address)
   vpn_tunnel = google_compute_vpn_tunnel.sub.name
 }
 
@@ -146,7 +146,7 @@ resource "google_compute_router_peer" "sub" {
   project         = var.project
   region          = var.region
   router          = google_compute_router.main.name
-  peer_ip_address = aws_vpn_connection.main.tunnel1_vgw_inside_address
-  peer_asn        = aws_vpn_connection.main.tunnel1_bgp_asn
+  peer_ip_address = aws_vpn_connection.main.tunnel2_vgw_inside_address
+  peer_asn        = aws_vpn_connection.main.tunnel2_bgp_asn
   interface       = google_compute_router_interface.sub.name
 }
