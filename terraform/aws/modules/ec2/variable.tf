@@ -24,12 +24,19 @@ variable "ami_owners" {
 }
 
 variable "ami_filters" {
-  type = map(string)
-  default = {
-    "architecture"                     = ["x86_64"]
-    "root-device-type"                 = ["ebs"]
-    "name"                             = ["ubuntu-*"]
-    "virtualization-type"              = ["hvm"]
-    "block-device-mapping.volume-type" = ["gp2"]
-  }
+  type = list(object({
+    name   = string
+    values = list(string)
+  }))
+
+  default = [
+    {
+      name   = "name"
+      values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    },
+    {
+      name   = "virtualization-type"
+      values = ["hvm"]
+    }
+  ]
 }
