@@ -13,6 +13,7 @@ variable "gcp_vpn" {
     network          = string
     main_tunnel_name = string
     sub_tunnel_name  = string
+    asn              = number
   })
 }
 
