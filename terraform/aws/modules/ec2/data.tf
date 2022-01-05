@@ -7,8 +7,8 @@ data "aws_ami" "main" {
     iterator = _conf
 
     content {
-      name   = _conf.key
-      values = _conf.value
+      name   = _conf.value.name
+      values = _conf.value.values
     }
   }
 }
