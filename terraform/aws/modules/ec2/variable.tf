@@ -28,7 +28,7 @@ variable "instance_tags" {
 
 variable "ami_owners" {
   type    = list(string)
-  default = ["amazon"]
+  default = ["099720109477"]
 }
 
 variable "ami_filters" {
