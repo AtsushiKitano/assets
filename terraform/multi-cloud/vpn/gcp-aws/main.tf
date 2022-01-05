@@ -124,7 +124,7 @@ resource "google_compute_vpn_tunnel" "sub" {
   region                          = var.region
   project                         = var.project
   vpn_gateway                     = google_compute_ha_vpn_gateway.main.id
-  shared_secret                   = aws_vpn_connection.main.tunnel1_preshared_key
+  shared_secret                   = aws_vpn_connection.main.tunnel2_preshared_key
   vpn_gateway_interface           = 0
   peer_external_gateway           = google_compute_external_vpn_gateway.main.self_link
   peer_external_gateway_interface = 1
