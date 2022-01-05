@@ -29,7 +29,7 @@ resource "aws_internet_gateway" "main" {
 }
 
 resource "aws_security_group" "main" {
-  for_each = { for v in var.security_groups : v.name => v }
+  for_each = { for v in var.security_group : v.name => v }
 
   name   = each.value.name
   vpc_id = aws_vpc.main.id
