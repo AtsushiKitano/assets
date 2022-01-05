@@ -31,9 +31,9 @@ resource "aws_internet_gateway" "main" {
 resource "aws_security_group" "main" {
   for_each = var.security_group != null ? toset([var.security_group.name]) : []
 
-  name   = each.value.name
+  name   = var.security_group.name
   vpc_id = aws_vpc.main.id
-  tags   = merge({ "Name" = each.value.name }, each.value.tags)
+  tags   = merge({ "Name" = var.security_group.name }, var.security_group.tags)
 }
 
 resource "aws_security_group_rule" "main" {
