@@ -28,7 +28,7 @@ variable "security_groups" {
       protocol    = string
     }))
   })
-  default = {}
+  default = null
 }
 
 /*
