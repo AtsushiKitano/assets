@@ -35,3 +35,7 @@ output "igw" {
 output "default_network_acl_id" {
   value = aws_vpc.main.default_network_acl_id
 }
+
+output "security_group_id" {
+  value = var.security_group != null ? aws_security_group.main["enable"].id : null
+}
