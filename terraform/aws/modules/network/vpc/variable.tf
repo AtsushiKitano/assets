@@ -16,7 +16,7 @@ variable "subnets" {
   default = []
 }
 
-variable "security_groups" {
+variable "security_group" {
   type = object({
     name = string
     tags = map(string)

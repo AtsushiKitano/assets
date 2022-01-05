@@ -44,6 +44,6 @@ resource "aws_security_group_rule" "main" {
   from_port         = var.security_groups.rules[count.index].from_port
   to_port           = var.security_groups.rules[count.index].to_port
   protocol          = var.security_groups.rules[count.index].protocol
-  security_group_id = aws_security_group.main.id
+  security_group_id = aws_security_group.main[var.security_group.name].id
 }
 
