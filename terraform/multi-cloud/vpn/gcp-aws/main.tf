@@ -10,6 +10,10 @@ AWS VPN Resource
 
 resource "aws_vpn_gateway" "main" {
   vpc_id = var.aws_vpn.vpc_id
+
+  tags = {
+    Name = var.aws_vpn.name
+  }
 }
 
 resource "aws_customer_gateway" "main" {
@@ -35,10 +39,6 @@ resource "aws_vpn_connection" "main" {
 resource "aws_vpn_gateway_route_propagation" "main" {
   vpn_gateway_id = aws_vpn_gateway.main.id
   route_table_id = var.aws_vpn.route_table_id
-
-  tags = {
-    Name = var.aws_vpn.name
-  }
 }
 
 /*
