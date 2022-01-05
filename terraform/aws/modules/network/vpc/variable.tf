@@ -22,7 +22,7 @@ variable "security_group" {
     tags = map(string)
     rules = list(object({
       type        = string
-      cidr_blocks = string
+      cidr_blocks = list(string)
       from_port   = string
       to_port     = string
       protocol    = string
