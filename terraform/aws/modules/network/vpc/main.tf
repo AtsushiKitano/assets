@@ -37,7 +37,7 @@ resource "aws_security_group" "main" {
 }
 
 resource "aws_security_group_rule" "main" {
-  count = length(var.security_groups.rules)
+  count = var.security_groups != null ? length(var.security_groups.rules) : 0
 
   type              = var.security_groups.rules[count.index].type
   cidr_blocks       = var.security_groups.rules[count.index].cidr_blocks
