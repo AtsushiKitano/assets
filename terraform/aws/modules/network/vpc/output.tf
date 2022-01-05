@@ -12,19 +12,19 @@ output "vpc_cidr" {
 
 output "subnet_id" {
   value = {
-    for v in var.config.subnets : v.name => aws_subnet.main[v.name].id
+    for v in var.subnets : v.name => aws_subnet.main[v.name].id
   }
 }
 
 output "subnet_arn" {
   value = {
-    for v in var.config.subnets : v.name => aws_subnet.main[v.name].arn
+    for v in var.subnets : v.name => aws_subnet.main[v.name].arn
   }
 }
 
 output "subnet_cidr" {
   value = {
-    for v in var.config.subnets : v.name => aws_subnet.main[v.name].cidr_block
+    for v in var.subnets : v.name => aws_subnet.main[v.name].cidr_block
   }
 }
 
