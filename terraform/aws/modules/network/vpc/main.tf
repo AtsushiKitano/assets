@@ -39,11 +39,10 @@ resource "aws_security_group" "main" {
 resource "aws_security_group_rule" "main" {
   count = var.security_groups != null ? length(var.security_groups.rules) : 0
 
-  type              = var.security_groups.rules[count.index].type
-  cidr_blocks       = var.security_groups.rules[count.index].cidr_blocks
-  from_port         = var.security_groups.rules[count.index].from_port
-  to_port           = var.security_groups.rules[count.index].to_port
-  protocol          = var.security_groups.rules[count.index].protocol
+  type              = var.security_group.rules[count.index].type
+  cidr_blocks       = var.security_group.rules[count.index].cidr_blocks
+  from_port         = var.security_group.rules[count.index].from_port
+  to_port           = var.security_group.rules[count.index].to_port
+  protocol          = var.security_group.rules[count.index].protocol
   security_group_id = aws_security_group.main[var.security_group.name].id
 }
-
