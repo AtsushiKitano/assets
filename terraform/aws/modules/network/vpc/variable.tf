@@ -6,7 +6,7 @@ variable "vpc_cidr" {
   type = string
 }
 
-variable "subnetworks" {
+variable "subnets" {
   type = list(object({
     name = string
     cidr = string

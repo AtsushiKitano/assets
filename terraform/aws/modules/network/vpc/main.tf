@@ -7,7 +7,7 @@ resource "aws_vpc" "main" {
 }
 
 resource "aws_subnet" "main" {
-  for_each = { for v in var.subnetworks : v.name => v }
+  for_each = { for v in var.subnets : v.name => v }
 
   vpc_id            = aws_vpc.main.id
   cidr_block        = each.value.cidr
