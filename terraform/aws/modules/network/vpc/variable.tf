@@ -1,16 +1,19 @@
-variable "config" {
-  type = object({
-    vpc = object({
-      name = string
-      cidr = string
-    })
+variable "name" {
+  type = string
+}
 
-    subnets = list(object({
-      name = string
-      cidr = string
-      az   = string
-    }))
-  })
+variable "vpc_cidr" {
+  type = string
+}
+
+variable "subnetworks" {
+  type = list(object({
+    name = string
+    cidr = string
+    az   = string
+  }))
+
+  default = []
 }
 
 /*
@@ -20,29 +23,4 @@ variable "config" {
 variable "public" {
   type    = bool
   default = true
-}
-
-variable "igw_enabled" {
-  type    = bool
-  default = true
-}
-
-variable "vpc_tags" {
-  type    = map(string)
-  default = null
-}
-
-variable "subnet_tags" {
-  type    = map(map(string))
-  default = {}
-}
-
-variable "ig_tags" {
-  type    = map(string)
-  default = null
-}
-
-variable "igw_tags" {
-  type    = map(string)
-  default = null
 }
