@@ -1,13 +1,21 @@
-variable "config" {
-  type = object({
-    name = string
-    az   = string
-    instance = object({
-      instance_type   = string
-      subnet_id       = string
-      security_groups = list(string)
-    })
-  })
+variable "instance_type" {
+  type = string
+}
+
+variable "az" {
+  type = string
+}
+
+variable "security_groups" {
+  type = list(string)
+}
+
+variable "subnet_id" {
+  type = string
+}
+
+variable "name" {
+  type = string
 }
 
 /*
