@@ -15,6 +15,7 @@ variable "gcp_vpn" {
     main_tunnel_name = string
     sub_tunnel_name  = string
     asn              = number
+    dest_range       = string
   })
 }
 
@@ -34,4 +35,9 @@ variable "ipsec_type" {
 variable "project" {
   type    = string
   default = null
+}
+
+variable "gcp_route_priority" {
+  type    = number
+  default = 100
 }
