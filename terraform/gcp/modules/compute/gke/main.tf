@@ -134,6 +134,16 @@ resource "google_container_cluster" "main" {
     }
   }
 
+  dynamic "dns_config" {
+    for_each = var.dns_config != null ? toset(["dummy"]) : []
+
+    content {
+      cluster_dns        = var.dns_config.cluster_dns
+      cluster_dns_scope  = var.dns_config.cluster_dns_scope
+      cluster_dns_domain = var.dns_config.cluster_dns_domain
+    }
+  }
+
   lifecycle {
     ignore_changes = [
       initial_node_count

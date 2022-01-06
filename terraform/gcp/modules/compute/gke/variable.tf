@@ -208,3 +208,12 @@ variable "workload_identity_config" {
   }))
   default = []
 }
+
+variable "dns_config" {
+  type = object({
+    cluster_dns        = string
+    cluster_dns_scope  = string
+    cluster_dns_domain = string
+  })
+  default = null
+}
