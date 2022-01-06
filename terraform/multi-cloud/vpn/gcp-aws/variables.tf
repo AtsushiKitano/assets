@@ -15,7 +15,6 @@ variable "gcp_vpn" {
     main_tunnel_name = string
     sub_tunnel_name  = string
     asn              = number
-    dest_range       = string
   })
 }
 

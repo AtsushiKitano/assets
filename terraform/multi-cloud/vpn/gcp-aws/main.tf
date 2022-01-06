@@ -62,24 +62,6 @@ resource "google_compute_router" "main" {
   }
 }
 
-resource "google_compute_route" "main" {
-  name                = format("%s-main", var.gcp_vpn.name)
-  dest_range          = var.gcp_vpn.dest_range
-  network             = var.gcp_vpn.network
-  priority            = var.gcp_route_priority
-  next_hop_vpn_tunnel = google_compute_vpn_tunnel.main.tunnel_id
-  project             = var.project
-}
-
-resource "google_compute_route" "sub" {
-  name                = format("%s-sub", var.gcp_vpn.name)
-  dest_range          = var.gcp_vpn.dest_range
-  network             = var.gcp_vpn.network
-  priority            = var.gcp_route_priority + 10
-  next_hop_vpn_tunnel = google_compute_vpn_tunnel.sub.tunnel_id
-  project             = var.project
-}
-
 resource "google_compute_external_vpn_gateway" "main" {
   name            = var.gcp_vpn.ex_vpn_gw_name
   project         = var.project
