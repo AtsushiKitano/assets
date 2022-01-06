@@ -68,6 +68,7 @@ resource "google_compute_route" "main" {
   network             = var.gcp_vpn.network
   priority            = var.gcp_route_priority
   next_hop_vpn_tunnel = google_compute_vpn_tunnel.main.tunnel_id
+  project             = var.project
 }
 
 resource "google_compute_route" "sub" {
@@ -76,6 +77,7 @@ resource "google_compute_route" "sub" {
   network             = var.gcp_vpn.network
   priority            = var.gcp_route_priority + 10
   next_hop_vpn_tunnel = google_compute_vpn_tunnel.sub.tunnel_id
+  project             = var.project
 }
 
 resource "google_compute_external_vpn_gateway" "main" {
