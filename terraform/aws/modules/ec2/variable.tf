@@ -48,3 +48,11 @@ variable "ami_filters" {
     }
   ]
 }
+
+variable "key" {
+  type = object({
+    name       = string
+    public_key = string
+  })
+  default = null
+}
