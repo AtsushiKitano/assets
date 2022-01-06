@@ -217,3 +217,13 @@ variable "dns_config" {
   })
   default = null
 }
+
+variable "cluster_ipv4_cidr_block" {
+  type    = string
+  default = null
+}
+
+variable "services_ipv4_cidr_block" {
+  type    = string
+  default = null
+}

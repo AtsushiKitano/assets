@@ -38,7 +38,9 @@ resource "google_container_cluster" "main" {
 
     content {
       cluster_secondary_range_name  = var.cluster_secondary_range_name
+      cluster_ipv4_cidr_block       = var.cluster_ipv4_cidr_block
       services_secondary_range_name = var.services_secondary_range_name
+      services_ipv4_cidr_block      = var.services_ipv4_cidr_block
     }
   }
 
