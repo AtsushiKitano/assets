@@ -7,13 +7,15 @@ resource "google_dns_policy" "main" {
   dynamic "alternative_name_server_config" {
     for_each = length(var.target_name_servers) > 0 ? toset(["dummy"]) : []
 
-    dynamic "target_name_servers" {
-      for_each = var.target_name_servers
-      iterator = _config
+    content {
+      dynamic "target_name_servers" {
+        for_each = var.target_name_servers
+        iterator = _config
 
-      content {
-        ipv4_address    = _config.value.ipv4_address
-        forwarding_path = _config.value.forwarding_path
+        content {
+          ipv4_address    = _config.value.ipv4_address
+          forwarding_path = _config.value.forwarding_path
+        }
       }
     }
   }
