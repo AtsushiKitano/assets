@@ -1,6 +1,7 @@
 resource "google_dns_policy" "main" {
   name                      = var.name
   enable_inbound_forwarding = var.enable_inbound_forwarding
+  project                   = var.project
 
   enable_logging = var.enable_logging
 

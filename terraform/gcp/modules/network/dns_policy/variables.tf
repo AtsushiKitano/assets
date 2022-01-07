@@ -6,6 +6,10 @@ variable "networks" {
   type = list(string)
 }
 
+variable "project" {
+  type = string
+}
+
 /*
 Option Config
 */
