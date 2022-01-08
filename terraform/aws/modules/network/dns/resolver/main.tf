@@ -1,3 +1,14 @@
+locals {
+  _associations = flatten([
+    for v in var.associations : [
+      for w in v.networks : {
+        rule_name = v.rule_name
+        network   = w
+      }
+    ]
+  ])
+}
+
 resource "aws_route53_resolver_endpoint" "main" {
   name      = var.name
   direction = var.direction
@@ -39,9 +50,9 @@ resource "aws_route53_resolver_rule" "main" {
 }
 
 resource "aws_route53_resolver_rule_association" "main" {
-  content = length(var.resolver_rules.networks)
+  for_each = { for v in local._associations : format("%s-%s", v.rule_name, v.network) => v }
 
-  name             = format("%s-%s", var.resolver_rules.name, var.resolver_rules.networks[count.index])
-  resolver_rule_id = aws_route53_resolver_rule.main[var.resolver_rules.name].id
-  vpc_id           = var.resolver_rules.networks[count.index]
+  name             = each.key
+  resolver_rule_id = aws_route53_resolver_rule.main[each.value.rule_name].id
+  vpc_id           = each.value.network
 }
