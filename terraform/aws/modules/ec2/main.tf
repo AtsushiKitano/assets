@@ -20,7 +20,7 @@ resource "aws_instance" "main" {
   tags = merge({ "Name" = var.name }, var.instance_tags)
 }
 
-resource "aws_network_instance" "main" {
+resource "aws_network_interface" "main" {
   for_each = { for v in var.interfaces : v.name => v }
 
   subnet_id   = each.value.subnet_id
