@@ -56,3 +56,19 @@ variable "key" {
   })
   default = null
 }
+
+variable "interfaces" {
+  type = list(object({
+    name         = string
+    subnet_id    = string
+    private_ips  = list(string)
+    tags         = map(string)
+    device_index = number
+  }))
+  default = []
+}
+
+variable "private_ip" {
+  type    = string
+  default = null
+}
