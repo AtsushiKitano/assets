@@ -30,7 +30,7 @@ variable "resolver_rules" {
   type = list(object({
     name        = string
     domain_name = string
-    rule_type   = string
+    type        = string
     targets = list(object({
       ip   = string
       port = number
