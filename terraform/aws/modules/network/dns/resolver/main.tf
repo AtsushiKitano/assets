@@ -36,3 +36,11 @@ resource "aws_route53_resolver_rule" "main" {
 
   tags = each.value.tags
 }
+
+resource "aws_route53_resolver_rule_association" "main" {
+  content = length(var.resolver_rules.networks)
+
+  name             = format("%s-%s", var.resolver_rules.name, var.resolver_rules.networks[count.index])
+  resolver_rule_id = aws_route53_resolver_rule.main[var.resolver_rules.name].id
+  vpc_id           = var.resolver_rules.networks[count.index]
+}

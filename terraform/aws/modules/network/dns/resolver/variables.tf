@@ -27,14 +27,15 @@ variable "tags" {
 }
 
 variable "resolver_rules" {
-  type = list(object({
+  type = object({
     name      = string
     rule_type = string
     targets = list(object({
       ip   = string
       port = number
     }))
-    tags = map(string)
-  }))
-  default = []
+    tags     = map(string)
+    networks = list(string)
+  })
+  default = null
 }
