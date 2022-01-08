@@ -50,9 +50,9 @@ resource "aws_route53_resolver_rule" "main" {
 }
 
 resource "aws_route53_resolver_rule_association" "main" {
-  for_each = { for v in local._associations : format("%s-%s", v.rule_name, v.network) => v }
+  count = length(local._associations)
 
-  name             = each.key
-  resolver_rule_id = aws_route53_resolver_rule.main[each.value.rule_name].id
-  vpc_id           = each.value.network
+  name             = format("%s-%s", local._associations[count.index].rule_name, local._associations[count.index].network)
+  resolver_rule_id = aws_route53_resolver_rule.main[local._associations[count.index].rule_name].id
+  vpc_id           = local._associations[count.index].network
 }
