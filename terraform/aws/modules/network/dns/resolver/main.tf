@@ -21,6 +21,7 @@ resource "aws_route53_resolver_rule" "main" {
   for_each = { for v in var.resolver_rules : v.name => v }
 
   name                 = each.value.name
+  domain_name          = each.value.domain_name
   rule_type            = each.value.type
   resolver_endpoint_id = aws_route53_resolver_endpoint.main.id
 
