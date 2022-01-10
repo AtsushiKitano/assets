@@ -72,3 +72,8 @@ variable "private_ip" {
   type    = string
   default = null
 }
+
+variable "public" {
+  type    = bool
+  default = false
+}

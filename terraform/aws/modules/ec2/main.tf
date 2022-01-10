@@ -1,11 +1,12 @@
 resource "aws_instance" "main" {
-  ami               = data.aws_ami.main.id
-  availability_zone = var.az
-  instance_type     = var.instance_type
-  security_groups   = var.security_groups
-  subnet_id         = var.subnet_id
-  key_name          = var.key != null ? aws_key_pair.main["enable"].key_name : null
-  private_ip        = var.private_ip
+  ami                         = data.aws_ami.main.id
+  availability_zone           = var.az
+  instance_type               = var.instance_type
+  security_groups             = var.security_groups
+  subnet_id                   = var.subnet_id
+  key_name                    = var.key != null ? aws_key_pair.main["enable"].key_name : null
+  private_ip                  = var.private_ip
+  associate_public_ip_address = var.public
 
   dynamic "network_interface" {
     for_each = var.interfaces
