@@ -130,7 +130,7 @@ resource "google_container_cluster" "main" {
   }
 
   dynamic "workload_identity_config" {
-    for_each = var.enable_autopilot == null ? toset(["dummy"]) : []
+    for_each = var.enable_autopilot == null || length(var.workload_identity_config) > 0 ? toset(["dummy"]) : []
     content {
       workload_pool = format("%s.svc.id.goog", var.project)
     }
