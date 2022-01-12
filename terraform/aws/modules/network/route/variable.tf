@@ -1,25 +1,27 @@
-variable "config" {
-  type = object({
-    name   = string
-    vpc_id = string
+variable "name" {
+  type = string
+}
 
-    routes = list(object({
-      dest_cidr   = string
-      gwid        = string
-      instance_id = string
-      nat_gw      = string
-    }))
-  })
+variable "vpc_id" {
+  type = string
+}
+
+variable "routes" {
+  type = list(object({
+    dest_cidr   = string
+    gwid        = string
+    instance_id = string
+    nat_gw      = string
+  }))
+}
+
+variable "subnet_id" {
+  type = list(string)
 }
 
 /*
 Config Options
 */
-
-variable "assign_subnet" {
-  type    = map(string)
-  default = {}
-}
 
 variable "route_table_tags" {
   type    = map(string)
