@@ -11,6 +11,7 @@ variable "subnets" {
     name = string
     cidr = string
     az   = string
+    tags = map(string)
   }))
 
   default = []
