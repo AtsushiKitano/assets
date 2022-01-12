@@ -59,8 +59,8 @@ resource "aws_route" "main" {
 }
 
 resource "aws_route_table_association" "main" {
-  for_each = var.route_config.subnetworks
+  for_each = var.route_config != null && length(var.route_config.subnets) > 0 ? toset(var.route_config.subnets) : []
 
-  subnet_id      = aws_subnet.main[each.key].id
+  subnet_id      = aws_subnet.main[each.value].id
   route_table_id = aws_route_table.main["enable"].id
 }
