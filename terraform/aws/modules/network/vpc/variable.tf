@@ -39,17 +39,3 @@ variable "public" {
   type    = bool
   default = true
 }
-
-variable "route_config" {
-  type = object({
-    name = string
-    routes = list(object({
-      dest_cidr   = string
-      gwid        = string
-      instance_id = string
-      nat_gw      = string
-    }))
-    subnets = list(string)
-  })
-  default = null
-}
