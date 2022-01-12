@@ -39,3 +39,8 @@ variable "public" {
   type    = bool
   default = true
 }
+
+variable "vpc_tags" {
+  type    = map(string)
+  default = null
+}
