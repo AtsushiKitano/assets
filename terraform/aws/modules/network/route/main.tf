@@ -1,6 +1,6 @@
 resource "aws_route_table" "main" {
   vpc_id = var.vpc_id
-  tags   = merge({ "Name" = var..name }, var.route_table_tags)
+  tags   = merge({ "Name" = var.name }, var.route_table_tags)
 }
 
 resource "aws_route" "main" {
