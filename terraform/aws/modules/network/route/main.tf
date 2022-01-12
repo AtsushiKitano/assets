@@ -4,7 +4,7 @@ resource "aws_route_table" "main" {
 }
 
 resource "aws_route" "main" {
-  count = length(var.config.routes)
+  count = length(var.routes)
 
   route_table_id         = aws_route_table.main.id
   destination_cidr_block = var.routes[count.index].dest_cidr
