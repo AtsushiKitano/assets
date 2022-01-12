@@ -40,3 +40,13 @@ variable "gcp_route_priority" {
   type    = number
   default = 100
 }
+
+variable "redundancy_type" {
+  type    = string
+  default = "TWO_IPS_REDUNDANCY"
+}
+
+variable "redundancy" {
+  type    = number
+  default = 1
+}

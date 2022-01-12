@@ -22,7 +22,7 @@ resource "aws_customer_gateway" "main" {
   type       = var.ipsec_type
 
   tags = {
-    Name = var.aws_vpn.name
+    Name = format("%s-main", var.aws_vpn.name)
   }
 }
 
@@ -32,9 +32,34 @@ resource "aws_vpn_connection" "main" {
   vpn_gateway_id      = aws_vpn_gateway.main.id
 
   tags = {
-    Name = var.aws_vpn.name
+    Name = format("%s-main", var.aws_vpn.name)
   }
 }
+
+resource "aws_customer_gateway" "sub" {
+  for_each = var.redundancy = 2 ? toset(["enable"]) : []
+
+  bgp_asn    = var.aws_vpn.bgp_asn + 100
+  ip_address = google_compute_ha_vpn_gateway.main.vpn_interfaces[1].ip_address
+  type       = var.ipsec_type
+
+  tags = {
+    Name = format("%s-sub", var.aws_vpn.name)
+  }
+}
+
+resource "aws_vpn_connection" "sub" {
+  for_each = var.redundancy = 2 ? toset(["enable"]) : []
+
+  customer_gateway_id = aws_customer_gateway.sub.id
+  type                = aws_customer_gateway.sub.type
+  vpn_gateway_id      = aws_vpn_gateway.main.id
+
+  tags = {
+    Name = format("%s-sub", var.aws_vpn.name)
+  }
+}
+
 
 resource "aws_vpn_gateway_route_propagation" "main" {
   vpn_gateway_id = aws_vpn_gateway.main.id
@@ -65,7 +90,7 @@ resource "google_compute_router" "main" {
 resource "google_compute_external_vpn_gateway" "main" {
   name            = var.gcp_vpn.ex_vpn_gw_name
   project         = var.project
-  redundancy_type = "TWO_IPS_REDUNDANCY"
+  redundancy_type = var.redundancy_type
 
   interface {
     id         = 0
@@ -76,14 +101,32 @@ resource "google_compute_external_vpn_gateway" "main" {
     id         = 1
     ip_address = aws_vpn_connection.main.tunnel2_address
   }
+
+  dynamic "interface" {
+    for_each = var.redundancy == 2 ? toset(["dummy"]) : []
+
+    content {
+      id         = 2
+      ip_address = aws_vpn_connection.sub.tunnel1_address
+    }
+  }
+
+  dynamic "interface" {
+    for_each = var.redundancy == 2 ? toset(["dummy"]) : []
+
+    content {
+      id         = 3
+      ip_address = aws_vpn_connection.sub.tunnel2_address
+    }
+  }
 }
 
 /*
-GCP main tunnel
+GCP main1 tunnel
 */
 
-resource "google_compute_vpn_tunnel" "main" {
-  name                            = var.gcp_vpn.main_tunnel_name
+resource "google_compute_vpn_tunnel" "main1" {
+  name                            = format("%s-1",var.gcp_vpn.main_tunnel_name)
   region                          = var.region
   project                         = var.project
   vpn_gateway                     = google_compute_ha_vpn_gateway.main.id
@@ -95,8 +138,8 @@ resource "google_compute_vpn_tunnel" "main" {
   ike_version                     = local.ipsec_type[var.ipsec_type]
 }
 
-resource "google_compute_router_interface" "main" {
-  name       = var.gcp_vpn.main_tunnel_name
+resource "google_compute_router_interface" "main1" {
+  name       = format("%s-1",var.gcp_vpn.main_tunnel_name)
   project    = var.project
   region     = var.region
   router     = google_compute_router.main.name
@@ -104,7 +147,7 @@ resource "google_compute_router_interface" "main" {
   vpn_tunnel = google_compute_vpn_tunnel.main.name
 }
 
-resource "google_compute_router_peer" "main" {
+resource "google_compute_router_peer" "main1" {
   name            = google_compute_vpn_tunnel.main.name
   project         = var.project
   region          = var.region
@@ -114,13 +157,12 @@ resource "google_compute_router_peer" "main" {
   interface       = google_compute_router_interface.main.name
 }
 
-
 /*
-GCP sub tunnel
+GCP sub1 tunnel
 */
 
-resource "google_compute_vpn_tunnel" "sub" {
-  name                            = var.gcp_vpn.sub_tunnel_name
+resource "google_compute_vpn_tunnel" "sub1" {
+  name                            = format("%s-1",var.gcp_vpn.sub_tunnel_name)
   region                          = var.region
   project                         = var.project
   vpn_gateway                     = google_compute_ha_vpn_gateway.main.id
@@ -132,21 +174,107 @@ resource "google_compute_vpn_tunnel" "sub" {
   ike_version                     = local.ipsec_type[var.ipsec_type]
 }
 
-resource "google_compute_router_interface" "sub" {
-  name       = var.gcp_vpn.sub_tunnel_name
+resource "google_compute_router_interface" "sub1" {
+  name       = format("%s-1",var.gcp_vpn.sub_tunnel_name)
   project    = var.project
   region     = var.region
   router     = google_compute_router.main.name
   ip_range   = format("%s/30", aws_vpn_connection.main.tunnel2_cgw_inside_address)
-  vpn_tunnel = google_compute_vpn_tunnel.sub.name
+  vpn_tunnel = google_compute_vpn_tunnel.sub1.name
 }
 
-resource "google_compute_router_peer" "sub" {
-  name            = google_compute_vpn_tunnel.sub.name
+resource "google_compute_router_peer" "sub1" {
+  name            = google_compute_vpn_tunnel.sub1.name
   project         = var.project
   region          = var.region
   router          = google_compute_router.main.name
   peer_ip_address = aws_vpn_connection.main.tunnel2_vgw_inside_address
   peer_asn        = aws_vpn_connection.main.tunnel2_bgp_asn
-  interface       = google_compute_router_interface.sub.name
+  interface       = google_compute_router_interface.sub1.name
+}
+
+
+/*
+GCP main2 tunnel
+*/
+
+resource "google_compute_vpn_tunnel" "main2" {
+  for_each = var.redundancy = 2 ? toset(["enable"]) : []
+
+  name                            = format("%s-2",var.gcp_vpn.main_tunnel_name)
+  region                          = var.region
+  project                         = var.project
+  vpn_gateway                     = google_compute_ha_vpn_gateway.main.id
+  shared_secret                   = aws_vpn_connection.main.tunnel1_preshared_key
+  vpn_gateway_interface           = 0
+  peer_external_gateway           = google_compute_external_vpn_gateway.main.self_link
+  peer_external_gateway_interface = 0
+  router                          = google_compute_router.main.name
+  ike_version                     = local.ipsec_type[var.ipsec_type]
+}
+
+resource "google_compute_router_interface" "main2" {
+  for_each = var.redundancy = 2 ? toset(["enable"]) : []
+
+  name       = format("%s-2",var.gcp_vpn.main_tunnel_name)
+  project    = var.project
+  region     = var.region
+  router     = google_compute_router.main.name
+  ip_range   = format("%s/30", aws_vpn_connection.sub["enable"].tunnel1_cgw_inside_address)
+  vpn_tunnel = google_compute_vpn_tunnel.main2["enable"].name
+}
+
+resource "google_compute_router_peer" "main2" {
+  for_each = var.redundancy = 2 ? toset(["enable"]) : []
+
+  name            = google_compute_vpn_tunnel.main2["enable"].name
+  project         = var.project
+  region          = var.region
+  router          = google_compute_router.main.name
+  peer_ip_address = aws_vpn_connection.sub["enable"].tunnel1_vgw_inside_address
+  peer_asn        = aws_vpn_connection.sub["enable"].tunnel1_bgp_asn
+  interface       = google_compute_router_interface.main2["enable"].name
+}
+
+
+/*
+GCP sub2 tunnel
+*/
+
+resource "google_compute_vpn_tunnel" "sub2" {
+  for_each = var.redundancy = 2 ? toset(["enable"]) : []
+
+  name                            = format("%s-2",var.gcp_vpn.sub_tunnel_name)
+  region                          = var.region
+  project                         = var.project
+  vpn_gateway                     = google_compute_ha_vpn_gateway.main.id
+  shared_secret                   = aws_vpn_connection.sub["enable"].tunnel2_preshared_key
+  vpn_gateway_interface           = 0
+  peer_external_gateway           = google_compute_external_vpn_gateway.main.self_link
+  peer_external_gateway_interface = 1
+  router                          = google_compute_router.main.name
+  ike_version                     = local.ipsec_type[var.ipsec_type]
+}
+
+resource "google_compute_router_interface" "sub2" {
+  for_each = var.redundancy = 2 ? toset(["enable"]) : []
+
+  name       = format("%s-2",var.gcp_vpn.sub_tunnel_name)
+  project    = var.project
+  region     = var.region
+  router     = google_compute_router.main.name
+  ip_range   = format("%s/30", aws_vpn_connection.sub["enable"].tunnel2_cgw_inside_address)
+  vpn_tunnel = google_compute_vpn_tunnel.sub2["enable"].name
+}
+
+resource "google_compute_router_peer" "sub2" {
+  for_each = var.redundancy = 2 ? toset(["enable"]) : []
+
+  name            = google_compute_vpn_tunnel.sub2["enable"].name
+  project         = var.project
+  region          = var.region
+  router          = google_compute_router.main.name
+  peer_ip_address = aws_vpn_connection.sub["enable"].tunnel2_vgw_inside_address
+  peer_asn        = aws_vpn_connection.sub["enable"].tunnel2_bgp_asn
+  interface       = google_compute_router_interface.sub2["enable"].name
 }
