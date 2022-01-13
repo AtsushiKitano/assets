@@ -51,8 +51,8 @@ resource "aws_customer_gateway" "sub" {
 resource "aws_vpn_connection" "sub" {
   for_each = var.redundancy == 2 ? toset(["enable"]) : []
 
-  customer_gateway_id = aws_customer_gateway.sub.id
-  type                = aws_customer_gateway.sub.type
+  customer_gateway_id = aws_customer_gateway.sub["enable"].id
+  type                = aws_customer_gateway.sub["enable"].type
   vpn_gateway_id      = aws_vpn_gateway.main.id
 
   tags = {
@@ -144,17 +144,17 @@ resource "google_compute_router_interface" "main1" {
   region     = var.region
   router     = google_compute_router.main.name
   ip_range   = format("%s/30", aws_vpn_connection.main.tunnel1_cgw_inside_address)
-  vpn_tunnel = google_compute_vpn_tunnel.main.name
+  vpn_tunnel = google_compute_vpn_tunnel.main1.name
 }
 
 resource "google_compute_router_peer" "main1" {
-  name            = google_compute_vpn_tunnel.main.name
+  name            = google_compute_vpn_tunnel.main1.name
   project         = var.project
   region          = var.region
   router          = google_compute_router.main.name
   peer_ip_address = aws_vpn_connection.main.tunnel1_vgw_inside_address
   peer_asn        = aws_vpn_connection.main.tunnel1_bgp_asn
-  interface       = google_compute_router_interface.main.name
+  interface       = google_compute_router_interface.main1.name
 }
 
 /*
