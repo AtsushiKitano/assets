@@ -2,6 +2,11 @@ locals {
   ipsec_type = {
     "ipsec.1" = 1
   }
+
+  redundancy_type = {
+    1 = "TWO_IPS_REDUNDANCY"
+    2 = "FOUR_IPS_REDUNDANCY"
+  }
 }
 
 /*
@@ -90,7 +95,7 @@ resource "google_compute_router" "main" {
 resource "google_compute_external_vpn_gateway" "main" {
   name            = var.gcp_vpn.ex_vpn_gw_name
   project         = var.project
-  redundancy_type = var.redundancy_type
+  redundancy_type = local.redundancy_type[var.redundancy]
 
   interface {
     id         = 0
