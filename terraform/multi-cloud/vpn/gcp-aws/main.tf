@@ -211,9 +211,9 @@ resource "google_compute_vpn_tunnel" "main2" {
   project                         = var.project
   vpn_gateway                     = google_compute_ha_vpn_gateway.main.id
   shared_secret                   = aws_vpn_connection.main.tunnel1_preshared_key
-  vpn_gateway_interface           = 0
+  vpn_gateway_interface           = 1
   peer_external_gateway           = google_compute_external_vpn_gateway.main.self_link
-  peer_external_gateway_interface = 0
+  peer_external_gateway_interface = 2
   router                          = google_compute_router.main.name
   ike_version                     = local.ipsec_type[var.ipsec_type]
 }
@@ -254,9 +254,9 @@ resource "google_compute_vpn_tunnel" "sub2" {
   project                         = var.project
   vpn_gateway                     = google_compute_ha_vpn_gateway.main.id
   shared_secret                   = aws_vpn_connection.sub["enable"].tunnel2_preshared_key
-  vpn_gateway_interface           = 0
+  vpn_gateway_interface           = 1
   peer_external_gateway           = google_compute_external_vpn_gateway.main.self_link
-  peer_external_gateway_interface = 1
+  peer_external_gateway_interface = 3
   router                          = google_compute_router.main.name
   ike_version                     = local.ipsec_type[var.ipsec_type]
 }
