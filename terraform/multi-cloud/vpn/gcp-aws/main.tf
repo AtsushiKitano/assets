@@ -112,7 +112,7 @@ resource "google_compute_external_vpn_gateway" "main" {
 
     content {
       id         = 2
-      ip_address = aws_vpn_connection.sub.tunnel1_address
+      ip_address = aws_vpn_connection.sub["enable"].tunnel1_address
     }
   }
 
@@ -121,7 +121,7 @@ resource "google_compute_external_vpn_gateway" "main" {
 
     content {
       id         = 3
-      ip_address = aws_vpn_connection.sub.tunnel2_address
+      ip_address = aws_vpn_connection.sub["enable"].tunnel2_address
     }
   }
 }
