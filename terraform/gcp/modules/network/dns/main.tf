@@ -1,86 +1,84 @@
 resource "google_dns_managed_zone" "main" {
-  dns_name      = var.zone.dns_name
-  name          = var.zone.name
-  description   = var.zone_discreption
-  visibility    = var.zone.visibility
-  project       = var.project
-  force_destroy = var.force_destroy
+  dns_name    = var.dns_name
+  name        = var.name
+  description = var.direction
+  visibility  = var.visibility
+  project     = var.project
 
   dynamic "private_visibility_config" {
-    for_each = var.zone.visibility == "private" && var.private_visibility != null ? ["enable"] : []
+    for_each = var.visibility == "private" ? toset(["dummy"]) : []
 
     content {
       dynamic "networks" {
-        for_each = var.private_visibility.networks
-        iterator = _conf
+        for_each = toset([var.private_networks])
+        iterator = _config
 
         content {
-          network_url = _conf.value
+          network_url = _config.value
         }
       }
     }
   }
 
   dynamic "dnssec_config" {
-    for_each = var.dnssec != null ? [var.dnssec] : []
-    iterator = _conf
+    for_each = var.dnssec_config != null ? toset(["dummy"]) : []
 
     content {
-      kind          = _conf.value.kind
-      non_existence = _conf.value.non_existence
-      state         = _conf.value.state
+      kind          = var.dnssec_config.kind
+      non_existence = var.dnssec_config.non_existence
+      state         = var.dnssec_config.state
 
       dynamic "default_key_specs" {
-        for_each = _conf.value.key_specs != null ? [_conf.value.key_specs] : []
-        iterator = _var
+        for_each = var.default_key_specs != null ? toset(["dummy"]) : []
 
         content {
-          algorithm  = _var.value.algorithm
-          key_length = _var.value.key_length
-          key_type   = _var.value.key_type
-          kind       = _var.value.kind
+          algorithm  = var.default_key_specs.algorithm
+          key_length = var.default_key_specs.key_length
+          key_type   = var.default_key_specs.key_type
+          kind       = var.default_key_specs.kind
         }
       }
     }
   }
 
   dynamic "forwarding_config" {
-    for_each = var.forwarding != null ? ["enable"] : []
+    for_each = var.target_name_servers != null ? toset(["dummy"]) : []
 
     content {
       dynamic "target_name_servers" {
-        for_each = var.forwarding.target_servers
-        iterator = _conf
+        for_each = var.target_name_servers
+        iterator = _config
 
         content {
-          ipv4_address    = _conf.value.ip_address
-          forwarding_path = _conf.value.path
+          ipv4_address    = _config.value.ipv4_address
+          forwarding_path = _config.value.forwarding_path
         }
       }
     }
   }
 
   dynamic "peering_config" {
-    for_each = var.peering != null ? ["enable"] : []
+    for_each = length(var.peering_target_network) > 0 ? toset(["dummy"]) : []
 
     content {
       dynamic "target_network" {
-        for_each = var.peering.networks
-        iterator = _conf
+        for_each = var.peering_target_network
+        iterator = _config
 
         content {
-          network_url = _conf.value
+          netwok_url = _config.value
         }
       }
     }
   }
 }
 
+
 resource "google_dns_record_set" "main" {
-  for_each = { for v in var.records : join("_", [replace(v.name, ".", "_"), v.type, v.ttl]) => v }
+  for_each = { for v in var.record_sets : v.name => v }
 
   managed_zone = google_dns_managed_zone.main.name
-  name         = each.value.name
+  name         = join(".", [each.value.name, google_dns_managed_zone.main.dns_name])
   rrdatas      = each.value.rrdatas
   ttl          = each.value.ttl
   type         = each.value.type

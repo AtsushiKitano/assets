@@ -1,24 +1,40 @@
-variable "zone" {
-  type = object({
-    dns_name   = string
-    name       = string
-    visibility = string
-  })
+variable "dns_name" {
+  type = string
 }
 
-variable "private_visibility" {
-  type = object({
-    networks = list(string)
-  })
+variable "name" {
+  type = string
+}
+
+variable "project" {
+  type = string
+}
+
+/*
+Option Values
+*/
+
+variable "description" {
+  type    = string
   default = null
 }
 
-variable "dnssec" {
+variable "visibility" {
+  type    = string
+  default = "public"
+}
+
+variable "private_networks" {
+  type    = list(string)
+  default = []
+}
+
+variable "dnssec_config" {
   type = object({
     kind          = string
     non_existence = string
     state         = string
-    key_specs = object({
+    default_key_scopes = object({
       algorithm  = string
       key_length = number
       key_type   = string
@@ -28,44 +44,25 @@ variable "dnssec" {
   default = null
 }
 
-variable "zone_discreption" {
-  type    = string
-  default = null
+variable "target_name_servers" {
+  type = list(object({
+    ipv4_address    = string
+    forwarding_path = string
+  }))
+  default = []
 }
 
-variable "forwarding" {
-  type = object({
-    target_servers = list(object({
-      ip_address = string
-      path       = string
-    }))
-  })
-  default = null
+variable "peering_target_network" {
+  type    = list(string)
+  default = []
 }
 
-variable "peering" {
-  type = object({
-    networks = list(string)
-  })
-  default = null
-}
-
-variable "project" {
-  type    = string
-  default = null
-}
-
-variable "force_destroy" {
-  type    = bool
-  default = null
-}
-
-
-variable "records" {
+variable "record_sets" {
   type = list(object({
     name    = string
     rrdatas = list(string)
     ttl     = number
     type    = string
   }))
+  default = []
 }
