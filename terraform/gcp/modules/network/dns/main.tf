@@ -75,12 +75,12 @@ resource "google_dns_managed_zone" "main" {
 
 
 resource "google_dns_record_set" "main" {
-  for_each = { for v in var.record_sets : v.name => v }
+  count = length(var.record_sets)
 
   managed_zone = google_dns_managed_zone.main.name
-  name         = join(".", [each.value.name, google_dns_managed_zone.main.dns_name])
-  rrdatas      = each.value.rrdatas
-  ttl          = each.value.ttl
-  type         = each.value.type
+  name         = join(".", [var.record_sets[content.index].name, google_dns_managed_zone.main.dns_name])
+  rrdatas      = var.record_sets[content.index].rrdatas
+  ttl          = var.record_sets[content.index].ttl
+  type         = var.record_sets[content.index].type
   project      = var.project
 }
