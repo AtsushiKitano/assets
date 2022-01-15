@@ -10,7 +10,7 @@ resource "google_dns_managed_zone" "main" {
 
     content {
       dynamic "networks" {
-        for_each = toset([var.private_networks])
+        for_each = var.private_networks
         iterator = _config
 
         content {
