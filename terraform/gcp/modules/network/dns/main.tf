@@ -1,7 +1,7 @@
 resource "google_dns_managed_zone" "main" {
   dns_name    = var.dns_name
   name        = var.name
-  description = var.direction
+  description = var.description
   visibility  = var.visibility
   project     = var.project
 

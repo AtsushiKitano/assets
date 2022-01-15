@@ -34,12 +34,6 @@ variable "dnssec_config" {
     kind          = string
     non_existence = string
     state         = string
-    default_key_scopes = object({
-      algorithm  = string
-      key_length = number
-      key_type   = string
-      kind       = string
-    })
   })
   default = null
 }
@@ -65,4 +59,14 @@ variable "record_sets" {
     type    = string
   }))
   default = []
+}
+
+variable "default_key_specs" {
+  type = object({
+    algorithm  = string
+    key_length = number
+    key_type   = string
+    kind       = string
+  })
+  default = null
 }
