@@ -66,7 +66,7 @@ resource "google_dns_managed_zone" "main" {
         iterator = _config
 
         content {
-          netwok_url = _config.value
+          network_url = _config.value
         }
       }
     }
