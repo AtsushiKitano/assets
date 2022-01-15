@@ -42,7 +42,7 @@ resource "google_dns_managed_zone" "main" {
   }
 
   dynamic "forwarding_config" {
-    for_each = var.target_name_servers != null ? toset(["dummy"]) : []
+    for_each = length(var.target_name_servers) > 0 ? toset(["dummy"]) : []
 
     content {
       dynamic "target_name_servers" {
