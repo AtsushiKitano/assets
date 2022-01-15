@@ -227,3 +227,8 @@ variable "services_ipv4_cidr_block" {
   type    = string
   default = null
 }
+
+variable "google_workspace_domain" {
+  type    = string
+  default = null
+}
