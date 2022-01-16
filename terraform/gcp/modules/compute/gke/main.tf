@@ -147,7 +147,7 @@ resource "google_container_cluster" "main" {
   }
 
   dynamic "authenticator_groups_config" {
-    for_each = var.domain != null ? toset(["dummy"]) : []
+    for_each = var.google_workspace_domain != null ? toset(["dummy"]) : []
 
     content {
       security_group = format("gke-security-groups@%s", var.google_workspace_domain)
