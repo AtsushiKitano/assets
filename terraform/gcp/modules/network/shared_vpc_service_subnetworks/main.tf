@@ -101,5 +101,5 @@ resource "google_project_iam_member" "gke" {
 
   project = var.host_project
   role    = each.value
-  member  = format("serviceAccount:%s", google_project_service_identity.main[local.service_api_domains_list.gke].email)
+  member  = format("serviceAccount:%s", local.service_accounts.gke)
 }
