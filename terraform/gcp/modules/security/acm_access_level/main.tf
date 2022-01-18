@@ -19,7 +19,7 @@ resource "google_access_context_manager_access_level" "main" {
     combining_function = var.combining_function
 
     dynamic "conditions" {
-      for_each = local._ip_addresses
+      for_each = length(local._ip_addresses) > 0 ? toset(["dummy"]) : []
 
       content {
         ip_subnetworks = local._ip_addresses
@@ -27,7 +27,7 @@ resource "google_access_context_manager_access_level" "main" {
     }
 
     dynamic "conditions" {
-      for_each = local._members
+      for_each = length(local._members) > 0 ? toset(["dummy"]) : []
 
       content {
         members = local._members
