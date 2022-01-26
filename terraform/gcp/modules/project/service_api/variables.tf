@@ -16,10 +16,10 @@ variable "timeouts" {
 
 variable "disable_dependent_services" {
   type    = bool
-  default = true
+  default = false
 }
 
 variable "disable_on_destroy" {
   type    = bool
-  default = true
+  default = false
 }
