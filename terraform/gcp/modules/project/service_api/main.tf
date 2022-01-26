@@ -4,7 +4,14 @@ resource "google_project_service" "main" {
   project = var.project
   service = each.value
 
-  timeouts = var.timeouts
+  dynamic "timeouts" {
+    for_each = var.timeouts != null ? ["dummy"] : []
+
+    content {
+      create = var.timeouts.create
+      update = var.timeouts.update
+    }
+  }
 
   disable_dependent_services = var.disable_dependent_services
   disable_on_destroy         = var.disable_on_destroy
