@@ -27,6 +27,7 @@ variable "node_pools" {
     disk_size_gb    = number
     disk_type       = string
     preemptible     = bool
+    tags            = list(string)
     autoscaling = object({
       min_node_count = number
       max_node_count = number
@@ -232,7 +233,3 @@ variable "google_workspace_domain" {
   default = null
 }
 
-variable "tags" {
-  type    = list(string)
-  default = []
-}

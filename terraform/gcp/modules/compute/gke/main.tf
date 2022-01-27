@@ -15,7 +15,6 @@ resource "google_container_cluster" "main" {
   network         = var.network
   subnetwork      = var.subnetwork
   networking_mode = var.networking_mode
-  tags            = var.tags
 
   # enablet configs
   enable_autopilot            = var.enable_autopilot
@@ -188,6 +187,7 @@ resource "google_container_node_pool" "main" {
     disk_size_gb    = each.value.disk_size_gb
     disk_type       = each.value.disk_type
     service_account = each.value.service_account
+    tags            = each.value.tags
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]
