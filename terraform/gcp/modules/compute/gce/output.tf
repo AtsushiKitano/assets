@@ -19,7 +19,7 @@ output "network_ip" {
 }
 
 output "nat_ip" {
-  value = var.enabled ? google_compute_instance.main[var.gce_instance.name].network_interface.0.access_config.0.nat_ip : null
+  value = var.enabled && var.access_config ? google_compute_instance.main[var.gce_instance.name].network_interface.0.access_config.0.nat_ip : null
 }
 
 output "boot_disk_self_link" {
