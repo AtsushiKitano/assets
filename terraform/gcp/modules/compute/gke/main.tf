@@ -15,6 +15,7 @@ resource "google_container_cluster" "main" {
   network         = var.network
   subnetwork      = var.subnetwork
   networking_mode = var.networking_mode
+  tags            = var.tags
 
   # enablet configs
   enable_autopilot            = var.enable_autopilot

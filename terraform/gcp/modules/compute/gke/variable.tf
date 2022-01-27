@@ -231,3 +231,8 @@ variable "google_workspace_domain" {
   type    = string
   default = null
 }
+
+variable "tags" {
+  type    = list(string)
+  default = []
+}
