@@ -84,6 +84,12 @@ resource "google_compute_subnetwork" "main" {
       metadata             = config.value.metadata
     }
   }
+
+  lifecycle {
+    ignore_changes = [
+      network
+    ]
+  }
 }
 
 resource "google_compute_subnetwork_iam_member" "main" {
