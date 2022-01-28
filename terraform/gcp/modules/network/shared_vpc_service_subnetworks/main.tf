@@ -100,6 +100,12 @@ resource "google_compute_subnetwork_iam_member" "main" {
   region     = google_compute_subnetwork.main[format("%s/%s", each.value.region, each.value.name)].region
   subnetwork = google_compute_subnetwork.main[format("%s/%s", each.value.region, each.value.name)].name
   member     = format("serviceAccount:%s", local.service_accounts[each.value.service_account])
+
+  lifecycle {
+    ignore_changes = [
+      member
+    ]
+  }
 }
 
 resource "google_project_iam_member" "gke" {
