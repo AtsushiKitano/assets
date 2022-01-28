@@ -16,11 +16,12 @@ variable "subnetworks" {
 
 variable "firewall" {
   type = list(object({
-    name      = string
-    direction = string
-    tags      = list(string)
-    ranges    = list(string)
-    priority  = number
+    name        = string
+    direction   = string
+    target_type = string
+    targets     = list(string)
+    ranges      = list(string)
+    priority    = number
     rules = list(object({
       type     = string
       protocol = string

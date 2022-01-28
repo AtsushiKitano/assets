@@ -1,12 +1,13 @@
 resource "google_compute_firewall" "main" {
   for_each = { for v in var.firewall : v.name => v }
 
-  name        = each.value.name
-  network     = google_compute_network.main.self_link
-  project     = var.project
-  priority    = each.value.priority
-  target_tags = each.value.tags
-  disabled    = var.fw_disabled != null ? lookup(var.fw_disabled, each.value.name, null) : null
+  name                    = each.value.name
+  network                 = google_compute_network.main.self_link
+  project                 = var.project
+  priority                = each.value.priority
+  target_tags             = each.value.target_type == "tag" ? each.value.targets : []
+  target_service_accounts = each.value.target_type == "serviceAccount" ? each.value.targets : []
+  disabled                = var.fw_disabled != null ? lookup(var.fw_disabled, each.value.name, null) : null
 
   direction          = each.value.direction
   source_ranges      = each.value.direction == "INGRESS" ? each.value.ranges : null
