@@ -5,8 +5,8 @@ resource "google_compute_firewall" "main" {
   network                 = google_compute_network.main.self_link
   project                 = var.project
   priority                = each.value.priority
-  target_tags             = each.value.target_type == "tag" ? each.value.targets : []
-  target_service_accounts = each.value.target_type == "serviceAccount" ? each.value.targets : []
+  target_tags             = each.value.target_type == "tag" ? each.value.targets : null
+  target_service_accounts = each.value.target_type == "serviceAccount" ? each.value.targets : null
   disabled                = var.fw_disabled != null ? lookup(var.fw_disabled, each.value.name, null) : null
 
   direction          = each.value.direction
