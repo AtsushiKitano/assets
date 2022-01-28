@@ -5,7 +5,7 @@ resource "google_compute_network" "main" {
 
   mtu                             = var.vpc_network_mtu
   project                         = var.project
-  delete_default_routes_on_create = var.vpc_network_delete_default_routes_on_create
+  delete_default_routes_on_create = var.delete_default_routes
 }
 
 resource "google_compute_subnetwork" "main" {

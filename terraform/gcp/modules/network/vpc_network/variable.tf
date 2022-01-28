@@ -103,7 +103,7 @@ variable "vpc_network_mtu" {
   default = 1460
 }
 
-variable "vpc_network_delete_default_routes_on_create" {
+variable "delete_default_routes" {
   type    = bool
   default = false
 }
