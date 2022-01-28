@@ -45,4 +45,10 @@ resource "google_compute_subnetwork" "main" {
       filter_expr          = _conf.value.filter_expr
     }
   }
+
+  lifecycle {
+    ignore_changes = [
+      network
+    ]
+  }
 }
