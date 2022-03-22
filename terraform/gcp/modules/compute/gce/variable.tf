@@ -156,3 +156,8 @@ variable "allow_stopping_for_update" {
   type    = bool
   default = true
 }
+
+variable "metadata" {
+  type    = map(string)
+  default = null
+}
