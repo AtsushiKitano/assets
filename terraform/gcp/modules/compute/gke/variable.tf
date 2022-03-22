@@ -26,6 +26,7 @@ variable "node_pools" {
     service_account = string
     disk_size_gb    = number
     disk_type       = string
+    metadata        = map(string)
     preemptible     = bool
     tags            = list(string)
     autoscaling = object({

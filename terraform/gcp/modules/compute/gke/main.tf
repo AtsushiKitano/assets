@@ -188,6 +188,7 @@ resource "google_container_node_pool" "main" {
     disk_type       = each.value.disk_type
     service_account = each.value.service_account
     tags            = each.value.tags
+    metadata        = each.value.metadata
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]
