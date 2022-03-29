@@ -7,5 +7,5 @@ output "cluster" {
 }
 
 output "nodes" {
-  value = { for v in var.node_pools : v.name => google_container_node_pool.main[v.name] if var.enable_autopolot == null }
+  value = { for v in var.node_pools : v.name => google_container_node_pool.main[v.name] if var.enable_autopilot == null }
 }
