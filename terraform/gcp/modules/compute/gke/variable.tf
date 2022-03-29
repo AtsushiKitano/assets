@@ -234,3 +234,12 @@ variable "google_workspace_domain" {
   default = null
 }
 
+variable "enabled_multi_cluster" {
+  type    = bool
+  default = false
+}
+
+variable "fleet_host_project" {
+  type    = string
+  default = null
+}

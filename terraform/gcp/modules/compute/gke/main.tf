@@ -208,3 +208,25 @@ resource "google_service_account_iam_member" "main" {
   role               = "roles/iam.workloadIdentityUser"
   member             = format("serviceAccount:%s.svc.id.goog[%s/%s]", var.project, var.workload_identity_config[count.index].namespace, var.workload_identity_config[count.index].k8s_service_account)
 }
+
+resource "google_gke_hub_membership" "main" {
+  for_each = var.enabled_multi_cluster ? toset([var.cluster_name]) : []
+
+  membership_id = var.cluster_name
+  project       = var.fleet_host_project != null ? var.fleet_host_project : var.project
+
+  endpoint {
+    gke_cluster {
+      resource_link = google_container_cluster.main.id
+    }
+  }
+
+  dynamic "authority" {
+    for_each = length(workload_identity_config) > 0 ? ["dummy"] : []
+    iterator = _config
+
+    count {
+      issuer = format("https://container.googleapis.com/v1/%s", google_container_cluster.main.id)
+    }
+  }
+}
