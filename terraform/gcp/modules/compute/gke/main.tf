@@ -222,10 +222,10 @@ resource "google_gke_hub_membership" "main" {
   }
 
   dynamic "authority" {
-    for_each = length(workload_identity_config) > 0 ? ["dummy"] : []
+    for_each = length(var.workload_identity_config) > 0 ? ["dummy"] : []
     iterator = _config
 
-    count {
+    content {
       issuer = format("https://container.googleapis.com/v1/%s", google_container_cluster.main.id)
     }
   }
