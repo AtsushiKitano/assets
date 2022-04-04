@@ -48,7 +48,7 @@ variable "message_retention_duration" {
 
 variable "default_table_expiration_ms" {
   type    = number
-  default = 3600
+  default = 3600000
 }
 
 variable "location" {
