@@ -30,7 +30,7 @@ resource "google_storage_bucket" "main" {
   name          = format("%s-%s-log-sink", local._sink_dst_pj, var.name)
   project       = local._sink_dst_pj
   storage_class = var.storage_class
-  location      = varl.location
+  location      = var.location
 }
 
 resource "google_pubsub_topic" "main" {
