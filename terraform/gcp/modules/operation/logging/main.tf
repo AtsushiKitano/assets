@@ -50,7 +50,6 @@ resource "google_bigquery_dataset" "main" {
 
 resource "google_storage_bucket_iam_member" "main" {
   for_each = var.type == "gcs" ? toset(["enable"]) : []
-  project  = local._sink_dst_pj
   bucket   = google_storage_bucket.main["enable"].name
   role     = "roles/storage.objectCreator"
   member   = google_logging_project_sink.main.writer_identity
