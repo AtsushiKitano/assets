@@ -45,3 +45,24 @@ resource "google_bigquery_dataset" "main" {
   location                    = var.location
   default_table_expiration_ms = var.default_table_expiration_ms
 }
+
+resource "google_storage_bucket_iam_member" "main" {
+  for_each = var.type == "gcs" ? toset(["enable"]) : []
+  bucket   = google_stroage_bucket.main["enable"].name
+  role     = "roles/storage.objectCreator"
+  member   = google_logging_project_sink.main.writer_identity
+}
+
+resource "google_bigquery_dataset_iam_member" "main" {
+  for_each   = var.type == "bq" ? toset(["enable"]) : []
+  dataset_id = google_bigquery_dataset.main["enable"].dataset_id
+  role       = "roles/bigquery.dataOwner"
+  member     = google_logging_project_sink.main.writer_identity
+}
+
+resource "google_pubsub_topic_iam_member" "main" {
+  for_each = var.type == "pubsub" ? toset(["enable"]) : []
+  topic    = google_pubsub_topic.main["enable"].name
+  role     = "roles/pubsub.publisher"
+  member   = google_logging_project_sink.main.writer_identity
+}
