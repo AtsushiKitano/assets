@@ -35,12 +35,14 @@ resource "google_storage_bucket" "main" {
 
 resource "google_pubsub_topic" "main" {
   for_each                   = var.type == "pubsub" ? toset(["enable"]) : []
+  project                    = local._sink_dst_pj
   name                       = format("%s-log-sink", var.name)
   message_retention_duration = var.message_retention_duration
 }
 
 resource "google_bigquery_dataset" "main" {
   for_each                    = var.type == "bq" ? toset(["enable"]) : []
+  project                     = local._sink_dst_pj
   dataset_id                  = format("%s-log-sink", var.name)
   location                    = var.location
   default_table_expiration_ms = var.default_table_expiration_ms
