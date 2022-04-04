@@ -43,7 +43,7 @@ variable "storage_class" {
 
 variable "message_retention_duration" {
   type    = string
-  default = "60s"
+  default = "3600s"
 }
 
 variable "default_table_expiration_ms" {

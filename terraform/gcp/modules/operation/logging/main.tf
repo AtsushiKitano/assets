@@ -43,7 +43,7 @@ resource "google_pubsub_topic" "main" {
 resource "google_bigquery_dataset" "main" {
   for_each                    = var.type == "bq" ? toset(["enable"]) : []
   project                     = local._sink_dst_pj
-  dataset_id                  = format("%s-log-sink", var.name)
+  dataset_id                  = replace(format("%s-log-sink", var.name), "-", "_")
   location                    = var.location
   default_table_expiration_ms = var.default_table_expiration_ms
 }
