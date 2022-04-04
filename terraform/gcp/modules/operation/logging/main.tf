@@ -12,9 +12,9 @@ locals {
 
 resource "google_logging_project_sink" "main" {
   depends_on = [
-    google_storage_bucket.main.*,
-    google_pubsub_topic.main.*,
-    google_bigquery_Dataset.main.*
+    google_storage_bucket.main,
+    google_pubsub_topic.main,
+    google_bigquery_Dataset.main
   ]
   name        = var.name
   filter      = var.filter
