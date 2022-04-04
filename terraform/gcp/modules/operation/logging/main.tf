@@ -56,7 +56,7 @@ resource "google_storage_bucket_iam_member" "main" {
 resource "google_bigquery_dataset_iam_member" "main" {
   for_each   = var.type == "bq" ? toset(["enable"]) : []
   dataset_id = google_bigquery_dataset.main["enable"].dataset_id
-  role       = "roles/bigquery.dataOwner"
+  role       = "roles/bigquery.dataEditor"
   member     = google_logging_project_sink.main.writer_identity
 }
 
