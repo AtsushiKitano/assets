@@ -30,6 +30,7 @@ resource "google_storage_bucket" "main" {
   name          = format("%s-%s-log-sink", local._sink_dst_pj, var.name)
   project       = local._sink_dst_pj
   storage_class = var.storage_class
+  location      = varl.location
 }
 
 resource "google_pubsub_topic" "main" {
@@ -40,7 +41,7 @@ resource "google_pubsub_topic" "main" {
 
 resource "google_bigquery_dataset" "main" {
   for_each                    = var.type == "bq" ? toset(["enable"]) : []
-  friendly_name               = format("%s-log-sink", var.name)
+  dataset_id                  = format("%s-log-sink", var.name)
   location                    = var.location
   default_table_expiration_ms = var.default_table_expiration_ms
 }
