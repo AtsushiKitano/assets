@@ -29,7 +29,7 @@ variable "dest_pj" {
 
 variable "unique_writer_identity" {
   type    = bool
-  default = false
+  default = true
 }
 
 variable "storage_class" {
