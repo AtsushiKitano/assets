@@ -51,12 +51,14 @@ resource "google_bigquery_dataset" "main" {
 resource "google_storage_bucket_iam_member" "main" {
   for_each = var.type == "gcs" ? toset(["enable"]) : []
   bucket   = google_storage_bucket.main["enable"].name
+  project  = local._sink_dst_pj
   role     = "roles/storage.objectCreator"
   member   = google_logging_project_sink.main.writer_identity
 }
 
 resource "google_bigquery_dataset_iam_member" "main" {
   for_each   = var.type == "bq" ? toset(["enable"]) : []
+  project    = local._sink_dst_pj
   dataset_id = google_bigquery_dataset.main["enable"].dataset_id
   role       = "roles/bigquery.dataEditor"
   member     = google_logging_project_sink.main.writer_identity
@@ -64,6 +66,7 @@ resource "google_bigquery_dataset_iam_member" "main" {
 
 resource "google_pubsub_topic_iam_member" "main" {
   for_each = var.type == "pubsub" ? toset(["enable"]) : []
+  project  = local._sink_dst_pj
   topic    = google_pubsub_topic.main["enable"].name
   role     = "roles/pubsub.publisher"
   member   = google_logging_project_sink.main.writer_identity
