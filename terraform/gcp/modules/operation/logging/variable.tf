@@ -2,7 +2,7 @@ variable "type" {
   type = string
   validation {
     condition     = var.type == "gcs" || var.type == "bq" || var.type == "pubsub" || var.type == "log_bucket"
-    error_message = "type valiable must be gcs,bq,pubsub or log_bucket"
+    error_message = "Type valiable must be gcs,bq,pubsub or log_bucket."
   }
 }
 
@@ -37,7 +37,7 @@ variable "storage_class" {
   default = "STANDARD"
   validation {
     condition     = var.storage_class == "STANDARD" || var.storage_class == "MULTI_REGIONAL" || var.storage_class == "REGIONAL" || var.storage_class == "NEARLINE" || var.storage_class == "COLDLINE" || var.storage_class == "ARCHIVE"
-    error_message = "storage_class must be STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE"
+    error_message = "Storage_class must be STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE."
   }
 }
 
