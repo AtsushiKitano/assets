@@ -1,12 +1,13 @@
 locals {
   destination = {
-    bq         = format("bigquery.googleapis.com/projects/%s/datasets/%s", local._sink_dst_pj, replase(format("%s-log-sink", var.name), "-", "_"))
+    bq         = format("bigquery.googleapis.com/projects/%s/datasets/%s", local._sink_dst_pj, local._bq_dataset_id)
     pubsub     = format("pubsub.googleapis.com/projects/%s/topics/%s-log-sink", local._sink_dst_pj, var.name)
     log_bucket = format("logging.googleapis.com/projects/%s/locations/global/buckets/%s-log-sink", local._sink_dst_pj, var.name)
     gcs        = format("storage.googleapis.com/%s-%s-log-sink", local._sink_dst_pj, var.name)
   }
 
-  _sink_dst_pj = var.dest_pj != null ? var.dest_pj : var.project
+  _sink_dst_pj   = var.dest_pj != null ? var.dest_pj : var.project
+  _bq_dataset_id = replace(format("%s-log-sink", var.name), "-", "_")
 }
 
 
@@ -52,7 +53,7 @@ resource "google_pubsub_topic" "main" {
 resource "google_bigquery_dataset" "main" {
   for_each                    = var.type == "bq" ? toset(["enable"]) : []
   project                     = local._sink_dst_pj
-  dataset_id                  = replace(format("%s-log-sink", var.name), "-", "_")
+  dataset_id                  = local._bq_dataset_id
   location                    = var.location
   default_table_expiration_ms = var.default_table_expiration_ms
 }
