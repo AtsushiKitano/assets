@@ -79,3 +79,10 @@ resource "google_pubsub_topic_iam_member" "main" {
   role     = "roles/pubsub.publisher"
   member   = google_logging_project_sink.main.writer_identity
 }
+
+resource "google_project_iam_member" "main" {
+  for_each = var.type == "log_bucket" && var.dest_pj != null ? toset(["enable"]) : []
+  project  = local._sink_dst_pj
+  member   = google_logging_project_sink.main.writer_identity
+  role     = "roles/logging.bucketWriter"
+}
