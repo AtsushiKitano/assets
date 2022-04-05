@@ -1,6 +1,6 @@
 locals {
   destination = {
-    bq         = replace(format("bigquery.googleapis.com/projects/%s/datasets/%s-log-sink", local._sink_dst_pj, var.name), "-", "_")
+    bq         = format("bigquery.googleapis.com/projects/%s/datasets/%s", local._sink_dst_pj, replase(format("%s-log-sink", var.name), "-", "_"))
     pubsub     = format("pubsub.googleapis.com/projects/%s/topics/%s-log-sink", local._sink_dst_pj, var.name)
     log_bucket = format("logging.googleapis.com/projects/%s/locations/global/buckets/%s-log-sink", local._sink_dst_pj, var.name)
     gcs        = format("storage.googleapis.com/%s-%s-log-sink", local._sink_dst_pj, var.name)
