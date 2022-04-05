@@ -33,6 +33,15 @@ resource "google_storage_bucket" "main" {
   location      = var.location
 }
 
+resource "google_logging_project_bucket_config" "main" {
+  for_each = var.type == "log_bucket" ? toset(["enable"]) : []
+
+  location       = var.log_bucket.location
+  retention_days = var.log_bucket.retention_days
+  bucket_id      = format("%s-log-sink", var.name)
+  project        = local._sink_dst_pj
+}
+
 resource "google_pubsub_topic" "main" {
   for_each                   = var.type == "pubsub" ? toset(["enable"]) : []
   project                    = local._sink_dst_pj
@@ -68,5 +77,20 @@ resource "google_pubsub_topic_iam_member" "main" {
   project  = local._sink_dst_pj
   topic    = google_pubsub_topic.main["enable"].name
   role     = "roles/pubsub.publisher"
+  member   = google_logging_project_sink.main.writer_identity
+}
+
+resource "google_pubsub_topic_iam_member" "main" {
+  for_each = var.type == "pubsub" ? toset(["enable"]) : []
+  project  = local._sink_dst_pj
+  topic    = google_pubsub_topic.main["enable"].name
+  role     = "roles/pubsub.publisher"
+  member   = google_logging_project_sink.main.writer_identity
+}
+
+resource "google_project_iam_member" "main" {
+  for_each = var.type == "log_bucket" ? toset(["enable"]) : []
+  project  = local._sink_dst_pj
+  role     = "roles/logging.bucketWriter"
   member   = google_logging_project_sink.main.writer_identity
 }
