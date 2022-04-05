@@ -55,3 +55,14 @@ variable "location" {
   type    = string
   default = "asia-northeast1"
 }
+
+variable "log_bucket" {
+  type = object({
+    location       = string
+    retention_days = number
+  })
+  default = {
+    location       = "global"
+    retention_days = 30
+  }
+}
