@@ -69,15 +69,6 @@ variable "cloud_composer_connection_subnetwork" {
   default = null
 }
 
-variable "maintenance_window" {
-  type = object({
-    start_time = string
-    end_time   = string
-    recurrence = string
-  })
-  default = null
-}
-
 variable "worker" {
   type = object({
     cpu        = number
