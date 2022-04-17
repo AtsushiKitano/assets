@@ -14,6 +14,18 @@ variable "subnetwork" {
   type = string
 }
 
+variable "cluster_range_name" {
+  type = string
+}
+
+variable "service_range_name" {
+  type = string
+}
+
+variable "service_account" {
+  type = string
+}
+
 /*
  Option Config
 */
