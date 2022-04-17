@@ -60,7 +60,7 @@ resource "google_composer_environment" "main" {
         }
 
         dynamic "web_server" {
-          for_each = var.web_server != nill ? ["dummy"] : []
+          for_each = var.web_server != null ? ["dummy"] : []
 
           content {
             cpu        = var.web_server.cpu
