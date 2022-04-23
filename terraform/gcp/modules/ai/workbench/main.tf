@@ -45,7 +45,7 @@ resource "google_notebooks_instance" "main" {
     content {
       enable_integrity_monitoring = var.shielded_instance_config.enable_integrity_monitoring
       enable_secure_boot          = var.shielded_instance_config.enable_secure_boot
-      enable_vtpm                 = var.shielded_instance_config.oenable_vtpm
+      enable_vtpm                 = var.shielded_instance_config.enable_vtpm
     }
   }
 
