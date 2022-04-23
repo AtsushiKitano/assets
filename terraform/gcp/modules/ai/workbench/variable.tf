@@ -103,7 +103,7 @@ variable "accelarator_config" {
   default = null
 }
 
-variable "shilded_instance_config" {
+variable "shileded_instance_config" {
   type = object({
     enable_integrity_monitoring = bool
     enable_secure_boot          = bool
@@ -133,10 +133,20 @@ variable "vm_image" {
   default = null
 }
 
-variable "container_inage" {
+variable "container_image" {
   type = object({
     repository = string
     tag        = string
   })
   default = null
+}
+
+variable "startup_script" {
+  type    = string
+  default = null
+}
+
+variable "owners" {
+  type    = list(string)
+  default = []
 }
