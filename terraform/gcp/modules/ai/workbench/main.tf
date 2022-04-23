@@ -21,7 +21,7 @@ resource "google_notebooks_instance" "main" {
   no_public_ip    = var.no_public_ip
   no_proxy_access = var.no_proxy_access
   network         = var.network
-  subnetwork      = var.subnetwork
+  subnet          = var.subnet
   tags            = var.tags
 
   metadata = var.metadata
@@ -39,23 +39,13 @@ resource "google_notebooks_instance" "main" {
     }
   }
 
-  dynamic "shileded_instance_config" {
-    for_each = var.shileded_instance_config != null ? ["enable"] : []
+  dynamic "shielded_instance_config" {
+    for_each = var.shielded_instance_config != null ? ["enable"] : []
 
     content {
-      enabled_integrity_monitoring = var.shileded_instance_config.enabled_integrity_monitoring
-      enable_secure_boot           = var.shileded_instance_config.enable_secure_boot
-      enable_vtpm                  = var.shileded_instance_config.enable_vtpm
-    }
-  }
-
-  dynamic "reservation_affinity" {
-    for_each = var.reservation_affinity != null ? ["enable"] : []
-
-    content {
-      consume_reservation_type = var.reservation_affinity.consume_reservation_type
-      key                      = var.reservation_affinity.key
-      values                   = var.reservation_affinity.values
+      enabled_integrity_monitoring = var.shielded_instance_config.enabled_integrity_monitoring
+      enable_secure_boot           = var.shielded_instance_config.enable_secure_boot
+      enable_vtpm                  = var.shielded_instance_config.oenable_vtpm
     }
   }
 

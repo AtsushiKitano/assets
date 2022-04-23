@@ -22,7 +22,7 @@ variable "network" {
   type = string
 }
 
-variable "subnetwork" {
+variable "subnet" {
   type = string
 }
 
@@ -103,7 +103,7 @@ variable "accelarator_config" {
   default = null
 }
 
-variable "shileded_instance_config" {
+variable "shielded_instance_config" {
   type = object({
     enable_integrity_monitoring = bool
     enable_secure_boot          = bool
@@ -114,15 +114,6 @@ variable "shileded_instance_config" {
     enable_secure_boot          = true
     enable_vtpm                 = true
   }
-}
-
-variable "reservation_affinity" {
-  type = object({
-    consume_reservation_type = string
-    key                      = string
-    value                    = map(string)
-  })
-  default = null
 }
 
 variable "vm_image" {
