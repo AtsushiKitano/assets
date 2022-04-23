@@ -53,41 +53,21 @@ variable "custom_gpu_driver" {
 variable "disk_type" {
   type    = string
   default = "PD_BALANCED"
-
-  validation {
-    condition     = var.disk_type == "DISK_TYPE_UNSPECIFIED" || var.disk_type == "PD_STANDARD" || var.disk_type == "PD_SSD" || var.disk_type == "PD_BALANCED"
-    error_message = "disk_type must be DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD or PD_BALANCED"
-  }
 }
 
 variable "disk_size" {
   type    = number
   default = 100
-
-  validation {
-    condition     = var.disk_size >= 100 && var.disk_size < 64000
-    error_message = "disk_size must be larger than 100 and smaller than 64000"
-  }
 }
 
 variable "data_disk_type" {
   type    = string
   default = null
-
-  validation {
-    condition     = var.data_disk_type == "DISK_TYPE_UNSPECIFIED" || var.data_disk_type == "PD_STANDARD" || var.data_disk_type == "PD_SSD" || var.data_disk_type == "PD_BALANCED" || var.data_disk_type == null
-    error_message = "data_disk_type must be DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD or PD_BALANCED"
-  }
 }
 
 variable "data_disk_size" {
   type    = number
   default = null
-
-  validation {
-    condition     = var.disk_size < 64000 || var.disk_size == null
-    error_message = "disk_size must be smaller than 64000"
-  }
 }
 
 variable "no_remove_data_disk" {
@@ -98,11 +78,6 @@ variable "no_remove_data_disk" {
 variable "disk_encryption" {
   type    = string
   default = null
-
-  validation {
-    condition     = var.disk_encryption == "CMEK" || var.disk_encryption == "GMEK" || var.disk_encryption == "DISK_ENCRYPTION_UNSPECIFIED"
-    error_message = "disk_encryption must be CMEK, GMEK or DISK_ENCRYPTION_UNSPECIFIED"
-  }
 }
 
 variable "kms_key" {
