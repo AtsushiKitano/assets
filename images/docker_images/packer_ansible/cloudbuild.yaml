@@ -1,12 +1,19 @@
 steps:
 - name: 'gcr.io/cloud-builders/wget'
+  args: ["http://downloads.cinc.sh/files/stable/cinc-auditor/${_CINC_VERSION}/ubuntu/${_UBUNTU_VERSION}/cinc-auditor_${_CINC_VERSION}-${_CINC_MINOR_VERSION}_amd64.deb"]
+
+- name: 'gcr.io/cloud-builders/wget'
   args: ["https://releases.hashicorp.com/packer/${_PACKER_VERSION}/packer_${_PACKER_VERSION}_linux_amd64.zip"]
+
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'gcr.io/$PROJECT_ID/packer:${_PACKER_VERSION}',
         '-t', 'gcr.io/$PROJECT_ID/packer',
         '--build-arg', 'PACKER_VERSION=${_PACKER_VERSION}',
         '--build-arg', 'PACKER_VERSION_SHA256SUM=${_PACKER_VERSION_SHA256SUM}',
         '--build-arg', 'ANSIBLE_VERSION=${_ANSIBLE_VERSION}',
+        '--build-arg', 'CINC_VERSION=${_CINC_VERSION}',
+        '--build-arg', 'CINC_MINOR_VERSION=${_CINC_MINOR_VERSION}',
+        '--build-arg', 'CINC_VERSION_SHA256SUM=${_CINC_VERSION_SHA256SUM}',
         '.']
 
 images:
@@ -15,6 +22,10 @@ images:
 
 timeout: 3600s
 substitutions:
-  _PACKER_VERSION: 1.5.5
-  _PACKER_VERSION_SHA256SUM: 07f28a1a033f4bcd378a109ec1df6742ac604e7b122d0316d2cddb3c2f6c24d1
+  _PACKER_VERSION: 1.8.0
+  _PACKER_VERSION_SHA256SUM: 94c5d65386fa8f17e36d3496fbbdf18d3bfab01306aa8000c14656b63070b7c2
   _ANSIBLE_VERSION: 2.9.4
+  _UBUNTU_VERSION: "20.04"
+  _CINC_VERSION_SHA256SUM: cc141026f2530f2aa6c2d9723b4782a6baf8f5e3d332ef06b8f8693a7b298257
+  _CINC_VERSION: 5.14.0
+  _CINC_MINOR_VERSION: "1"
