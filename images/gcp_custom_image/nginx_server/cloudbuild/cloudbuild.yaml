@@ -1,0 +1,9 @@
+steps:
+  - name: 'gcr.io/$PROJECT_ID/packer'
+    dir: 'images/gcp_custom_image/nginx_server/src'
+    args: ['build', '.']
+    id: 'packer build'
+
+substitutions:
+  _IMAGE_NAME: nginx-demo
+
