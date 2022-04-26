@@ -2,4 +2,4 @@ steps:
   - id: 'packer build'
     dir: 'images/gcp_custom_image/nginx_server/src'
     name: 'gcr.io/$PROJECT_ID/packer'
-    args: ['build', '.']    
+    args: ['build', '.']
