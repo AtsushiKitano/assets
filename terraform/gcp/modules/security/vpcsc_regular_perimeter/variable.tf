@@ -14,6 +14,10 @@ variable "access_levels" {
   type = list(string)
 }
 
+variable "projects" {
+  type = list(string)
+}
+
 /*
   Option Variables
 */
