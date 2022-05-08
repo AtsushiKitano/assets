@@ -10,5 +10,5 @@ resource "google_access_context_manager_service_perimeter_resource" "main" {
   for_each = toset(var.projects)
 
   perimeter_name = google_access_context_manager_service_perimeter.main.name
-  resource       = var.projects
+  resource       = each.value
 }
