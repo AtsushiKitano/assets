@@ -1,31 +1,50 @@
-variable "gce_instance" {
-  type = object({
-    name         = string
-    machine_type = string
-    zone         = string
-    subnetwork   = string
-    tags         = list(string)
-  })
+variable "name" {
+  type = string
 }
 
-variable "boot_disk" {
-  type = object({
-    name  = string
-    size  = number
-    image = string
-  })
+variable "machine_type" {
+  type    = string
+  default = "e2-micro"
 }
+
+variable "zone" {
+  type    = string
+  default = "asia-northeast1-c"
+}
+
+variable "subnetwork" {
+  type = string
+}
+
+variable "size" {
+  type    = number
+  default = 50
+}
+
+variable "image" {
+  type    = string
+  default = "ubuntu-os-cloud/ubuntu-2204-lts"
+}
+
+variable "project" {
+  type = string
+}
+
+variable "service_account" {
+  type = string
+}
+
 
 /*
 Option Configuration
 */
-
-variable "private_ip" {
-  type    = string
-  default = null
+variable "tags" {
+  type    = list(string)
+  default = []
 }
 
-variable "service_account" {
+
+variable "private_ip" {
   type    = string
   default = null
 }
@@ -37,12 +56,12 @@ variable "scopes" {
 
 variable "scheduling" {
   type    = bool
-  default = false
+  default = true
 }
 
 variable "preemptible" {
   type    = bool
-  default = null
+  default = true
 }
 
 variable "on_host_maintenance" {
@@ -64,10 +83,6 @@ variable "attached_disk" {
   default = []
 }
 
-variable "project" {
-  type    = string
-  default = null
-}
 
 variable "boot_disk_auto_delete" {
   type    = bool

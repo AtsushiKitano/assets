@@ -12,18 +12,18 @@ locals {
 resource "google_compute_instance" "main" {
   for_each = var.enabled ? toset([var.gce_instance.name]) : []
 
-  name         = var.gce_instance.name
-  machine_type = var.gce_instance.machine_type
-  zone         = var.gce_instance.zone
+  name         = var.name
+  machine_type = var.machine_type
+  zone         = var.zone
   project      = var.project
-  tags         = var.gce_instance.tags
+  tags         = var.tags
 
   metadata                  = var.metadata
   metadata_startup_script   = var.startup_script
   allow_stopping_for_update = var.allow_stopping_for_update
 
   network_interface {
-    subnetwork = var.gce_instance.subnetwork
+    subnetwork = var.subnetwork
     network_ip = var.private_ip
 
     dynamic "access_config" {
@@ -40,7 +40,7 @@ resource "google_compute_instance" "main" {
 
   boot_disk {
     auto_delete = var.boot_disk_auto_delete
-    device_name = var.boot_disk_device_name
+    device_name = var.boot_disk_device_name != null ? var.boot_disk_device_name : format("%s-boot-disk", var.name)
     source      = google_compute_disk.boot_disk[var.boot_disk.name].self_link
   }
 
@@ -90,10 +90,10 @@ resource "google_compute_disk" "boot_disk" {
   for_each = var.enabled ? toset([var.boot_disk.name]) : []
   provider = google-beta
 
-  name    = var.boot_disk.name
-  size    = var.boot_disk.size
-  image   = var.boot_disk.image
-  zone    = var.gce_instance.zone
+  name    = format("%s-bootdisk", var.name)
+  size    = var.size
+  image   = var.image
+  zone    = var.zone
   project = var.project
 }
 
@@ -103,7 +103,7 @@ resource "google_compute_disk" "attached_disk" {
 
   name    = each.value.name
   size    = each.value.size
-  zone    = var.gce_instance.zone
+  zone    = var.zone
   project = var.project
 }
 
