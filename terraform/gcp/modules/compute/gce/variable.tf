@@ -66,7 +66,7 @@ variable "preemptible" {
 
 variable "on_host_maintenance" {
   type    = string
-  default = "MIGRATE"
+  default = "TERMINATE"
 }
 
 variable "automatic_restart" {
