@@ -1,6 +1,6 @@
 locals {
   members = concat(
-    flatten([for v in var.conditions : [for w in v.user : format("user:%s", w)]]),
+    flatten([for v in var.conditions : [for w in v.users : format("user:%s", w)]]),
     flatten([for v in var.conditions : [for w in v.service_accounts : format("serviceAccount:%s", w)]])
   )
 }
