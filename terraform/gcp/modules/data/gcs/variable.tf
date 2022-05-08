@@ -1,8 +1,9 @@
-variable "bucket" {
-  type = object({
-    name     = string
-    location = string
-  })
+variable "name" {
+  type = string
+}
+
+variable "location" {
+  type = string
 }
 
 
@@ -53,14 +54,6 @@ variable "storage_class" {
   default = "STANDARD"
 }
 
-variable "lifecycle_rule" {
-  type = object({
-    action    = string
-    condition = string
-  })
-  default = null
-}
-
 variable "versioning" {
   type    = bool
   default = false
@@ -85,6 +78,27 @@ variable "cors" {
     method          = list(string)
     response_header = list(string)
     max_age_seconds = number
+  })
+  default = null
+}
+
+
+variable "enabled_lifecycle" {
+  type    = bool
+  default = false
+}
+
+variable "lifecycle" {
+  type = object({
+    type          = string
+    storage_class = string
+    condition = object({
+      age                   = number
+      created_before        = string
+      with_state            = string
+      matches_storage_class = string
+      num_newer_versions    = string
+    })
   })
   default = null
 }

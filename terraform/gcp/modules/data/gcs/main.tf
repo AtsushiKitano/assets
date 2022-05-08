@@ -1,24 +1,24 @@
 resource "google_storage_bucket" "main" {
-  name          = var.bucket.name
-  project       = var.project
+  name          = var.name
+  location      = var.location
   storage_class = var.storage_class
+  project       = var.project
   force_destroy = var.force_destroy
 
   dynamic "lifecycle_rule" {
-    for_each = var.lifecycle_rule != null ? [var.lifecycle_rule] : []
-    iterator = _conf
+    for_each = var.enabled_lifecycle ? ["dummy"] : []
 
     content {
       action {
-        type          = _conf.value.type
-        storage_class = _conf.value.storage_class
+        type          = var.lifecycle.type
+        storage_class = var.lifecycle.storage_class
       }
       condition {
-        age                   = _conf.value.age
-        created_before        = _conf.value.created_before
-        with_state            = _conf.value.with_state
-        matches_storage_class = _conf.value.matches_storage_class
-        num_newer_versions    = _conf.value.num_newer_versions
+        age                   = var.lifecycle.condition.age
+        created_before        = var.lifecycle.condition.created_before
+        with_state            = var.lifecycle.condition.with_state
+        matches_storage_class = var.lifecycle.condition.matches_storage_class
+        num_newer_versions    = var.lifecycle.condition.num_newer_versions
       }
     }
   }
