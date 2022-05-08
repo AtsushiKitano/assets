@@ -37,11 +37,11 @@ resource "google_compute_instance" "main" {
   boot_disk {
     auto_delete = var.boot_disk_auto_delete
     device_name = var.boot_disk_device_name != null ? var.boot_disk_device_name : format("%s-boot-disk", var.name)
-    source      = google_compute_disk.boot_disk[var.boot_disk.name].self_link
+    source      = google_compute_disk.boot_disk.self_link
   }
 
   dynamic "attached_disk" {
-    for_each = { for v in var.attached_disk : v.name => v }
+    for_each = { for v in var.attached_disks : v.name => v }
     iterator = _conf
 
     content {
