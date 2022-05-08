@@ -30,7 +30,7 @@ resource "google_access_context_manager_access_level_condition" "main" {
   count        = length(var.additional_conditions)
   access_level = google_access_context_manager_access_level.main.name
 
-  ip_subnetworks = var.conditions[count.index].ip_addresses
+  ip_subnetworks = var.additional_conditions[count.index].ip_addresses
   members        = local.additional_members
-  regions        = var.conditions[count.index].regions
+  regions        = var.additional_conditions[count.index].regions
 }
