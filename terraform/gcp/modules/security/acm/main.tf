@@ -5,7 +5,7 @@ locals {
   )
 }
 
-resource "google_access_contxt_manager_access_level" "main" {
+resource "google_access_context_manager_access_level" "main" {
   parent = format("accessPolicies/%s", var.parent)
   name   = format("accessPolicies/%s/accessLevels/%s", var.parent, var.title)
   title  = var.title
