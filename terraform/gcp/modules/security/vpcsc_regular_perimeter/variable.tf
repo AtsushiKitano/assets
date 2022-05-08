@@ -21,6 +21,15 @@ variable "projects" {
 /*
   Option Variables
 */
+variable "enabled_vpc_accessible" {
+  type    = bool
+  default = false
+}
+
+variable "allowed_services" {
+  type    = list(string)
+  default = []
+}
 
 variable "ingress_policies" {
   type = list(object({
