@@ -8,8 +8,6 @@ locals {
 }
 
 resource "google_compute_instance" "main" {
-  for_each = var.enabled ? toset([var.gce_instance.name]) : []
-
   name         = var.name
   machine_type = var.machine_type
   zone         = var.zone
