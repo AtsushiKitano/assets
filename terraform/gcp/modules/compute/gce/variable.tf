@@ -71,7 +71,7 @@ variable "on_host_maintenance" {
 
 variable "automatic_restart" {
   type    = bool
-  default = true
+  default = false
 }
 
 variable "attached_disks" {
