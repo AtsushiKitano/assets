@@ -8,98 +8,99 @@ resource "google_access_context_manager_service_perimeter" "main" {
   status {
     restricted_services = var.restricted_services
     access_levels       = var.access_levels
-  }
 
-  vpc_accessible_services {
-    enable_restriction = var.enabled_vpc_accessible
-    allowed_services   = var.allowed_services
-  }
+    vpc_accessible_services {
+      enable_restriction = var.enabled_vpc_accessible
+      allowed_services   = var.allowed_services
+    }
 
-  dynamic "ingress_policies" {
-    for_each = var.ingress_policies
-    iterator = _conf
+    dynamic "ingress_policies" {
+      for_each = var.ingress_policies
+      iterator = _conf
 
-    content {
-      ingress_from {
-        identity_type = _conf.value.from.identity_type
-        identities    = _conf.value.from.identities
+      content {
+        ingress_from {
+          identity_type = _conf.value.from.identity_type
+          identities    = _conf.value.from.identities
 
-        dynamic "sources" {
-          for_each = _conf.value.ingress_from.access_levels
-          iterator = _var
+          dynamic "sources" {
+            for_each = _conf.value.ingress_from.access_levels
+            iterator = _var
 
-          content {
-            access_level = _var.value
+            content {
+              access_level = _var.value
+            }
           }
+
+          dynamic "sources" {
+            for_each = _conf.value.ingress_from.resource
+            iterator = _var
+
+            content {
+              resource = _var.value
+            }
+          }
+
         }
 
-        dynamic "sources" {
-          for_each = _conf.value.ingress_from.resource
-          iterator = _var
+        ingress_to {
+          resources = _conf.value.to.resources
 
-          content {
-            resource = _var.value
-          }
-        }
+          dynamic "operations" {
+            for_each = _conf.value.to.operations
+            iterator = _var
 
-      }
+            content {
+              service_name = _var.value.service_name
+              dynamic "method_selectors" {
+                for_each = _var.value.method_selectors
+                iterator = _args
 
-      ingress_to {
-        resources = _conf.value.to.resources
-
-        dynamic "operations" {
-          for_each = _conf.value.to.operations
-          iterator = _var
-
-          content {
-            service_name = _var.value.service_name
-            dynamic "method_selectors" {
-              for_each = _var.value.method_selectors
-              iterator = _args
-
-              content {
-                method     = _args.value.method
-                permission = _args.value.permission
+                content {
+                  method     = _args.value.method
+                  permission = _args.value.permission
+                }
               }
             }
           }
         }
       }
     }
-  }
 
-  dynamic "egress_policies" {
-    for_each = var.egress_policies
-    iterator = _conf
+    dynamic "egress_policies" {
+      for_each = var.egress_policies
+      iterator = _conf
 
-    content {
-      egress_from {
-        identity_type = _conf.value.from.identity_type
-        identities    = _conf.value.from.identities
-      }
+      content {
+        egress_from {
+          identity_type = _conf.value.from.identity_type
+          identities    = _conf.value.from.identities
+        }
 
-      egress_to {
-        resources = _conf.value.to.resources
+        egress_to {
+          resources = _conf.value.to.resources
 
-        dynamic "operations" {
-          for_each = _conf.value.to.operations
-          iterator = _var
+          dynamic "operations" {
+            for_each = _conf.value.to.operations
+            iterator = _var
 
-          content {
-            service_name = _var.value.service_name
-            dynamic "method_selectors" {
-              for_each = _var.value.method_selectors
-              iterator = _args
+            content {
+              service_name = _var.value.service_name
+              dynamic "method_selectors" {
+                for_each = _var.value.method_selectors
+                iterator = _args
 
-              content {
-                method     = _args.value.method
-                permission = _args.value.permission
+                content {
+                  method     = _args.value.method
+                  permission = _args.value.permission
+                }
               }
             }
           }
         }
       }
     }
+
   }
 }
 
