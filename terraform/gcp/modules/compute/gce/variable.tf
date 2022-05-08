@@ -54,7 +54,7 @@ variable "scopes" {
   default = ["cloud-platform"]
 }
 
-variable "scheduling" {
+variable "enabled_scheduling" {
   type    = bool
   default = true
 }
@@ -74,10 +74,10 @@ variable "automatic_restart" {
   default = true
 }
 
-variable "attached_disk" {
+variable "attached_disks" {
   type = list(object({
     name = string
-    mode = string
+    type = string
     size = number
   }))
   default = []
@@ -175,4 +175,9 @@ variable "allow_stopping_for_update" {
 variable "metadata" {
   type    = map(string)
   default = null
+}
+
+variable "enabled_nat" {
+  type    = bool
+  default = false
 }

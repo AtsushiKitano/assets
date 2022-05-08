@@ -5,8 +5,6 @@ locals {
       scopes          = var.scopes
     }
   ] : []
-
-  _external_ip = var.external_ip != null ? [var.external_ip] : []
 }
 
 resource "google_compute_instance" "main" {
@@ -31,7 +29,7 @@ resource "google_compute_instance" "main" {
       iterator = _conf
 
       content {
-        nat_ip                 = var.external_ip != null ? google_compute_address.main[var.external_ip].address : null
+        nat_ip                 = var.enabled_nat ? google_compute_address.main[var.name].address : null
         public_ptr_domain_name = var.public_ptr_domain_name
         network_tier           = var.network_tier
       }
@@ -56,7 +54,7 @@ resource "google_compute_instance" "main" {
   }
 
   dynamic "scheduling" {
-    for_each = var.scheduling ? ["enable"] : []
+    for_each = var.enabled_scheduling ? ["enable"] : []
 
     content {
       preemptible         = var.preemptible
@@ -65,14 +63,9 @@ resource "google_compute_instance" "main" {
     }
   }
 
-  dynamic "service_account" {
-    for_each = local._service_account
-    iterator = _conf
-
-    content {
-      email  = _conf.value.service_account
-      scopes = _conf.value.scopes
-    }
+  service_account {
+    email  = var.service_account
+    scopes = var.scopes
   }
 
   dynamic "guest_accelerator" {
@@ -87,9 +80,6 @@ resource "google_compute_instance" "main" {
 }
 
 resource "google_compute_disk" "boot_disk" {
-  for_each = var.enabled ? toset([var.boot_disk.name]) : []
-  provider = google-beta
-
   name    = format("%s-bootdisk", var.name)
   size    = var.size
   image   = var.image
@@ -99,16 +89,16 @@ resource "google_compute_disk" "boot_disk" {
 
 resource "google_compute_disk" "attached_disk" {
   for_each = { for v in var.attached_disk : v.name => v }
-  provider = google-beta
 
   name    = each.value.name
   size    = each.value.size
+  type    = each.value.type
   zone    = var.zone
   project = var.project
 }
 
 resource "google_compute_address" "main" {
-  for_each = toset(local._external_ip)
+  for_each = var.enabled_nat ? toset([var.name]) : []
 
   name         = each.value
   address      = var.external_ip_address
