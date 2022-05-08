@@ -88,7 +88,7 @@ variable "enabled_lifecycle" {
   default = false
 }
 
-variable "lifecycle" {
+variable "lifecycle_conf" {
   type = object({
     type          = string
     storage_class = string
