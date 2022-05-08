@@ -86,7 +86,7 @@ resource "google_compute_disk" "boot_disk" {
 }
 
 resource "google_compute_disk" "attached_disk" {
-  for_each = { for v in var.attached_disk : v.name => v }
+  for_each = { for v in var.attached_disks : v.name => v }
 
   name    = each.value.name
   size    = each.value.size
