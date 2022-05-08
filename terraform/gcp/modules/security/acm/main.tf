@@ -16,6 +16,6 @@ resource "google_access_context_manager_access_level_condition" "main" {
   access_level = google_access_context_manager_access_level.main.name
 
   ip_subnetworks = var.conditions[count.index].ip_addresses
-  members        = var.conditions[count.index].members
+  members        = local.members
   regions        = var.conditions[count.index].regions
 }
