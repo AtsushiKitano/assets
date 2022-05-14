@@ -10,6 +10,10 @@ variable "address" {
   type = string
 }
 
+variable "network" {
+  type = string
+}
+
 variable "target" {
   type    = string
   default = "all-apis"
