@@ -1,9 +1,11 @@
-variable "service_account" {
-  type = object({
-    name  = string
-    roles = list(string)
-  })
+variable "name" {
+  type = string
 }
+
+variable "roles" {
+  type = list(string)
+}
+
 
 /*
 Config Variables
