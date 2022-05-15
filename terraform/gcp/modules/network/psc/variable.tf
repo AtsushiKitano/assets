@@ -21,7 +21,7 @@ variable "target" {
 
 variable "load_balancing_scheme" {
   type    = string
-  default = null
+  default = ""
 }
 
 variable "region" {
