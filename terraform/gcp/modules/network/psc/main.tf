@@ -10,6 +10,8 @@ resource "google_compute_global_address" "main" {
 }
 
 resource "google_compute_forwarding_rule" "main" {
+  provider = google-beta
+
   project               = var.project
   name                  = var.name
   target                = var.target
