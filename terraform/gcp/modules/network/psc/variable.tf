@@ -29,6 +29,3 @@ variable "region" {
   default = "asia-northeast1"
 }
 
-variable "subnetwork" {
-  type = string
-}

@@ -1,12 +1,12 @@
-resource "google_compute_address" "main" {
+resource "google_compute_global_address" "main" {
+  provider = google-beta
+
   project      = var.project
   name         = var.name
   address_type = "INTERNAL"
   purpose      = "PRIVATE_SERVICE_CONNECT"
   network      = var.network
-  subnetwork   = var.subnetwork
   address      = var.address
-  region       = var.region
 }
 
 resource "google_compute_forwarding_rule" "main" {
@@ -18,3 +18,6 @@ resource "google_compute_forwarding_rule" "main" {
   ip_address            = google_compute_address.main.id
   load_balancing_scheme = var.load_balancing_scheme
 }
+
+
+
