@@ -1,4 +1,4 @@
-resource "google_compute_global_address" "main" {
+resource "google_compute_address" "main" {
   project      = var.project
   name         = var.name
   address_type = "INTERNAL"
