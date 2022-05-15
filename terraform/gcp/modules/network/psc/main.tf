@@ -9,7 +9,7 @@ resource "google_compute_global_address" "main" {
   address      = var.address
 }
 
-resource "google_compute_forwarding_rule" "main" {
+resource "google_compute_global_forwarding_rule" "main" {
   provider = google-beta
 
   project               = var.project
