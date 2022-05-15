@@ -4,6 +4,7 @@ resource "google_compute_address" "main" {
   address_type = "INTERNAL"
   purpose      = "PRIVATE_SERVICE_CONNECT"
   network      = var.network
+  subnetwork   = var.subnetwork
   address      = var.address
   region       = var.region
 }
