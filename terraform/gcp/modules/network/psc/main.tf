@@ -5,6 +5,7 @@ resource "google_compute_address" "main" {
   purpose      = "PRIVATE_SERVICE_CONNECT"
   network      = var.network
   address      = var.address
+  region       = var.region
 }
 
 resource "google_compute_forwarding_rule" "main" {
