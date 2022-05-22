@@ -2,19 +2,24 @@ import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
 import {ComputeNetwork,GoogleProvider} from "@cdktf/provider-google"
 
+interface MyStackConfig {
+  name: string;
+}
+
 class MyStack extends TerraformStack {
-  constructor(scope: Construct, name: string) {
-    super(scope, name);
+  constructor(scope: Construct, id: string, config: MyStackConfig) {
+    super(scope, id);
 
     new GoogleProvider(this, "google", {});
     
     new ComputeNetwork(this, "vpcResarch", {
-      name: "sample123",
-      project: process.env.TF_VAR_default_project,
+      name: config.name,
+      project: process.env.TF_VAR_default_projec,
     });
   }
 }
 
 const app = new App();
-new MyStack(app, "helloworld");
+new MyStack(app, "test1", { name: "test1"});
+new MyStack(app, "test2", { name: "test2"});
 app.synth();
