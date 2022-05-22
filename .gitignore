@@ -15,8 +15,13 @@ node_modules
 build
 yarn.lock
 
-node_modules
-*.tfstate
+*.d.ts
+*.js
 cdktf.out
-__tests__
-help
+cdktf.log
+*terraform.*.tfstate*
+node_modules
+.gen
+tsconfig.tsbuildinfo
+!jest.config.js
+!setup.js
