@@ -14,3 +14,9 @@ __pycache__
 node_modules
 build
 yarn.lock
+
+node_modules
+*.tfstate
+cdktf.out
+__tests__
+help
