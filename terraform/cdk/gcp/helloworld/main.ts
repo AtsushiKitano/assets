@@ -10,7 +10,7 @@ class MyStack extends TerraformStack {
     
     new ComputeNetwork(this, "vpcResarch", {
       name: "sample123",
-      project: "ca-kitano-study-sandbox",
+      project: process.env.TF_VAR_default_project,
     });
   }
 }
