@@ -15,7 +15,6 @@ node_modules
 build
 yarn.lock
 
-*.d.ts
 *.js
 cdktf.out
 cdktf.log
