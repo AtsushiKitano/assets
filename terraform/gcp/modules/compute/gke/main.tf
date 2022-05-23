@@ -206,7 +206,7 @@ resource "google_service_account_iam_member" "main" {
 
   service_account_id = var.workload_identity_config[count.index].service_account
   role               = "roles/iam.workloadIdentityUser"
-  member             = format("serviceAccount:%s.svc.id.goog[%s/%s]", var.project, var.workload_identity_config[count.index].namespace, var.workload_identity_config[count.index].k8s_service_account)
+  member             = format("serviceAccount:%s.svc.id.goog[mc/gke-mcs-importer]", var.project)
 }
 
 resource "google_iam_member" "main" {
