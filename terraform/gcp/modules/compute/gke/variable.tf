@@ -243,3 +243,10 @@ variable "fleet_host_project" {
   type    = string
   default = null
 }
+
+variable "workload_identity_sa_roles" {
+  type = list(string)
+  default = [
+    "roles/compute.networkViewer"
+  ]
+}
