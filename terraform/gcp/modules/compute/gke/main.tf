@@ -209,7 +209,7 @@ resource "google_service_account_iam_member" "main" {
   member             = format("serviceAccount:%s.svc.id.goog[mc/gke-mcs-importer]", var.project)
 }
 
-resource "google_iam_member" "main" {
+resource "google_project_iam_member" "main" {
   for_each = var.enabled_multi_cluster ? var.workload_identity_sa_roles : []
 
   role   = each.value
