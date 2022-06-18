@@ -139,3 +139,14 @@ variable "auto_create_subnetworks" {
   type    = bool
   default = false
 }
+
+variable "peering_network_connections" {
+  type = list(object({
+    addresses = list(object({
+      name   = string
+      length = number
+    }))
+    service = string
+  }))
+  default = []
+}
