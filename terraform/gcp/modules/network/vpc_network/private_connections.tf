@@ -16,6 +16,7 @@ resource "google_compute_global_address" "peering_addresses" {
   address_type  = "INTERNAL"
   prefix_length = each.value.length
   network       = google_compute_network.main.id
+  project       = var.project
 }
 
 resource "google_service_networking_connection" "main" {
@@ -24,4 +25,5 @@ resource "google_service_networking_connection" "main" {
   network                 = google_compute_network.main.id
   service                 = each.value.service
   reserved_peering_ranges = [for v in each.value.addresses : google_compute_global_address.peering_addresses[format("%s/%s", v.name, each.value.service)].name]
+  project                 = var.project
 }
