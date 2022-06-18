@@ -1,5 +1,5 @@
 locals {
-  _peering_network_connections = flatten([for v in var.peeing_network_connections : [
+  _peering_network_connections = flatten([for v in var.peering_network_connections : [
     for w in v.addresses : {
       name    = w.name
       length  = w.length
@@ -19,7 +19,7 @@ resource "google_compute_global_address" "peering_addresses" {
 }
 
 resource "google_service_networking_connection" "main" {
-  for_each = { for v in var.peeing_network_connections : v.service => v }
+  for_each = { for v in var.peering_network_connections : v.service => v }
 
   network                 = google_compute_network.main.id
   service                 = each.value.service
