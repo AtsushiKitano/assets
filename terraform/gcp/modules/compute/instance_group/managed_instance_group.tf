@@ -60,7 +60,7 @@ resource "google_compute_region_instance_group_manager" "main" {
 }
 
 resource "google_compute_instance_group_manager" "main" {
-  for_each = { for v in local.single_region_mng : v.name => v }
+  for_each = toset(local.single_region_mng)
 
   base_instance_name = var.base_instance_name
   name               = var.name
