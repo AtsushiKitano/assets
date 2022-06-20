@@ -53,16 +53,15 @@ resource "google_compute_instance_template" "main" {
 
   dynamic "guest_accelerator" {
     for_each = var.accelerator != null ? [var.accelerator] : []
-    iterator = _conf
 
     content {
-      type  = _conf.value.type
-      count = _conf.value.count
+      type  = var.accelerator.type
+      count = var.accelerator.count
     }
   }
 
   dynamic "shielded_instance_config" {
-    for_each = var.shielded_instance_enabled != null ? [var.shielded_instance] : []
+    for_each = var.shielded_instance_enabled ? ["dummy"] : []
     iterator = _conf
 
     content {
