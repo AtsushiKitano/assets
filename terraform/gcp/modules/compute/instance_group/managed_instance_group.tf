@@ -14,8 +14,6 @@ resource "google_compute_region_instance_group_manager" "main" {
   target_size        = var.target_size
   wait_for_instances = var.wait_for_instances
 
-  distribution_policy_zones = var.distribution_policy_zones
-
   version {
     name              = var.version_name
     instance_template = google_compute_instance_template.main.id
