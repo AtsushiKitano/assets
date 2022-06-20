@@ -13,26 +13,6 @@ resource "google_compute_instance_template" "main" {
     subnetwork         = var.subnetwork
     subnetwork_project = var.subnetwork_project
     network_ip         = var.network_ip
-
-    dynamic "access_config" {
-      for_each = var.access_config != null ? [var.access_config] : []
-      iterator = _conf
-
-      content {
-        nat_ip       = _conf.value.nat_ip
-        network_tier = _conf.value.network_tier
-      }
-    }
-
-    dynamic "alias_ip_range" {
-      for_each = var.alias_ip_range != null ? [var.alias_ip_range] : []
-      iterator = _conf
-
-      content {
-        ip_cidr_range         = _conf.value.ip_cidr_range
-        subnetwork_range_name = _conf.value.subnetwork_range_name
-      }
-    }
   }
 
   disk {
