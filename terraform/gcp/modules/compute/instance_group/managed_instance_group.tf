@@ -95,7 +95,8 @@ resource "google_compute_instance_group_manager" "main" {
 resource "google_compute_region_health_check" "main" {
   for_each = toset(local.multi_region_mng)
 
-  name = var.name
+  name    = var.name
+  project = var.project
 
   timeout_sec        = var.timeout_sec
   check_interval_sec = var.check_interval_sec
@@ -107,7 +108,8 @@ resource "google_compute_region_health_check" "main" {
 resource "google_compute_health_check" "main" {
   for_each = toset(local.single_region_mng)
 
-  name = var.name
+  name    = var.name
+  project = var.project
 
   timeout_sec        = var.timeout_sec
   check_interval_sec = var.check_interval_sec
