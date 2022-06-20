@@ -41,6 +41,7 @@ resource "google_compute_region_instance_group_manager" "main" {
     for_each = var.update_policy_enabled || var.stateful_disk_enabled ? ["dummy"] : []
 
     content {
+      minimal_action               = var.minimal_action
       type                         = var.update_policy_type
       instance_redistribution_type = var.instance_redistribution_type
     }
@@ -86,7 +87,8 @@ resource "google_compute_instance_group_manager" "main" {
     for_each = var.update_policy_enabled || var.stateful_disk_enabled ? ["dummy"] : []
 
     content {
-      type = var.update_policy_type
+      minimal_action = var.minimal_action
+      type           = var.update_policy_type
     }
   }
 

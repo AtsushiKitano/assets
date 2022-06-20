@@ -293,3 +293,13 @@ variable "update_policy_type" {
     error_message = "The update_policy_type must be PROACTIVE or NONE."
   }
 }
+
+variable "minimal_action" {
+  type    = string
+  default = "REPLACE"
+
+  validation {
+    condition     = var.minimal_action == "REFRESH" || var.minimal_action == "REPLACE"
+    error_message = "The minimal_action must be REFRESH or RESTART"
+  }
+}
