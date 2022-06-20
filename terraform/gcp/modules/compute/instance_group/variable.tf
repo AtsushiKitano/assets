@@ -263,3 +263,8 @@ variable "port" {
   type    = string
   default = "22"
 }
+
+variable "initial_delay_sec" {
+  type    = number
+  default = 300
+}

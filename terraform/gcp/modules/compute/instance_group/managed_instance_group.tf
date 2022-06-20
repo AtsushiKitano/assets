@@ -17,7 +17,7 @@ resource "google_compute_region_instance_group_manager" "main" {
   distribution_policy_zones = var.distribution_policy_zones
 
   version {
-    name              = each.version_name
+    name              = var.version_name
     instance_template = google_compute_instance_template.main.id
 
     dynamic "target_size" {
@@ -34,7 +34,8 @@ resource "google_compute_region_instance_group_manager" "main" {
     for_each = var.auto_healing_elebled ? ["dummy"] : []
 
     content {
-      health_check = length(local.multi_region_mng) > 0 ? google_compute_region_health_check.main[var.name].id : null
+      health_check      = length(local.multi_region_mng) > 0 ? google_compute_region_health_check.main[var.name].id : null
+      initial_delay_sec = var.initial_delay_sec
     }
   }
 
@@ -78,7 +79,8 @@ resource "google_compute_instance_group_manager" "main" {
     for_each = var.auto_healing_elebled ? ["dummy"] : []
 
     content {
-      health_check = length(local.single_region_mng) > 0 ? google_compute_health_check.main[var.name].id : null
+      health_check      = length(local.single_region_mng) > 0 ? google_compute_health_check.main[var.name].id : null
+      initial_delay_sec = var.initial_delay_sec
     }
   }
 
