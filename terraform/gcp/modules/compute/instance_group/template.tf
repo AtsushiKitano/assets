@@ -24,7 +24,6 @@ resource "google_compute_instance_template" "main" {
     disk_size_gb = var.disk_size
     interface    = var.disk_interface
     mode         = var.disk_mode
-    type         = var.disk_type
 
     dynamic "disk_encryption_key" {
       for_each = var.encryption_key != null ? ["dummy"] : []
@@ -71,9 +70,4 @@ resource "google_compute_instance_template" "main" {
     }
   }
 
-  lifecycle {
-    ignore_changes = [
-      disk.disk_type
-    ]
-  }
 }
