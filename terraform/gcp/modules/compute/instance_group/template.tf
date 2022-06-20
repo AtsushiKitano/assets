@@ -72,7 +72,7 @@ resource "google_compute_instance_template" "main" {
   }
 
   lifecycle {
-    ignored_changes = [
+    ignore_changes = [
       disk_type
     ]
   }
