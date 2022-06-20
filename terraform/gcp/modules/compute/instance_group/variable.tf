@@ -65,10 +65,10 @@ variable "disk_type" {
   type    = string
   default = "pd-ssd"
 
-  validation {
-    condition     = var.disk_type == "pd-ssd" || var.disk_type == "local-ssd" || var.disk_type == "pd-balanced" || var.disk_type == "pd-standard"
-    error_message = "The disk_type must be pd-ssd, local-ssd, pd-balanced or pd-standard."
-  }
+  # validation {
+  #   condition     = var.disk_type == "pd-ssd" || var.disk_type == "local-ssd" || var.disk_type == "pd-balanced" || var.disk_type == "pd-standard"
+  #   error_message = "The disk_type must be pd-ssd, local-ssd, pd-balanced or pd-standard."
+  # }
 }
 
 variable "disk_size" {
