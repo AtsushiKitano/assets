@@ -308,3 +308,34 @@ variable "max_unavailable_fixed" {
   type    = number
   default = 1
 }
+
+variable "autoscale_enabled" {
+  type    = bool
+  default = false
+}
+
+
+variable "min_replicas" {
+  type    = number
+  default = null
+}
+
+variable "max_replicas" {
+  type    = number
+  default = null
+}
+
+variable "cooldown_period" {
+  type    = number
+  default = null
+}
+
+variable "mode" {
+  type    = string
+  default = "ON"
+}
+
+variable "cpu_utilization_target" {
+  type    = number
+  default = null
+}
