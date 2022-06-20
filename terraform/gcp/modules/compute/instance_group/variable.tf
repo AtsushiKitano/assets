@@ -290,7 +290,7 @@ variable "update_policy_type" {
 
   validation {
     condition     = var.update_policy_type == "PROACTIVE" || var.update_policy_type == "OPPORTUNISTIC"
-    error_message = "The update_policy_type must be PROACTIVE or NONE."
+    error_message = "The update_policy_type must be PROACTIVE or OPPORTUNISTIC."
   }
 }
 
