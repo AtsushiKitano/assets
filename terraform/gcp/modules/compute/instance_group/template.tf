@@ -70,4 +70,10 @@ resource "google_compute_instance_template" "main" {
       enable_integrity_monitoring = var.integrity_monitoring_enabled
     }
   }
+
+  lifecycle {
+    ignored_changes = [
+      disk_type
+    ]
+  }
 }
