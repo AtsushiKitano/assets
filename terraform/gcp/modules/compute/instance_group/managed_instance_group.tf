@@ -37,6 +37,15 @@ resource "google_compute_region_instance_group_manager" "main" {
     }
   }
 
+  dynamic "update_policy" {
+    for_each = var.update_policy_enabled || var.stateful_disk_enabled ? ["dummy"] : []
+
+    content {
+      type                         = var.update_policy_type
+      instance_redistribution_type = var.instance_redistribution_type
+    }
+  }
+
   dynamic "stateful_disk" {
     for_each = var.stateful_disk_enabled ? ["dummy"] : []
 
@@ -70,6 +79,15 @@ resource "google_compute_instance_group_manager" "main" {
         fixed   = var.fixed_size
         percent = var.percent
       }
+    }
+  }
+
+  dynamic "update_policy" {
+    for_each = var.update_policy_enabled || var.stateful_disk_enabled ? ["dummy"] : []
+
+    content {
+      type                         = var.update_policy_type
+      instance_redistribution_type = var.instance_redistribution_type
     }
   }
 

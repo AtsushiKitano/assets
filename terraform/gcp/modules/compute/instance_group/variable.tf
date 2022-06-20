@@ -268,3 +268,28 @@ variable "initial_delay_sec" {
   type    = number
   default = 300
 }
+
+variable "instance_redistribution_type" {
+  type    = string
+  default = "PROACTIVE"
+
+  validation {
+    condition     = var.instance_redistribution_type == "PROACTIVE" || var.instance_redistribution_type == "NONE"
+    error_message = "The instance_redistribution_type must be PROACTIVE or NONE."
+  }
+}
+
+variable "update_policy_enabled" {
+  type    = bool
+  default = false
+}
+
+variable "update_policy_type" {
+  type    = string
+  default = "PROACTIVE"
+
+  validation {
+    condition     = var.update_policy_type == "PROACTIVE" || var.update_policy_type == "OPPORTUNISTIC"
+    error_message = "The update_policy_type must be PROACTIVE or NONE."
+  }
+}
