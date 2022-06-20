@@ -299,7 +299,7 @@ variable "minimal_action" {
   default = "REPLACE"
 
   validation {
-    condition     = var.minimal_action == "REFRESH" || var.minimal_action == "REPLACE"
+    condition     = var.minimal_action == "RESTART" || var.minimal_action == "REPLACE"
     error_message = "The minimal_action must be REFRESH or RESTART"
   }
 }
