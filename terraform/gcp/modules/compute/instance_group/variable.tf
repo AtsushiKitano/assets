@@ -258,3 +258,8 @@ variable "delete_rule" {
     error_message = "The delete_rule must be NEVER or ON__PERMANENT_INSTANCE_DELETION."
   }
 }
+
+variable "port" {
+  type    = string
+  default = "22"
+}
