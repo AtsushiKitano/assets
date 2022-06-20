@@ -86,8 +86,7 @@ resource "google_compute_instance_group_manager" "main" {
     for_each = var.update_policy_enabled || var.stateful_disk_enabled ? ["dummy"] : []
 
     content {
-      type                         = var.update_policy_type
-      instance_redistribution_type = var.instance_redistribution_type
+      type = var.update_policy_type
     }
   }
 
