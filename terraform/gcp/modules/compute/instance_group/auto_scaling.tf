@@ -1,5 +1,5 @@
 resource "google_compute_autoscaler" "main" {
-  for_each = local.autoscale_enabled && !local.stateful_disk_enabled ? toset(local.single_region_mng) : []
+  for_each = var.autoscale_enabled && !var.stateful_disk_enabled ? toset(local.single_region_mng) : []
 
   name    = var.name
   target  = google_compute_instance_group_manager.main[var.name].id
@@ -24,7 +24,7 @@ resource "google_compute_autoscaler" "main" {
 }
 
 resource "google_compute_region_autoscaler" "main" {
-  for_each = local.autoscale_enabled && !local.stateful_disk_enabled ? toset(local.multi_region_mng) : []
+  for_each = var.autoscale_enabled && !var.stateful_disk_enabled ? toset(local.multi_region_mng) : []
 
   name    = var.name
   target  = google_compute_region_instance_group_manager.main[var.name].id
