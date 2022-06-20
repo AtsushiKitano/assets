@@ -303,3 +303,8 @@ variable "minimal_action" {
     error_message = "The minimal_action must be REFRESH or RESTART"
   }
 }
+
+variable "max_unavailable_percent" {
+  type    = number
+  default = 10
+}
