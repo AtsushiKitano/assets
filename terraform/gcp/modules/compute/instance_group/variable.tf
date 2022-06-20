@@ -254,7 +254,7 @@ variable "delete_rule" {
   default = "NEVER"
 
   validation {
-    condition     = var.default_rule == "NEVER" || var.default_rule == "ON_PERMANENT_INSTANCE_DELETION"
+    condition     = var.delete_rule == "NEVER" || var.delete_rule == "ON_PERMANENT_INSTANCE_DELETION"
     error_message = "The delete_rule must be NEVER or ON__PERMANENT_INSTANCE_DELETION."
   }
 }
