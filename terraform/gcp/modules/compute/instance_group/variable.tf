@@ -112,7 +112,7 @@ variable "automatic_restart" {
 }
 
 variable "on_host_maintenance" {
-  type    = bool
+  type    = string
   default = "TERMINATE"
 
   validation {
