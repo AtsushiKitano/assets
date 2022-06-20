@@ -304,7 +304,7 @@ variable "minimal_action" {
   }
 }
 
-variable "max_unavailable_percent" {
+variable "max_unavailable_fixed" {
   type    = number
-  default = 10
+  default = 1
 }
