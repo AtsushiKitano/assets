@@ -32,7 +32,7 @@ resource "google_compute_region_instance_group_manager" "main" {
     for_each = var.auto_healing_elebled ? ["dummy"] : []
 
     content {
-      health_check      = length(local.multi_region_mng) > 0 ? google_compute_region_health_check.main[var.name].id : null
+      health_check      = google_compute_health_check.main.id
       initial_delay_sec = var.initial_delay_sec
     }
   }
@@ -77,7 +77,7 @@ resource "google_compute_instance_group_manager" "main" {
     for_each = var.auto_healing_elebled ? ["dummy"] : []
 
     content {
-      health_check      = length(local.single_region_mng) > 0 ? google_compute_health_check.main[var.name].id : null
+      health_check      = google_compute_health_check.main.id
       initial_delay_sec = var.initial_delay_sec
     }
   }
@@ -92,22 +92,7 @@ resource "google_compute_instance_group_manager" "main" {
   }
 }
 
-resource "google_compute_region_health_check" "main" {
-  for_each = toset(local.multi_region_mng)
-
-  name    = var.name
-  project = var.project
-
-  timeout_sec        = var.timeout_sec
-  check_interval_sec = var.check_interval_sec
-  tcp_health_check {
-    port = var.port
-  }
-}
-
 resource "google_compute_health_check" "main" {
-  for_each = toset(local.single_region_mng)
-
   name    = var.name
   project = var.project
 
