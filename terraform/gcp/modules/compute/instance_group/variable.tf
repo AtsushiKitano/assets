@@ -339,3 +339,7 @@ variable "cpu_utilization_target" {
   type    = number
   default = null
 }
+
+variable "health_check_name" {
+  type = string
+}

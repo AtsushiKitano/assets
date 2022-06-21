@@ -114,7 +114,7 @@ resource "google_compute_instance_group_manager" "main" {
 }
 
 resource "google_compute_health_check" "main" {
-  name    = var.name
+  name    = var.health_check_name
   project = var.project
 
   timeout_sec        = var.timeout_sec
