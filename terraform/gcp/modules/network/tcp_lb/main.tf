@@ -9,9 +9,10 @@ resource "google_compute_address" "main" {
 }
 
 resource "google_compute_backend_service" "main" {
-  name     = var.name
-  project  = var.project
-  protocol = var.protocol
+  name            = var.name
+  project         = var.project
+  protocol        = var.protocol
+  security_policy = google_compute_security_policy.main.id
 
   load_balancing_scheme = var.load_balancing_scheme
   health_checks = [
@@ -72,7 +73,7 @@ resource "google_compute_security_policy" "main" {
       action   = _conf.value.action
       priority = _conf.value.priority
       dynamic "match" {
-        for_each = [for w in _conf.value.source_ip_ranges : w]
+        for_each = [for w in _conf.value.src_ip_ranges : w]
         iterator = _var
 
         content {
@@ -82,6 +83,7 @@ resource "google_compute_security_policy" "main" {
           }
         }
       }
+      description = _conf.value.description
     }
   }
 }
