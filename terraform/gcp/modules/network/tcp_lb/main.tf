@@ -51,7 +51,7 @@ resource "google_compute_forwarding_rule" "main" {
   name                  = var.name
   target                = google_compute_target_tcp_proxy.main.id
   ip_address            = google_compute_address.main.id
-  network               = var.address_type == "INTERNAL" ? var.network : null
+  network               = var.load_balancing_scheme == "INTERNAL" ? var.network : null
   network_tier          = var.network_tier
   ip_protocol           = var.protocol
   region                = var.region
