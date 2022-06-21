@@ -2,7 +2,7 @@ resource "google_compute_address" "main" {
   name         = var.name
   project      = var.project
   address_type = var.address_type
-  purpose      = "SHARED_LOADBALANCER_VIP"
+  purpose      = var.purpose
   network_tier = var.network_tier
   region       = var.region
 }

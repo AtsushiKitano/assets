@@ -66,3 +66,8 @@ variable "region" {
 variable "port_range" {
   type = string
 }
+
+variable "purpose" {
+  type    = string
+  default = null
+}
