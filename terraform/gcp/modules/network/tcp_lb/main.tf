@@ -2,21 +2,21 @@ resource "google_compute_address" "main" {
   name         = var.name
   project      = var.project
   address_type = var.address_type
+  subnetwork   = var.address_type == "INTERNAL" ? var.subnetwork : null
   purpose      = var.purpose
   network_tier = var.network_tier
-  region       = var.region
+  region       = var.address_region
 }
 
-resource "google_compute_region_backend_service" "main" {
+resource "google_compute_backend_service" "main" {
   name     = var.name
   project  = var.project
-  region   = var.region
   network  = var.address_type == "INTERNAL" ? var.network : null
   protocol = var.protocol
 
   load_balancing_scheme = var.load_balancing_scheme
   health_checks = [
-    google_compute_region_health_check.main.id
+    google_compute_health_check.main.id
   ]
 
   dynamic "backend" {
@@ -31,13 +31,12 @@ resource "google_compute_region_backend_service" "main" {
   }
 }
 
-resource "google_compute_region_health_check" "main" {
+resource "google_compute_health_check" "main" {
   name = var.helth_check_name
 
   timeout_sec        = var.timeout_sec
   check_interval_sec = var.check_interval_sec
   project            = var.project
-  region             = var.region
 
   tcp_health_check {
     port = var.port
@@ -46,7 +45,7 @@ resource "google_compute_region_health_check" "main" {
 
 resource "google_compute_target_tcp_proxy" "main" {
   name            = var.name
-  backend_service = google_compute_region_backend_service.main.id
+  backend_service = google_compute_backend_service.main.id
   project         = var.project
 }
 

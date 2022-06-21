@@ -71,3 +71,13 @@ variable "purpose" {
   type    = string
   default = null
 }
+
+variable "subnetwork" {
+  type    = string
+  default = null
+}
+
+variable "address_region" {
+  type    = string
+  default = null
+}
