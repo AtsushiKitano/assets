@@ -15,11 +15,6 @@ variable "network_tier" {
   default = "STANDARD"
 }
 
-variable "address_region" {
-  type    = string
-  default = null
-}
-
 variable "network" {
   type = string
 }

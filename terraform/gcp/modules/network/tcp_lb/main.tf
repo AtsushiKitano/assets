@@ -4,7 +4,7 @@ resource "google_compute_address" "main" {
   address_type = var.address_type
   purpose      = "SHARED_LOADBALANCER_VIP"
   network_tier = var.network_tier
-  region       = var.address_region
+  region       = var.region
 }
 
 resource "google_compute_region_backend_service" "main" {
