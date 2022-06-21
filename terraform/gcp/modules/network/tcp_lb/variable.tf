@@ -81,6 +81,11 @@ variable "armor_name" {
   type = string
 }
 
+variable "session_affinity" {
+  type    = string
+  default = "CLIENT_IP"
+}
+
 variable "rules" {
   type = list(object({
     action        = string

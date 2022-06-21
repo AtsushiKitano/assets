@@ -9,10 +9,11 @@ resource "google_compute_address" "main" {
 }
 
 resource "google_compute_backend_service" "main" {
-  name            = var.name
-  project         = var.project
-  protocol        = var.protocol
-  security_policy = google_compute_security_policy.main.id
+  name             = var.name
+  project          = var.project
+  protocol         = var.protocol
+  security_policy  = google_compute_security_policy.main.id
+  session_affinity = var.session_affinity
 
   load_balancing_scheme = var.load_balancing_scheme
   health_checks = [
