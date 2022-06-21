@@ -52,6 +52,7 @@ resource "google_compute_target_tcp_proxy" "main" {
 
 resource "google_compute_forwarding_rule" "main" {
   name                  = var.name
+  target                = google_compute_target_tcp_proxy.main.id
   ip_address            = google_compute_address.main.id
   network               = var.network
   network_tier          = var.network_tier
