@@ -30,7 +30,7 @@ resource "google_compute_backend_service" "main" {
 }
 
 resource "google_compute_health_check" "main" {
-  name = var.helth_check_name
+  name = var.health_check_name
 
   timeout_sec        = var.timeout_sec
   check_interval_sec = var.check_interval_sec

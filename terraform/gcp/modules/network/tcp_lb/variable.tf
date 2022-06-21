@@ -41,7 +41,7 @@ variable "backends" {
   }))
 }
 
-variable "helth_check_name" {
+variable "health_check_name" {
   type = string
 }
 
