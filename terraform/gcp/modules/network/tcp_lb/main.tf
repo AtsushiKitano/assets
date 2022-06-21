@@ -59,3 +59,29 @@ resource "google_compute_forwarding_rule" "main" {
   port_range            = var.port_range
   project               = var.project
 }
+
+resource "google_compute_security_policy" "main" {
+  name    = var.armor_name
+  project = var.project
+
+  dynamic "rule" {
+    for_each = [for v in var.rules : v]
+    iterator = _conf
+
+    content {
+      action   = _conf.value.action
+      priority = _conf.value.priority
+      dynamic "match" {
+        for_each = [for w in v.source_ip_ranges : w]
+        iterator = _var
+
+        content {
+          versioned_expr = "SRC_IPS_V1"
+          config {
+            source_ip_ranges = _var.value
+          }
+        }
+      }
+    }
+  }
+}

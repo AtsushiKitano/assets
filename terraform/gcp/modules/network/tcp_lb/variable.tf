@@ -76,3 +76,15 @@ variable "subnetwork" {
   type    = string
   default = null
 }
+
+variable "armor_name" {
+  type = string
+}
+
+variable "rules" {
+  type = list(object({
+    action           = string
+    priority         = string
+    source_ip_ranges = list(list(string))
+  }))
+}
