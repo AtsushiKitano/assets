@@ -3,7 +3,7 @@ resource "google_compute_address" "main" {
   project      = var.project
   address_type = var.address_type
   purpose      = var.purpose
-  network_tier = var.address_type == "INTERNAL" ? var.network_tier : null
+  network_tier = var.network_tier
   region       = var.region
 }
 
@@ -11,7 +11,7 @@ resource "google_compute_region_backend_service" "main" {
   name     = var.name
   project  = var.project
   region   = var.region
-  network  = var.network
+  network  = var.address_type == "INTERNAL" ? var.network : null
   protocol = var.protocol
 
   load_balancing_scheme = var.load_balancing_scheme
@@ -59,4 +59,5 @@ resource "google_compute_forwarding_rule" "main" {
   region                = var.region
   load_balancing_scheme = var.load_balancing_scheme
   port_range            = var.port_range
+  project               = var.project
 }
