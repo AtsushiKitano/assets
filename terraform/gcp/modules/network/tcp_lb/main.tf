@@ -5,7 +5,7 @@ resource "google_compute_address" "main" {
   subnetwork   = var.address_type == "INTERNAL" ? var.subnetwork : null
   purpose      = var.purpose
   network_tier = var.network_tier
-  region       = var.address_region
+  region       = var.region
 }
 
 resource "google_compute_backend_service" "main" {
