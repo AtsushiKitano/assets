@@ -83,8 +83,8 @@ variable "armor_name" {
 
 variable "rules" {
   type = list(object({
-    action           = string
-    priority         = string
-    source_ip_ranges = list(list(string))
+    action        = string
+    priority      = string
+    src_ip_ranges = list(list(string))
   }))
 }

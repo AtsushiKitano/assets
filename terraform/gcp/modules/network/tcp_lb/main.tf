@@ -78,7 +78,7 @@ resource "google_compute_security_policy" "main" {
         content {
           versioned_expr = "SRC_IPS_V1"
           config {
-            source_ip_ranges = _var.value
+            src_ip_ranges = _var.value
           }
         }
       }
