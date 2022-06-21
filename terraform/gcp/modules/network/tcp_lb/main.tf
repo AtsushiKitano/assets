@@ -25,7 +25,6 @@ resource "google_compute_backend_service" "main" {
 
     content {
       group          = _conf.value.group
-      failover       = _conf.value.failover
       balancing_mode = _conf.value.balancing_mode
     }
   }
