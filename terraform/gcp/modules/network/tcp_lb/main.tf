@@ -3,7 +3,7 @@ resource "google_compute_address" "main" {
   project      = var.project
   address_type = var.address_type
   purpose      = var.purpose
-  network_tier = var.network_tier
+  network_tier = var.address_type == "INTERNAL" ? var.network_tier : null
   region       = var.region
 }
 
