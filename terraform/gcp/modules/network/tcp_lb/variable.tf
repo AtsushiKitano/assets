@@ -64,10 +64,6 @@ variable "port" {
   type = string
 }
 
-variable "ip_protocol" {
-  type = string
-}
-
 variable "region" {
   type = string
 }

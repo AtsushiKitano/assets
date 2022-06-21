@@ -55,7 +55,7 @@ resource "google_compute_forwarding_rule" "main" {
   ip_address            = google_compute_address.main.id
   network               = var.network
   network_tier          = var.network_tier
-  ip_protocol           = var.ip_protocol
+  ip_protocol           = var.protocol
   region                = var.region
   load_balancing_scheme = var.load_balancing_scheme
   port_range            = var.port_range
