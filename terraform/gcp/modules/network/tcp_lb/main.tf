@@ -11,7 +11,6 @@ resource "google_compute_address" "main" {
 resource "google_compute_backend_service" "main" {
   name     = var.name
   project  = var.project
-  network  = var.address_type == "INTERNAL" ? var.network : null
   protocol = var.protocol
 
   load_balancing_scheme = var.load_balancing_scheme
