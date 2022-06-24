@@ -150,3 +150,8 @@ variable "peering_network_connections" {
   }))
   default = []
 }
+
+variable "role" {
+  type    = string
+  default = null
+}

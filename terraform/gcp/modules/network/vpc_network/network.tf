@@ -16,7 +16,7 @@ resource "google_compute_subnetwork" "main" {
   ip_cidr_range = each.value.cidr
   network       = google_compute_network.main.self_link
   region        = each.value.region
-
+  role          = var.role
 
   # option config
   project                  = var.project
