@@ -16,13 +16,12 @@ resource "google_compute_subnetwork" "main" {
   ip_cidr_range = each.value.cidr
   network       = google_compute_network.main.self_link
   region        = each.value.region
-  role          = var.role
+  role          = each.value.role
 
   # option config
   project                  = var.project
-  private_ip_google_access = var.subnet_private_google_access
-  purpose                  = var.subnet_purpose != null ? lookup(var.subnet_purpose, each.value.name, null) : null
-
+  private_ip_google_access = each.value.private_ip_google_access
+  purpose                  = each.value.purpose
 
   dynamic "secondary_ip_range" {
     for_each = each.value.secondary_ip_ranges

@@ -4,9 +4,12 @@ variable "name" {
 
 variable "subnetworks" {
   type = list(object({
-    name   = string
-    cidr   = string
-    region = string
+    name                     = string
+    cidr                     = string
+    region                   = string
+    purpose                  = string
+    role                     = string
+    private_ip_google_access = bool
     secondary_ip_ranges = list(object({
       range_name    = string
       ip_cidr_range = string
@@ -109,11 +112,6 @@ variable "delete_default_routes" {
   default = false
 }
 
-variable "subnet_purpose" {
-  type    = map(string)
-  default = null
-}
-
 variable "subnet_private_google_access" {
   type    = bool
   default = true
@@ -149,9 +147,4 @@ variable "peering_network_connections" {
     service = string
   }))
   default = []
-}
-
-variable "role" {
-  type    = string
-  default = null
 }
