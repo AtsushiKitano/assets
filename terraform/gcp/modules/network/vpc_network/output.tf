@@ -2,6 +2,14 @@ output "self_link" {
   value = google_compute_network.main.self_link
 }
 
+output "name" {
+  value = google_compute_network.main.name
+}
+
+output "id" {
+  value = google_compute_network.main.id
+}
+
 output "subnetwork_self_link" {
   value = {
     for v in var.subnetworks : v.name => google_compute_subnetwork.main[v.name].self_link
