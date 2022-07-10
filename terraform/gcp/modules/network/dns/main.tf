@@ -78,7 +78,7 @@ resource "google_dns_record_set" "main" {
   count = length(var.record_sets)
 
   managed_zone = google_dns_managed_zone.main.name
-  name         = join(".", [var.record_sets[count.index].name, google_dns_managed_zone.main.dns_name])
+  name         = var.record_sets[count.index].name == null ? google_dns_managed_zone.main.dns_name : join(".", [var.record_sets[count.index].name, google_dns_managed_zone.main.dns_name])
   rrdatas      = var.record_sets[count.index].rrdatas
   ttl          = var.record_sets[count.index].ttl
   type         = var.record_sets[count.index].type
