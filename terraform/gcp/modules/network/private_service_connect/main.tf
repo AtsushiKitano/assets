@@ -12,10 +12,10 @@ resource "google_compute_global_forwarding_rule" "main" {
   name    = var.name
   project = var.project
 
-  target                 = var.enable_api_type
-  network                = var.network
-  ip_address             = google_compute_global_address.main.id
-  locad_balancing_scheme = var.lb_scheme
+  target                = var.enable_api_type
+  network               = var.network
+  ip_address            = google_compute_global_address.main.id
+  load_balancing_scheme = var.lb_scheme
 }
 
 module "dns" {
