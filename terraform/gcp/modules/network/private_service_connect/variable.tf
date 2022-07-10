@@ -10,6 +10,10 @@ variable "network" {
   type = string
 }
 
+variable "address" {
+  type = string
+}
+
 variable "enable_api_type" {
   type    = string
   default = "all-apis"
