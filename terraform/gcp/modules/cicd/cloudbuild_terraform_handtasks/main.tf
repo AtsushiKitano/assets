@@ -16,7 +16,7 @@ locals {
 }
 
 resource "google_cloudbuild_trigger" "main" {
-  for_each = { for v in local.triggers : v.name => v if !var.disabled_plan_task && v.name != format("%s-terraform-plan") }
+  for_each = { for v in local.triggers : v.name => v if !var.disabled_plan_task && v.name != format("%s-terraform-plan", v.name) }
 
   name            = each.value.name
   project         = var.project
