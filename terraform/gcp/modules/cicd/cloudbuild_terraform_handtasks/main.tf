@@ -43,10 +43,6 @@ data "google_service_account" "main" {
   project    = var.project
 }
 
-data "google_storage_bucket" "main" {
-  name = format("%s-%s", var.project, var.log_bucket)
-}
-
 resource "google_cloud_scheduler_job" "main" {
   for_each = var.enabled_delete_scheduler_job ? toset([format("%s-terraform-destroy", var.name)]) : []
 
