@@ -1,5 +1,2 @@
-name: nginx custom image
-title: InSpec Profile
-version: 0.1.0
 supports:
   platform: linux

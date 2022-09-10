@@ -1,6 +1,6 @@
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import {ComputeNetwork,GoogleProvider} from "@cdktf/provider-google"
+import {ComputeNetwork,GoogleProvider} from "./.gen/providers/google"
 
 interface MyStackConfig {
   name: string;
@@ -14,7 +14,7 @@ class MyStack extends TerraformStack {
     
     new ComputeNetwork(this, "vpcResarch", {
       name: config.name,
-      project: process.env.TF_VAR_default_projec,
+      project: process.env.TF_VAR_default_project,
     });
   }
 }

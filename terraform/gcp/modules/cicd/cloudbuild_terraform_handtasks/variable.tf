@@ -83,3 +83,13 @@ variable "substitutions" {
   type    = map(string)
   default = null
 }
+
+variable "enabled_delete_scheduler_job" {
+  type    = bool
+  default = true
+}
+
+variable "disabled_plan_task" {
+  type    = bool
+  default = false
+}
