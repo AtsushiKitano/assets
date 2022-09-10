@@ -16,7 +16,7 @@ locals {
 }
 
 resource "google_cloudbuild_trigger" "main" {
-  for_each = { for v in local.triggers : v.name => v if !(var.disabled_plan_task && reverse(split(v.name))[0] == "plan") }
+  for_each = { for v in local.triggers : v.name => v if !(var.disabled_plan_task && reverse(split("-", v.name))[0] == "plan") }
 
   name            = each.value.name
   project         = var.project
