@@ -6,7 +6,7 @@ variable "project" {
   type = string
 }
 
-variable "service_apis" {
+variable "enabled_services" {
   type = list(string)
 }
 
