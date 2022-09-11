@@ -1,8 +1,19 @@
+/*
+  Required arguments
+*/
+variable "project" {
+  type = string
+}
+
 variable "name" {
   type = string
 }
 
-variable "project" {
+variable "region" {
+  type = string
+}
+
+variable "environment_size" {
   type = string
 }
 
@@ -14,79 +25,99 @@ variable "subnetwork" {
   type = string
 }
 
-variable "cluster_range_name" {
+variable "cluster_secondary_range_name" {
   type = string
 }
 
-variable "service_range_name" {
+variable "services_secondary_range_name" {
   type = string
 }
 
-variable "service_account" {
+variable "airflow_config_overrides" {
+  type = map(string)
+}
+
+variable "image_version" {
+  type = string
+
+  validation {
+    condition     = tonumber(split(".", split("-", var.image_version)[1])[0]) == 2
+    error_message = "Composer Image Version Must be 2."
+  }
+}
+
+variable "service_account_id" {
+  type = string
+}
+
+variable "master_ipv4_cidr_block" {
+  type = string
+}
+
+variable "cloud_sql_ipv4_cidr_block" {
+  type = string
+}
+
+variable "env_variables" {
+  type = map(string)
+}
+
+
+variable "cloud_composer_network_ipv4_cidr_block" {
   type = string
 }
 
 /*
- Option Config
+  Optional arguments
 */
+variable "key_project" {
+  type    = string
+  default = null
+}
+
+variable "enable_cmek" {
+  type    = bool
+  default = true
+}
+
+variable "key_ring" {
+  type    = string
+  default = "cloud-composer"
+}
+
+variable "key_location" {
+  type    = string
+  default = null
+}
+
+
 variable "pypi_packages" {
-  type    = map(string)
-  default = null
-}
-
-variable "env_variables" {
-  type    = map(string)
-  default = null
-}
-
-variable "airflow_config_overrides" {
   type    = map(string)
   default = null
 }
 
 variable "enable_private_endpoint" {
   type    = bool
-  default = false
+  default = true
 }
 
-variable "master_ipv4_cidr_block" {
-  type    = string
+variable "labels" {
+  type    = map(string)
   default = null
 }
 
-variable "cloud_sql_ipv4_cidr_block" {
-  type    = string
-  default = null
+
+variable "allowd_ip_ranges" {
+  type = list(object({
+    ip_range    = string
+    description = string
+  }))
+  default = []
 }
 
-variable "cloud_composer_network_ipv4_cidr_block" {
-  type    = string
-  default = null
-}
-
-variable "cloud_composer_connection_subnetwork" {
-  type    = string
-  default = null
-}
-
-variable "worker" {
-  type = object({
-    cpu        = number
-    memory_gb  = number
-    storage_gb = number
-    min_count  = number
-    max_count  = number
-  })
-  default = null
-}
-
-variable "web_server" {
-  type = object({
-    cpu       = number
-    memory_gb = number
-    storge_gb = number
-  })
-  default = null
+variable "workload_config_enabled" {
+  type    = bool
+  default = true
 }
 
 variable "scheduler" {
@@ -99,26 +130,22 @@ variable "scheduler" {
   default = null
 }
 
-variable "maintenance_window" {
+variable "web_server" {
   type = object({
-    start_time = string
-    end_time   = string
-    recurrence = string
+    cpu        = number
+    memory_gb  = number
+    storage_gb = number
   })
   default = null
 }
 
-variable "region" {
-  type    = string
-  default = "asia-northeast1"
-}
-
-variable "image_version" {
-  type    = string
-  default = "composer-2-airflow-2"
-}
-
-variable "environment_size" {
-  type    = string
-  default = "ENVIRONMENT_SIZE_SMALL"
+variable "worker" {
+  type = object({
+    cpu        = number
+    memory_gb  = number
+    storage_gb = number
+    min_count  = number
+    max_count  = number
+  })
+  default = null
 }
