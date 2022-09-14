@@ -98,6 +98,7 @@ variable "lifecycle_conf" {
       with_state            = string
       matches_storage_class = string
       num_newer_versions    = string
+      matches_prefix        = string
     })
   })
   default = null

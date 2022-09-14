@@ -19,6 +19,7 @@ resource "google_storage_bucket" "main" {
         with_state            = var.lifecycle_conf.condition.with_state
         matches_storage_class = var.lifecycle_conf.condition.matches_storage_class
         num_newer_versions    = var.lifecycle_conf.condition.num_newer_versions
+        matches_prefix        = var.lifecycle_conf.condition.matches_prefix
       }
     }
   }
