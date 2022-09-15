@@ -93,7 +93,7 @@ variable "lifecycle_conf" {
     type = string
     condition = object({
       age            = number
-      matches_prefix = string
+      matches_prefix = list(string)
     })
   })
   default = null
