@@ -90,15 +90,10 @@ variable "enabled_lifecycle" {
 
 variable "lifecycle_conf" {
   type = object({
-    type          = string
-    storage_class = string
+    type = string
     condition = object({
-      age                   = number
-      created_before        = string
-      with_state            = string
-      matches_storage_class = string
-      num_newer_versions    = string
-      matches_prefix        = string
+      age            = number
+      matches_prefix = string
     })
   })
   default = null

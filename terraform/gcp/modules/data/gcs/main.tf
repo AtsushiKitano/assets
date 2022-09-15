@@ -10,16 +10,11 @@ resource "google_storage_bucket" "main" {
 
     content {
       action {
-        type          = var.lifecycle_conf.type
-        storage_class = var.lifecycle_conf.storage_class
+        type = var.lifecycle_conf.type
       }
       condition {
-        age                   = var.lifecycle_conf.condition.age
-        created_before        = var.lifecycle_conf.condition.created_before
-        with_state            = var.lifecycle_conf.condition.with_state
-        matches_storage_class = var.lifecycle_conf.condition.matches_storage_class
-        num_newer_versions    = var.lifecycle_conf.condition.num_newer_versions
-        matches_prefix        = var.lifecycle_conf.condition.matches_prefix
+        age            = var.lifecycle_conf.condition.age
+        matches_prefix = var.lifecycle_conf.condition.matches_prefix
       }
     }
   }
