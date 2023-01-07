@@ -58,4 +58,5 @@ variable "pubsub_subscription_iam_bindings" {
     project    = string
     role       = string
   }))
+  default = []
 }
