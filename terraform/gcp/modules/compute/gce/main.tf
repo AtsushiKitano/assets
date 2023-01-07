@@ -45,7 +45,7 @@ resource "google_compute_instance" "main" {
     iterator = _conf
 
     content {
-      source      = google_compute_attached_disk.attached_disk[_conf.value.name].self_link
+      source      = google_compute_disk.attached_disk[_conf.value.name].self_link
       device_name = _conf.value.name
       mode        = _conf.value.mode
     }
