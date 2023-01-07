@@ -33,3 +33,11 @@ variable "project" {
   type    = string
   default = null
 }
+
+variable "pubsub_topic_iam_bindings" {
+  type = list(object({
+    project = string
+    name    = string
+    roles   = list(string)
+  }))
+}

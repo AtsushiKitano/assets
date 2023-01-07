@@ -32,6 +32,7 @@ locals {
   ]
 }
 
+
 resource "google_project_service_identity" "main" {
   for_each = toset(local.api_list)
   provider = google-beta
