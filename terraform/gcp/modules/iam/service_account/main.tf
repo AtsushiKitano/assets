@@ -35,14 +35,14 @@ resource "google_project_iam_member" "main" {
 resource "google_pubsub_topic_iam_member" "main" {
   for_each = { for v in local._pubsub_topic_iam_bindings : format("%s/%s/%s", v.project, v.topic, v.role) => v }
 
-  topic   = data.google_pubsub_topic.main.name
+  topic   = data.google_pubsub_topic.main[format("%s/%s", each.value.project, each.value.topic)].name
   project = each.value.project
   member  = format("serviceAccount:%s", google_service_account.main.email)
   role    = each.value.role
 }
 
 data "google_pubsub_topic" "main" {
-  for_each = { for v in var.pubsub_topic_iam_bindings : format("%s/%s", v.project, v.topic) => v }
+  for_each = { for v in local._pubsub_topic_iam_bindings : format("%s/%s", v.project, v.topic) => v }
 
   name    = each.value.name
   project = each.value.project

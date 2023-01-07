@@ -34,6 +34,6 @@ output "subnetwork" {
 
 output "firewall" {
   value = {
-    for v in var.firewall : v.name => google_compute_firewall.main[v.name]
+    for v in var.firewalls : v.name => google_compute_firewall.main[v.name]
   }
 }

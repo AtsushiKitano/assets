@@ -41,3 +41,12 @@ variable "pubsub_topic_iam_bindings" {
   }))
   default = []
 }
+
+variable "cloud_run_iam_bindings" {
+  type = list(object({
+    service = string
+    role    = string
+    project = string
+  }))
+  default = []
+}
