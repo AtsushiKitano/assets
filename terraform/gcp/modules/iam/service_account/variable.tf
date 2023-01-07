@@ -35,6 +35,7 @@ variable "project" {
 
 variable "pubsub_topic_iam_bindings" {
   type = list(object({
+    topic   = string
     project = string
     name    = string
     roles   = list(string)
@@ -49,4 +50,12 @@ variable "cloud_run_iam_bindings" {
     project = string
   }))
   default = []
+}
+
+variable "pubsub_subscription_iam_bindings" {
+  type = list(object({
+    subscriber = string
+    project    = string
+    role       = string
+  }))
 }
