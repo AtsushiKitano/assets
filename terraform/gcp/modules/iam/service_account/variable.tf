@@ -30,8 +30,7 @@ variable "description" {
 }
 
 variable "project" {
-  type    = string
-  default = null
+  type = string
 }
 
 variable "pubsub_topic_iam_bindings" {
@@ -40,4 +39,5 @@ variable "pubsub_topic_iam_bindings" {
     name    = string
     roles   = list(string)
   }))
+  default = []
 }
