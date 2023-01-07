@@ -1,5 +1,5 @@
 resource "google_compute_route" "main" {
-  for_each = { for v in var.route : v.name => v }
+  for_each = { for v in var.routes : v.name => v }
 
   name                   = each.value.name
   dest_range             = each.value.dest_range

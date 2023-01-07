@@ -1,5 +1,5 @@
 resource "google_compute_firewall" "main" {
-  for_each = { for v in var.firewall : v.name => v }
+  for_each = { for v in var.firewalls : v.name => v }
 
   name                    = each.value.name
   network                 = google_compute_network.main.self_link

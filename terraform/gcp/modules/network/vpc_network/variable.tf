@@ -17,7 +17,7 @@ variable "subnetworks" {
   }))
 }
 
-variable "firewall" {
+variable "firewalls" {
   type = list(object({
     name        = string
     direction   = string
@@ -51,7 +51,7 @@ variable "serverless_vpc" {
   default = []
 }
 
-variable "route" {
+variable "routes" {
   type = list(object({
     name             = string
     dest_range       = string
