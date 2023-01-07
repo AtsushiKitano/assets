@@ -63,7 +63,7 @@ resource "google_cloud_run_service_iam_member" "main" {
   service = data.google_cloud_run_service.main[format("%s/%s", each.value.project, each.value.service)].name
   project = each.value.project
   member  = format("serviceAccount:%s", google_service_account.main.email)
-
+  role    = each.value.role
 }
 
 data "google_cloud_run_service" "main" {
