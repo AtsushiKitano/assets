@@ -79,6 +79,7 @@ variable "attached_disks" {
     name = string
     type = string
     size = number
+    mode = string
   }))
   default = []
 }
