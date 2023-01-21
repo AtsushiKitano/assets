@@ -21,7 +21,7 @@ resource "google_workflows_workflow" "main" {
   region          = var.region
   description     = var.description
   service_account = google_service_account.main.email
-  source_contents = var.source
+  source_contents = var.source_contents
 }
 
 resource "google_cloud_scheduler_job" "main" {

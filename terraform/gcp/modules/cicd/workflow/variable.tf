@@ -9,7 +9,7 @@ variable "project" {
   type = string
 }
 
-variable "source" {
+variable "source_contents" {
   type        = string
   description = "Workflow Source yaml file path."
 }
