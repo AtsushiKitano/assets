@@ -10,7 +10,7 @@ resource "google_service_account" "main" {
 resource "google_project_iam_member" "main" {
   for_each = toset(local._roles)
 
-  project = var.default_project
+  project = var.project
   role    = each.value
   member  = format("serviceAccount:%s", google_service_account.main.email)
 }
@@ -39,7 +39,7 @@ resource "google_cloud_scheduler_job" "main" {
     body        = var.body != null ? base64encode(var.body) : null
 
     oauth_token {
-      service_account_email = data.google_service_account.main.email
+      service_account_email = google_service_account.main.email
       scope                 = "https://www.googleapis.com/auth/cloud-platform"
     }
   }
