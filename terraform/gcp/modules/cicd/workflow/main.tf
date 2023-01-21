@@ -35,7 +35,7 @@ resource "google_cloud_scheduler_job" "main" {
 
   http_target {
     http_method = "POST"
-    uri         = format("https://workflowexecutions.googleapis.com/v1/projects/%s/locations/global/workflows/%s/executions", google_workflows_workflow.main.project, google_workflows_workflow.main.name)
+    uri         = format("https://workflowexecutions.googleapis.com/v1/projects/%s/locations/%s/workflows/%s/executions", google_workflows_workflow.main.project, google_workflows_workflow.main.region, google_workflows_workflow.main.name)
     body        = var.body != null ? base64encode(var.body) : null
 
     oauth_token {
